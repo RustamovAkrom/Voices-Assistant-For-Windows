@@ -44,3 +44,13 @@ commands:
       - "найди что-нибудь"
       - "поискать"
     function: handlers.search_handler.SearchHandler
+
+  - phrases:
+      - "расскажи о"
+      - "что такое"
+      - "объясни"
+      - "что значит"
+      - "что такое"
+      - "объясни мне"
+      - "расскажи мне"
+    function: handlers.wiki_handler.WikiHandler

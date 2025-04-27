@@ -1,22 +1,22 @@
-# from speaker.silero_tts import Speaker
+from speaker.silero_tts import Speaker
 
-# speaker = Speaker(device='cpu', language='ru', speaker='aidar_v2')
+speaker = Speaker()
 
-# speaker.say("Привет, как дела?")
-# speaker.say("Это тестовое сообщение для проверки работы синтезатора речи.")
-from speaker.voice_player import PlayAudio
-import os
+speaker.say("Какой у вас любимый цвет? Хауди Хо, друзья!!!")
 
-audio_file_path = r"media\audios\jarvis-og_greet1.wav"
+# from speaker.voice_player import PlayAudio
+# import os
 
-print(os.path.exists(audio_file_path))
+# audio_file_path = r"media\audios\jarvis-og_greet1.wav"
 
-play_audio = PlayAudio()
+# print(os.path.exists(audio_file_path))
+
+# play_audio = PlayAudio()
 
 
 # play_audio.play_audio(audio_file_path)
-play_audio.play("off")
-play_audio.play("not_found")
-play_audio.play("stupid")
-play_audio.play("ok")
-play_audio.play("thanks")
+# play_audio.play("off")
+# play_audio.play("not_found")
+# play_audio.play("stupid")
+# play_audio.play("ok")
+# play_audio.play("thanks")

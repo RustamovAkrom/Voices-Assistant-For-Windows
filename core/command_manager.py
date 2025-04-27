@@ -12,7 +12,7 @@ def execute_command(function_path, args=None):
         module = __import__(module_path, fromlist=[class_name])
         ClassHandler = getattr(module, class_name)
         handler = ClassHandler()
-        handler.handle(args)
+        return handler.handle(args)
 
     except (ImportError, AttributeError) as e:
         print(f"Error: {e}")

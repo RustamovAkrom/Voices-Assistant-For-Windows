@@ -1,28 +1,45 @@
 import torch
 import sounddevice as sd
+import time
+
 
 class Speaker:
-    def __init__(self, device='cpu', language='ru', speaker='aidar_v2'):
-        self.device = device
-        self.language = language
+    language: str = 'ru'  # Язык
+    model_id: str = 'ru_v3'  # Идентификатор модели
+    sample_rate: int = 48000  # Частота дискретизации
+    speaker: str = 'aidar'  # Имя спикера
+    put_accent: bool = True  # Учитывать ударение
+    put_yo: bool = True  # Учитывать букву ё
+    device: str = torch.device('cpu')  # Устройство для вычислений (CPU или GPU)
+
+    def __init__(self):
         # Загрузка модели TTS
-        self.model = torch.hub.load(
-            repo_or_dir='snakers4/silero-models',
-            model='silero_tts',
-            language=language,
-            trust_repo=True
-        ).to(self.device)
-        
-        self.sample_rate = 48000  # Устанавливаем частоту дискретизации
+        self.model, _ = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                       model='silero_tts',
+                                       language=self.get_arguments()['language'],
+                                       speaker=self.get_arguments()['model_id'],
+                                       )
+        self.model.to(self.device)
 
+    @classmethod
+    def get_arguments(cls) -> dict:
+        return {
+            'language': cls.language,
+            'model_id': cls.model_id,
+            'sample_rate': cls.sample_rate,
+            'speaker': cls.speaker,
+            'put_accent': cls.put_accent,
+            'put_yo': cls.put_yo,
+            'device': cls.device
+        }
+    
     def say(self, text: str):
-        # Генерация аудио из текста
-        audio = self.model.apply_tts(
-            texts=[text],  # Передаем текст в виде списка
-            sample_rate=self.sample_rate,
-            device=self.device
-        )
-
-        # Проигрывание с использованием sounddevice
-        sd.play(audio, samplerate=self.sample_rate)
-        sd.wait()  # Ожидаем окончания воспроизведения аудио
+        audio = self.model.apply_tts(text=text + "..",
+                                    speaker=self.get_arguments()['speaker'],
+                                    sample_rate=self.get_arguments()['sample_rate'],
+                                    put_accent=self.get_arguments()['put_accent'],
+                                    put_yo=self.get_arguments()['put_yo'],
+                                    )
+        sd.play(audio, self.get_arguments()['sample_rate'] * 1.05)
+        time.sleep((len(audio) / self.get_arguments()['sample_rate']) * 1.05)
+        sd.stop()
