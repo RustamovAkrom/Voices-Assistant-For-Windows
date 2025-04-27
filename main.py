@@ -1,7 +1,7 @@
 import time
 
 from recognizer.offline import OfflineRecognizer
-from recognizer.online import OnlineRecognizer
+# from recognizer.online import OnlineRecognizer
 
 from speaker.silero_tts import Speaker
 from speaker.voice_player import PlayAudio
@@ -18,25 +18,6 @@ ASISTANT_VOSK_MODEL_PATH: str = config.data.get("recognizer").get("model_path")
 ASISTANT_AFTER_KEY_WORD_TIMEOUT: int = config.data.get("voice_timeout")
 
 
-def is_activation_command(text: str):
-    for activation_word in ASISTANT_NAMES:
-        if activation_word in text:
-            return True
-        return False
-
-
-def execute_cmd(text: str):
-    commands = extract_commands(text)
-
-    for command, args in commands:
-        print(f"Command: {command}, Args: {args}.")
-
-        result = execute_command(command, args)
-        print(f"Result: {result}.")
-        if result:
-            speaker.say(result)
-
-
 def main():
     play_audio.play("run")
 
@@ -48,10 +29,6 @@ def main():
         if voice_text and is_activation_command(voice_text):
             play_audio.play("great")
             
-            print("Key word recognized")
-
-            # After activation key exist words execute
-            play_audio.play("ok")
             execute_cmd(voice_text)
 
             time.sleep(0.5)
@@ -62,8 +39,29 @@ def main():
                 voice_text = offline_recognition.listen()
                 print(f"Recognized text: {voice_text}")
 
-                play_audio.play("ok")
                 execute_cmd(voice_text)
+
+
+def is_activation_command(text: str):
+    for activation_word in ASISTANT_NAMES:
+        if activation_word in text:
+            return True
+        return False
+    
+
+def execute_cmd(text: str):
+    commands = extract_commands(text)
+
+    if commands:
+        play_audio.play("ok")
+
+        for command, args in commands:
+            print(f"Command: {command}, Args: {args}.")
+
+            result = execute_command(command, args)
+            print(f"Result: {result}.")
+            if result:
+                speaker.say(result)
 
 
 if __name__=='__main__':
