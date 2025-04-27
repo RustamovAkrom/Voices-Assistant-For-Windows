@@ -1,0 +1,46 @@
+# # commands.yaml
+commands:
+  - phrases:
+      - "привет"
+      - "здравствуй"
+      - "доброе утро"
+    function: handlers.great_handler.GreatHandler
+
+  - phrases:
+      - "сколько времени"
+      - "текущее время"
+      - "который час"
+      - "время"
+    function: handlers.time_handler.CurrentTimeHandler
+
+  - phrases:
+      - "погода"
+      - "какая погода"
+      - "что там на улице"
+    function: handlers.weather_handler.WeatherHandler
+
+  - phrases:
+      - "играй музыку"
+      - "включи музыку"
+      - "сыграй что-нибудь"
+      - "запусти музыку"
+    function: handlers.music_handler.MusicHandler
+
+  - phrases:
+      - "останови музыку"
+      - "выключи музыку"
+    function: handlers.music_handler.MusicHandler
+
+  - phrases:
+      - "поговори"
+      - "поболтай со мной"
+      - "общение"
+    function: handlers.chat_handler.ChatHandler
+
+  - phrases:
+      - "найти"
+      - "найди"
+      - "поиск"
+      - "найди что-нибудь"
+      - "поискать"
+    function: handlers.search_handler.SearchHandler

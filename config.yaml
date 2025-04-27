@@ -1,0 +1,14 @@
+name: ["джарвис"]
+language: "ru"
+log_path: "assistant.log"
+
+recognizer:
+  type: "offline"
+  model_path: "models/vosk"
+
+voice_timeout: 10
+
+classifier:
+  command_key: "command"
+  fallback_intent: "unknown"
+  
