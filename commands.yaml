@@ -11,20 +11,20 @@ commands:
       - "текущее время"
       - "который час"
       - "время"
-    function: handlers.time_handler.CurrentTimeHandler
+    function: controllers.time_service.get_time
 
   - phrases:
       - "погода"
       - "какая погода"
       - "что там на улице"
-    function: handlers.weather_handler.WeatherHandler
+    function: controllers.weather.get_weather
 
   - phrases:
       - "играй музыку"
       - "включи музыку"
       - "сыграй что-нибудь"
       - "запусти музыку"
-    function: handlers.music_handler.MusicHandler
+    function: controllers.music.get_music
 
   - phrases:
       - "останови музыку"
@@ -43,7 +43,7 @@ commands:
       - "поиск"
       - "найди что-нибудь"
       - "поискать"
-    function: handlers.search_handler.SearchHandler
+    function: controllers.youtube.search_youtube
 
   - phrases:
       - "расскажи о"

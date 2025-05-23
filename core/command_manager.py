@@ -1,6 +1,3 @@
-import importlib
-
-
 def execute_command(function_path, args=None):
     """
     Download and execute a function from a given module path.

@@ -12,10 +12,10 @@ from core.logger import logger
 from core.config import config
 
 
-ASISTANT_NAMES: list[str] = config.data.get("name")
-ASISTANT_LANGUAGE: str = config.data.get("language")
-ASISTANT_VOSK_MODEL_PATH: str = config.data.get("recognizer").get("model_path")
-ASISTANT_AFTER_KEY_WORD_TIMEOUT: int = config.data.get("voice_timeout")
+ASISTANT_NAMES: tuple[str] = ("джарвис", "jarvis", "джарвис", "джарвис", "джарвис", "джарвис", "джарвис")
+ASISTANT_LANGUAGE: str = "ru"
+ASISTANT_VOSK_MODEL_PATH: str = "models/vosk"
+ASISTANT_AFTER_KEY_WORD_TIMEOUT: int = 15  # seconds
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
     while True:
         voice_text = offline_recognition.listen().lower()
 
-        if voice_text and is_activation_command(voice_text):
+        if voice_text.startswith(ASISTANT_NAMES):
             play_audio.play("great")
             
             execute_cmd(voice_text)
@@ -60,8 +60,8 @@ def execute_cmd(text: str):
 
             result = execute_command(command, args)
             print(f"Result: {result}.")
-            if result:
-                speaker.say(result)
+            # if result:
+            #     speaker.say(result)
 
 
 if __name__=='__main__':
@@ -71,5 +71,5 @@ if __name__=='__main__':
     offline_recognition = OfflineRecognizer(ASISTANT_VOSK_MODEL_PATH)
     play_audio = PlayAudio()
     speaker = Speaker()
-
+    
     main()

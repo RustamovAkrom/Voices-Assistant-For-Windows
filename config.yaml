@@ -1,9 +1,0 @@
-name: ["джарвис"]
-language: "ru"
-log_path: "assistant.log"
-
-recognizer:
-  type: "offline"
-  model_path: "models/vosk"
-
-voice_timeout: 10
