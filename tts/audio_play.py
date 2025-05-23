@@ -5,14 +5,15 @@ import random
 
 class PlayAudio:
     def __init__(self):
+        self.base_path = r"data\media\audios"
         self.audio_files = {
-            "great": fr"media\audios\jarvis-og_greet{random.randint(1, 3)}.wav",
-            "not_found": r"media\audios\jarvis-og_not_found.wav",
-            "off": r"media\audios\jarvis-og_off.wav",
-            "run": r"media\audios\jarvis-og_run.wav",
-            "stupid": r"media\audios\jarvis-og_stupid.wav",
-            "ok": fr"media\audios\jarvis-og_ok{random.randint(1, 4)}.wav",
-            "thanks": r"media\audios\jarvis-og_thanks.wav",
+            "great": fr"{self.base_path}\jarvis-og_greet{random.randint(1, 3)}.wav",
+            "not_found": fr"{self.base_path}\jarvis-og_not_found.wav",
+            "off": fr"{self.base_path}\jarvis-og_off.wav",
+            "run": fr"{self.base_path}\jarvis-og_run.wav",
+            "stupid": fr"{self.base_path}\jarvis-og_stupid.wav",
+            "ok": fr"{self.base_path}\jarvis-og_ok{random.randint(1, 4)}.wav",
+            "thanks": fr"{self.base_path}\jarvis-og_thanks.wav",
         }
     
     def play(self, name: str):

@@ -4,9 +4,11 @@ import vosk
 import json
 import words
 import time
+from recognizer.offline import OfflineRecognizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
-from speaker.silero_tts import Speaker
+from tts.silero_tts import Speaker
+from tts.audio_play import PlayAudio
 
 
 def recognize(data, vectorizer, clf):
@@ -64,31 +66,12 @@ def traning_data(data_set:dict):
 
     return vectorizer, clf
 
- 
-class OfflineRecognizer:
-    def __init__(self):
-        self.q = queue.Queue()
-        self.model = vosk.Model("models/vosk")
-        self.device = sd.default.device
-        self.samplerate = int(sd.query_devices(self.device[0], 'input')['default_samplerate'])
-
-    def callback(self, indata, frames, time, status):
-        self.q.put(bytes(indata))
-
-    def listen(self):
-        with sd.RawInputStream(samplerate=self.samplerate, blocksize=8000, device=self.device[0], dtype='int16', channels=1, callback=self.callback):
-            rec = vosk.KaldiRecognizer(self.model, self.samplerate)
-            while True:
-                data = self.q.get()
-                if rec.AcceptWaveform(data):
-                    result = json.loads(rec.Result())
-                    text = result['text']
-                    return text
 
 def main():
     vectorizer, clf = traning_data(words.data_set)
 
     start_time = time.time() - 1000
+    play_audio.play("run")
 
     while True:
         print("Ожидание активационного слова...")
@@ -96,28 +79,40 @@ def main():
         print(f"Recognized text: {text}")
 
         trg = words.TRIGGERS.intersection(text.split())
-
+        
         if trg:
+            play_audio.play("great")
+            
             print("Активация! Jarvis слушает команды 15 секунд...")
             start_time = time.time()
-            
+
+            removed_trg_command = text.replace(" ".join(trg), "").strip()
+            # Если активационное слово распознано, обрабатываем его
+            recognize(removed_trg_command, vectorizer, clf)
+
+            # Слушаем команды в течение 15 секунд
             while (time.time() - start_time) <= 15:
+
                 cmd_text = recognizer.listen()
                 print(f"Recognized command: {cmd_text}")
 
                 if cmd_text:
+                    # Мгновенно реагируем на повторное активационное слово
                     if any(t in cmd_text.split() for t in words.TRIGGERS):
-                        print("да, сэр")
+                        play_audio.play("great")
+                        # НЕ продолжаем, а сразу сбрасываем таймер и слушаем новые команды
+                        start_time = time.time()
                         continue
                     recognize(cmd_text, vectorizer, clf)
                 else:
-                    print("Команда не распознана, повторите.")
-
-                
+                    print("Команда не распознана, повторите.")                
 
 
 if __name__ == "__main__":
+    print("Initializing...")
+
     recognizer = OfflineRecognizer()
     speaker = Speaker()
+    play_audio = PlayAudio()
 
     main()
