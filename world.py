@@ -1,7 +1,3 @@
-import queue
-import sounddevice as sd
-import vosk
-import json
 import words
 import time
 from recognizer.offline import OfflineRecognizer
@@ -9,51 +5,33 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from tts.silero_tts import Speaker
 from tts.audio_play import PlayAudio
+from utils.resolve import resolve_attr
 
 
 def recognize(data, vectorizer, clf):
-    # Разбиваем входной текст на предложения/команды (по запятым, "и", точкам)
-    import re
-    commands = re.split(r'[,.!?;]|\s+и\s+', data)
-    commands = [cmd.strip() for cmd in commands if cmd.strip()]
+    import skills
 
-    from controllers import handlers
-    from controllers import weather, time_service, music
-
-    handlers_dict = {
-        "reply_here": handlers.reply_here,
-        "reply_greeting": handlers.reply_greeting,
-        "reply_howareyou": handlers.reply_howareyou,
-        "reply_skills": handlers.reply_skills,
-        "reply_joke": handlers.reply_joke,
-        "get_news": handlers.get_news,
-        "get_location": handlers.get_location,
-        "turn_on_light": handlers.turn_on_light,
-        "turn_off_light": handlers.turn_off_light,
-        "play_music": handlers.play_music,
-        "stop_music": handlers.stop_music,
-        "get_weather": weather.get_weather,
-        "get_time": time_service.get_time,
-        "get_music": music.get_music,
-    }
-
-    for cmd in commands:
-        text_vector = vectorizer.transform([cmd]).toarray()[0]
-        func_name = clf.predict([text_vector])[0]
-        handler = handlers_dict.get(func_name)
-        if handler:
-            result = handler()
-            print(f"[{cmd}] → {result}")
+    # Обработка распознанной команды
+    text_vector = vectorizer.transform([data]).toarray()[0]
+    func_name = clf.predict([text_vector])[0]
+    print(func_name)
+    if func_name:
+        try:
+            result = resolve_attr(skills, func_name)(data)
             speaker.say(result)
-        else:
-            print(f"[{cmd}] → Команда не реализована")
+            print(f"[{data}] → Выполнена команда: {result}")
+        except Exception as e:
+            print(f"[{data}] → Ошибка при выполнении команды: {e}")
+            play_audio.play("not_found")
+    else:
+        print(f"[{data}] → Команда не реализована")
 
 
 def traning_data(data_set:dict):
     # Подготовка обучающих данных
     X = []
     y = []
-    for phrases, answer in words.data_set.items():
+    for phrases, answer in data_set.items():
         for phrase in phrases:
             X.append(phrase)
             y.append(answer)
