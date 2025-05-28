@@ -8,3 +8,5 @@ assistant.log
 *.db
 *.sqlite3
 *.egg-info
+.env
+example.py

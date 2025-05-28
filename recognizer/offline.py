@@ -1,51 +1,59 @@
 import queue
-import json
 import sounddevice as sd
-from vosk import Model, KaldiRecognizer
-import numpy as np
-from core.logger import logger
+import vosk
+import json
 
-
+ 
 class OfflineRecognizer:
-    def __init__(self, model_path: str, samplerate=16000):
-        """
-        Initialize the OfflineRecognizer with the given model path.
-        :param model_path: Path to the Vosk model directory.
-        """
-
-        self.model = Model(model_path)
-        self.recognizer = KaldiRecognizer(self.model, samplerate)
+    def __init__(self):
         self.q = queue.Queue()
-        self.samplerate = samplerate
+        self.model = vosk.Model("data/models/vosk")
+        self.device = sd.default.device
+        self.samplerate = int(sd.query_devices(self.device[0], 'input')['default_samplerate'])
 
-    def _callback(self, indata, frames, time, status):
-        """
-        Callback function to handle audio input.
-        :param indata: Audio data.
-        :param frames: Number of frames.
-        :param time: Time information.
-        :param status: Status information.
-        """
-
+    def callback(self, indata, frames, time, status):
         self.q.put(bytes(indata))
 
-    def listen(self) -> str:
-        """
-        Function to listen for audio input and recognize speech using Vosk.
-        :param timeout: Timeout for listening in seconds.
-        :return: Recognized text.
-        """
-        with sd.RawInputStream(
-            samplerate=16000, blocksize=8000,
-            dtype='int16', channels=1,
-            callback=self._callback
-        ):
-            logger.debug("Offline listening started...")
+    def listen(self):
+        with sd.RawInputStream(samplerate=self.samplerate, blocksize=8000, device=self.device[0], dtype='int16', channels=1, callback=self.callback):
+            rec = vosk.KaldiRecognizer(self.model, self.samplerate)
             while True:
                 data = self.q.get()
-                if self.recognizer.AcceptWaveform(data):
-                    result = json.loads(self.recognizer.Result())
-                    return result.get("text", "")
-            return ""
+                if rec.AcceptWaveform(data):
+                    result = json.loads(rec.Result())
+                    text = result['text']
+                    return text
+
+# class OfflineRecognizer:
+#     model_path = "models/vosk"
+#     rate = 16000
+
+#     def __init__(self):
+#         self.model = Model(self.model_path)
+#         self.recognizer = KaldiRecognizer(self.model, self.rate)
+#         self.micraphone = pyaudio.PyAudio()
+#         self.format = pyaudio.paInt16
+
+#     def initializing_micraphone(self):
+#         self.stream = self.micraphone.open(
+#             format=self.format, 
+#             channels=1,
+#             rate=self.rate, 
+#             input=True, 
+#             frames_per_buffer=8000
+#         )
+
+#         self.stream.start_stream()
+
+#     def listen(self) -> str:
+#         data = self.stream.read(4000, exception_on_overflow=False)
+
+#         if self.recognizer.AcceptWaveform(data):
+#             result = json.loads(self.recognizer.Result()).get("text")
+#             return result
+    
+#     def close_micraphone(self):
+#         self.micraphone.close(self.stream)
+
 
 __all__ = ("OfflineRecognizer",)

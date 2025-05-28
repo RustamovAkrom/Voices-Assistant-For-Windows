@@ -26,6 +26,8 @@ numpy==2.2.5
 omegaconf==2.3.0
 packaging==25.0
 pillow==11.2.1
+plyer==2.1.0
+psutil==7.0.0
 PyAudio==0.2.14
 pycparser==2.22
 pyparsing==3.2.3
