@@ -16,30 +16,18 @@ class Speaker:
         # Загрузка модели TTS
         self.model, _ = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                        model='silero_tts',
-                                       language=self.get_arguments()['language'],
-                                       speaker=self.get_arguments()['model_id'],
+                                       language=self.language,
+                                       speaker=self.model_id,
                                        )
         self.model.to(self.device)
-
-    @classmethod
-    def get_arguments(cls) -> dict:
-        return {
-            'language': cls.language,
-            'model_id': cls.model_id,
-            'sample_rate': cls.sample_rate,
-            'speaker': cls.speaker,
-            'put_accent': cls.put_accent,
-            'put_yo': cls.put_yo,
-            'device': cls.device
-        }
     
     def say(self, text: str):
         audio = self.model.apply_tts(text=text + "..",
-                                    speaker=self.get_arguments()['speaker'],
-                                    sample_rate=self.get_arguments()['sample_rate'],
-                                    put_accent=self.get_arguments()['put_accent'],
-                                    put_yo=self.get_arguments()['put_yo'],
+                                    speaker=self.speaker,
+                                    sample_rate=self.sample_rate,
+                                    put_accent=self.put_accent,
+                                    put_yo=self.put_yo,
                                     )
-        sd.play(audio, self.get_arguments()['sample_rate'] * 1.05)
-        time.sleep((len(audio) / self.get_arguments()['sample_rate']) * 1.05)
+        sd.play(audio, self.sample_rate * 1.05)
+        time.sleep((len(audio) / self.sample_rate * 1.05))
         sd.stop()

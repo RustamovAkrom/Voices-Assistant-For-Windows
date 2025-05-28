@@ -3,35 +3,28 @@ import soundfile as sf
 import random
 
 
+AUDIO_FILES = {
+    "great": r"data\media\audios\jarvis-og_greet1.wav",
+    "not_found": r"data\media\audios\jarvis-og_not_found.wav",
+    "off": r"data\media\audios\jarvis-og_off.wav",
+    "run": r"data\media\audios\jarvis-og_run.wav",
+    "stupid": r"data\media\audios\jarvis-og_stupid.wav",
+    "ok": r"data\media\audios\jarvis-og_ok1.wav",
+    "thanks": r"data\media\audios\jarvis-og_thanks.wav",
+}
+
+
 class PlayAudio:
     def __init__(self):
         self.base_path = r"data\media\audios"
-        self.audio_files = {
-            "great": fr"{self.base_path}\jarvis-og_greet{random.randint(1, 3)}.wav",
-            "not_found": fr"{self.base_path}\jarvis-og_not_found.wav",
-            "off": fr"{self.base_path}\jarvis-og_off.wav",
-            "run": fr"{self.base_path}\jarvis-og_run.wav",
-            "stupid": fr"{self.base_path}\jarvis-og_stupid.wav",
-            "ok": fr"{self.base_path}\jarvis-og_ok{random.randint(1, 4)}.wav",
-            "thanks": fr"{self.base_path}\jarvis-og_thanks.wav",
-        }
+        self.audio_files = AUDIO_FILES
     
     def play(self, name: str):
-        match name:
-            case "great":
-                file_path = self.audio_files["great"]
-            case "not_found":
-                file_path = self.audio_files["not_found"]
-            case "off":
-                file_path = self.audio_files["off"]
-            case "run":
-                file_path = self.audio_files["run"]
-            case "stupid":
-                file_path = self.audio_files["stupid"]
-            case "ok":
-                file_path = self.audio_files["ok"]
-            case "thanks":
-                file_path = self.audio_files["thanks"]
+        if name not in self.audio_files:
+            print(f"Audio file '{name}' not found in the audio files dictionary.")
+            return
+        
+        file_path = self.audio_files.get(name, None)
 
         self.play_audio(file_path)
 
