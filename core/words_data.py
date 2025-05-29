@@ -1,4 +1,3 @@
-
 TRIGGERS = {"джарвис", "djarvis", "чарльз"}
 
 # Теперь значения — это имена функций-обработчиков (строки)
@@ -7,25 +6,36 @@ data_set = [
         "phrases": ["найди", "найти", "поищи", "ищи", "поиск", "что такое", "кто такой", "узнай"],
         "handler": "web.search_web",
         "param": True,
-        # "text": "Ищу информацию в интернете..."
+        "category": "search",
+        "text": "Ищу информацию в интернете..."
     },
     {
         "phrases": ["найди в википедии", "поиск в википедии", "википедия", "что такое википедия", "кто такой википедия", "узнай википедию", "расскажи о", "расскажи про", "расскажи что такое",],
         "handler": "wiki.search_wiki",
         "param": True,
+        "category": "search",
         "text": "Сейчас посмотрю в Википедии..."
     },
     {
         "phrases": ["привет", "здравствуй", "доброе утро", "добрый день", "добрый вечер", "приветик", "приветствую", "здарова", "хай", "добрейшего времени суток"],
         "handler": "default.answers.simple.simple_answer",
         "param": False,
+        "category": "greeting",
         "text": "Привет! Чем могу помочь?"
     },
     {
-        "phrases": ["Открой Telegram", "открой телеграм", "запусти Telegram", "запусти телеграм", "открой мессенджер", "запусти мессенджер", "открой телеграмм"],
-        "handler": "default.openner.telegram.open_telegram",
-        "param": False,
-        "text": "Открываю Telegram..."
+        "phrases": ["открой", "запусти"],
+        "handler": "default.openner.open_app.open_app",
+        "param": True,
+        "category": "apps",
+        "text": "Открываю приложение..."
+    },
+    {
+        "phrases": ["закрой", "выключи"],
+        "handler": "default.openner.close_app.close_app",
+        "param": True,
+        "category": "apps",
+        "text": "Закрываю приложение..."
     }
     # ... и так далее для других команд
 ]

@@ -1,0 +1,86 @@
+2025-05-29 23:21:58,246 - VoiceAsistant - INFO - Jarvis is starting (queue listen loop)...
+2025-05-29 23:22:08,157 - VoiceAsistant - INFO - Активация Jarvis через PorcupineListener
+2025-05-29 23:22:15,321 - VoiceAsistant - DEBUG - Recognized command: найти в интернете кто таково стрейт как твои дела
+2025-05-29 23:22:15,321 - VoiceAsistant - DEBUG - Обработка команды: найти в интернете кто таково стрейт как твои дела
+2025-05-29 23:22:15,322 - VoiceAsistant - DEBUG - process_command: cmd_text='найти в интернете кто таково стрейт как твои дела'
+2025-05-29 23:22:15,322 - VoiceAsistant - INFO - Команда распознана: найти → web.search_web
+2025-05-29 23:22:17,036 - VoiceAsistant - DEBUG - Recognized command: привет
+2025-05-29 23:22:17,037 - VoiceAsistant - DEBUG - Обработка команды: привет
+2025-05-29 23:22:17,037 - VoiceAsistant - DEBUG - process_command: cmd_text='привет'
+2025-05-29 23:22:17,037 - VoiceAsistant - INFO - Команда распознана: привет → default.answers.simple.simple_answer
+2025-05-29 23:22:22,365 - VoiceAsistant - DEBUG - Resolved handler: default.answers.simple.simple_answer → <function simple_answer at 0x000001E6F2E151C0>
+2025-05-29 23:22:22,365 - VoiceAsistant - DEBUG - Выполнение команды без параметров: привет, handler=default.answers.simple.simple_answer, phrase=привет, text=Привет! Чем могу помочь?, param_required=False
+2025-05-29 23:22:22,776 - VoiceAsistant - DEBUG - Resolved handler: web.search_web → <function search_web at 0x000001E6F34D9440>
+2025-05-29 23:22:22,776 - VoiceAsistant - DEBUG - Выполнение команды с параметрами: найти в интернете кто таково стрейт как твои дела, phrase=найти, text=Ищу информацию в интернете..., param_required=True
+2025-05-29 23:22:23,079 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:22:23,080 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:22:28,826 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:22:28,826 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:22:30,227 - VoiceAsistant - INFO - [привет] → Выполнена команда: Добрый день! Что вас интересует?
+2025-05-29 23:22:33,563 - VoiceAsistant - INFO - [найти в интернете кто таково стрейт как твои дела] → Выполнена команда: Я открыл Google для поиска по запросу: в интернете кто таково стрейт как твои дела
+2025-05-29 23:22:34,534 - VoiceAsistant - DEBUG - Recognized command: чеснок щоб мышления
+2025-05-29 23:22:34,534 - VoiceAsistant - DEBUG - Обработка команды: чеснок щоб мышления
+2025-05-29 23:22:34,535 - VoiceAsistant - DEBUG - process_command: cmd_text='чеснок щоб мышления'
+2025-05-29 23:22:34,535 - VoiceAsistant - WARNING - Команда не распознана: чеснок щоб мышления
+2025-05-29 23:22:40,236 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:22:40,237 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:22:45,771 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:22:45,772 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:22:50,470 - VoiceAsistant - DEBUG - Recognized command: от кратера грамм
+2025-05-29 23:22:50,470 - VoiceAsistant - DEBUG - Обработка команды: от кратера грамм
+2025-05-29 23:22:50,471 - VoiceAsistant - DEBUG - process_command: cmd_text='от кратера грамм'
+2025-05-29 23:22:50,471 - VoiceAsistant - WARNING - Команда не распознана: от кратера грамм
+2025-05-29 23:22:56,204 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:22:56,204 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:22:58,652 - VoiceAsistant - DEBUG - Recognized command: открой браузер
+2025-05-29 23:22:58,652 - VoiceAsistant - DEBUG - Обработка команды: открой браузер
+2025-05-29 23:22:58,652 - VoiceAsistant - DEBUG - process_command: cmd_text='открой браузер'
+2025-05-29 23:22:58,653 - VoiceAsistant - INFO - Команда распознана: открой → default.openner.open_app.open_app
+2025-05-29 23:23:01,259 - VoiceAsistant - DEBUG - Resolved handler: default.openner.open_app.open_app → None
+2025-05-29 23:23:01,260 - VoiceAsistant - DEBUG - Выполнение команды с параметрами: открой браузер, phrase=открой, text=Открываю приложение..., param_required=True
+2025-05-29 23:23:01,260 - VoiceAsistant - ERROR - [открой браузер] → Ошибка при выполнении команды: 'NoneType' object is not callable
+2025-05-29 23:23:03,509 - VoiceAsistant - DEBUG - Recognized command: кругов и сейчас
+2025-05-29 23:23:03,509 - VoiceAsistant - DEBUG - Обработка команды: кругов
+2025-05-29 23:23:03,509 - VoiceAsistant - DEBUG - Обработка команды: сейчас
+2025-05-29 23:23:03,510 - VoiceAsistant - DEBUG - process_command: cmd_text='кругов'
+2025-05-29 23:23:03,510 - VoiceAsistant - WARNING - Команда не распознана: кругов
+2025-05-29 23:23:03,581 - VoiceAsistant - DEBUG - process_command: cmd_text='сейчас'
+2025-05-29 23:23:03,581 - VoiceAsistant - WARNING - Команда не распознана: сейчас
+2025-05-29 23:23:06,222 - VoiceAsistant - DEBUG - Recognized command: все
+2025-05-29 23:23:06,222 - VoiceAsistant - DEBUG - Обработка команды: все
+2025-05-29 23:23:06,223 - VoiceAsistant - DEBUG - process_command: cmd_text='все'
+2025-05-29 23:23:06,224 - VoiceAsistant - INFO - Команда распознана: ищи → web.search_web
+2025-05-29 23:23:09,047 - VoiceAsistant - DEBUG - Resolved handler: web.search_web → <function search_web at 0x000001E6F34D9440>
+2025-05-29 23:23:09,048 - VoiceAsistant - DEBUG - Выполнение команды с параметрами: все, phrase=ищи, text=Ищу информацию в интернете..., param_required=True
+2025-05-29 23:23:11,862 - VoiceAsistant - DEBUG - Recognized command: всю информацию
+2025-05-29 23:23:11,863 - VoiceAsistant - DEBUG - Обработка команды: всю информацию
+2025-05-29 23:23:11,863 - VoiceAsistant - DEBUG - process_command: cmd_text='всю информацию'
+2025-05-29 23:23:11,863 - VoiceAsistant - WARNING - Команда не распознана: всю информацию
+2025-05-29 23:23:13,187 - VoiceAsistant - INFO - [все] → Выполнена команда: Я открыл Google для поиска по запросу: все
+2025-05-29 23:23:16,353 - VoiceAsistant - INFO - Jarvis stopped by user.
+2025-05-29 23:25:41,467 - VoiceAsistant - INFO - Jarvis is starting...
+2025-05-29 23:26:00,207 - VoiceAsistant - INFO - Активация Jarvis через PorcupineListener
+2025-05-29 23:26:06,487 - VoiceAsistant - DEBUG - Recognized command: добрый день джарвис положат средства интернете целовал стен
+2025-05-29 23:26:07,811 - VoiceAsistant - INFO - Команда активирована триггером: {'джарвис'}
+2025-05-29 23:26:07,812 - VoiceAsistant - DEBUG - Команда после триггера: добрый день  положат средства интернете целовал стен
+2025-05-29 23:26:07,812 - VoiceAsistant - DEBUG - process_command: cmd_text='добрый день  положат средства интернете целовал стен'
+2025-05-29 23:26:07,812 - VoiceAsistant - INFO - Команда распознана: добрый день → default.answers.simple.simple_answer
+2025-05-29 23:26:14,156 - VoiceAsistant - DEBUG - Resolved handler: default.answers.simple.simple_answer → <function simple_answer at 0x00000207B1F85120>
+2025-05-29 23:26:14,156 - VoiceAsistant - DEBUG - Выполнение команды без параметров: добрый день  положат средства интернете целовал стен, handler=default.answers.simple.simple_answer, phrase=добрый день, text=Привет! Чем могу помочь?, param_required=False
+2025-05-29 23:26:21,276 - VoiceAsistant - INFO - [добрый день  положат средства интернете целовал стен] → Выполнена команда: Здарова! Чем могу помочь?
+2025-05-29 23:26:27,012 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:26:27,012 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:26:32,542 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:26:32,543 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:26:38,083 - VoiceAsistant - DEBUG - Recognized command: 
+2025-05-29 23:26:38,084 - VoiceAsistant - WARNING - Команда не распознана, повторите.
+2025-05-29 23:26:42,705 - VoiceAsistant - DEBUG - Recognized command: открой браузер
+2025-05-29 23:26:42,706 - VoiceAsistant - DEBUG - Обработка команды: открой браузер
+2025-05-29 23:26:42,706 - VoiceAsistant - DEBUG - process_command: cmd_text='открой браузер'
+2025-05-29 23:26:42,706 - VoiceAsistant - INFO - Команда распознана: открой → default.openner.open_app.open_app
+2025-05-29 23:26:45,459 - VoiceAsistant - DEBUG - Resolved handler: default.openner.open_app.open_app → None
+2025-05-29 23:26:45,459 - VoiceAsistant - DEBUG - Выполнение команды с параметрами: открой браузер, phrase=открой, text=Открываю приложение..., param_required=True
+2025-05-29 23:26:45,459 - VoiceAsistant - ERROR - [открой браузер] → Ошибка при выполнении команды: 'NoneType' object is not callable
+2025-05-29 23:26:51,283 - VoiceAsistant - INFO - Jarvis stopped by user.
+2025-05-29 23:52:27,287 - VoiceAsistant - INFO - Jarvis is starting...
+2025-05-29 23:52:34,305 - VoiceAsistant - INFO - Jarvis stopped by user.
