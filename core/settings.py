@@ -24,3 +24,5 @@ LOGGER_ACTIVE = False
 
 # Default speaker for the Silero TTS (Text-to-Speech) engine
 SILERO_TTS_SPEAKER = "aidar"  # Default speaker for Silero TTS example: "aidar", "baya", "jane", "omaz", "xenia"
+
+PATH_TO_SONGS = "D:\Songs" # Replace to your directory musics

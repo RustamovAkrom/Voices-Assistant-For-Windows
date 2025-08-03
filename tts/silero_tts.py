@@ -12,7 +12,7 @@ class Speaker:
     put_yo: bool = True  # Учитывать букву ё
     device: str = torch.device("cpu")  # Устройство для вычислений (CPU или GPU)
 
-    def __init__(self):
+    def __init__(self, speaker: str = "aidar"):
         # Загрузка модели TTS
         self.model, _ = torch.hub.load(
             repo_or_dir="snakers4/silero-models",
@@ -20,6 +20,7 @@ class Speaker:
             language=self.language,
             speaker=self.model_id,
         )
+        self.speaker = speaker
         self.model.to(self.device)
 
     def say(self, text: str):

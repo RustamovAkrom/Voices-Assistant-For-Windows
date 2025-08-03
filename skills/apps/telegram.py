@@ -2,7 +2,7 @@ import os
 
 
 def open_telegram():
-    path = "C:/Users/user/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Telegram Desktop/Telegram.lnk"
+    path = "C:/Users/user/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Telegram Desktop/Telegram.lnk" # Replace to your directory
     # subprocess.Popen([path], shell=True)
     os.startfile(path)
 

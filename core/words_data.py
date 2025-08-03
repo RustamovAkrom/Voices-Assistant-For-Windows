@@ -15,7 +15,7 @@ SYSTEM_DATA = [
     }
 ]
 
-GREATER_DATA = [
+ANSWERS_TO_WORDS_DATA = [
     {
         "phrases": [
             "привет",
@@ -183,7 +183,7 @@ APPS_DATA = [
 
 data_set = []
 data_set += SYSTEM_DATA
-data_set += GREATER_DATA
+data_set += ANSWERS_TO_WORDS_DATA
 data_set += SEARCH_DATA
 data_set += APPS_DATA
 

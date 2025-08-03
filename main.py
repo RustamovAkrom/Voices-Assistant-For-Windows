@@ -193,8 +193,7 @@ if __name__ == "__main__":
         keywords=settings.PORCUPINE_KEYWORDS, access_key=settings.PORCUPINE_ACCESS_KEY
     )
     recognizer = OfflineRecognizer(settings.VOSK_MODEL_PATH)
-    speaker = Speaker()
-    speaker.speaker = settings.SILERO_TTS_SPEAKER
+    speaker = Speaker(settings.SILERO_TTS_SPEAKER)
     play_audio = PlayAudio()
 
     print("Initialization complete. Jarvis is ready to listen.")
