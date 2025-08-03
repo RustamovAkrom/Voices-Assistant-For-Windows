@@ -1,3 +1,2 @@
-from .answers import * # noqa
-from .openner import * # noqa
-from .windows import * # noqa
+from .answers import *  # noqa
+from .windows import *  # noqa

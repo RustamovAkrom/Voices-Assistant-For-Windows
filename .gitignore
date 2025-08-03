@@ -10,3 +10,5 @@ assistant.log
 *.egg-info
 .env
 example.py
+asistent.log
+controller

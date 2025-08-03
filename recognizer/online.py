@@ -1,5 +1,12 @@
-from speech_recognition import Recognizer, Microphone, WaitTimeoutError, UnknownValueError, RequestError
+from speech_recognition import (
+    Recognizer,
+    Microphone,
+    WaitTimeoutError,
+    UnknownValueError,
+    RequestError,
+)
 from core.logger import logger
+
 
 class OnlineRecognizer:
     def __init__(self):
@@ -23,18 +30,23 @@ class OnlineRecognizer:
             except WaitTimeoutError:
                 logger.warning("Timeout while waiting for audio input")
                 return ""
-            
+
             try:
                 text = self.recognizer.recognize_google(audio, language="ru-RU").lower()
                 logger.info(f"Recognized text: {text}")
                 return text
-            
+
             except UnknownValueError:
-                logger.warning("Google Speech Recognition could not understand the audio")
+                logger.warning(
+                    "Google Speech Recognition could not understand the audio"
+                )
                 return ""
-            
+
             except RequestError:
-                logger.error("Could not request results from Google Speech Recognition service")
+                logger.error(
+                    "Could not request results from Google Speech Recognition service"
+                )
                 return ""
+
 
 __all__ = ("OnlineRecognizer",)
