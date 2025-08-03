@@ -6,6 +6,7 @@ if sys.version_info < (3, 7):
 
 import time
 import string
+import random
 
 import skills
 from utils.resolve import resolve_attr
@@ -88,10 +89,9 @@ def process_command(cmd_text: str) -> None:
         logger.info(f"Команда распознана: {phrase} → {handler}")
         speaker.say(text)
     else:
-        play_audio.play("ok")
+        play_audio.play(random.choice(['ok1', 'ok2', 'ok3']))
 
     try:
-        
         func = resolve_attr(skills, handler)
         logger.debug(f"Resolved handler: {handler} → {func}")
 
@@ -119,8 +119,8 @@ def process_command(cmd_text: str) -> None:
 
 def main() -> None:
     logger.info("Jarvis is starting...")
-    ACTIVATION_TIMEOUT = 900  # 15 минут
-    play_audio.play("run2")
+    ACTIVATION_TIMEOUT = 15  # 15 секунд
+    play_audio.play(random.choice(['run1', 'run2']))
 
     active_until = 0
 
@@ -130,9 +130,9 @@ def main() -> None:
             print("Ожидание активационного слова (Porcupine)...")
 
             if porcupine_listener.listen():
-                play_audio.play("great")
+                play_audio.play(random.choice(['great1', 'great2', 'great3']))
 
-                print("Активация! Jarvis слушает команды 15 минут...")
+                print("Активация! Jarvis слушает команды 15 секунд...")
                 logger.info("Активация Jarvis через PorcupineListener")
                 active_until = time.time() + ACTIVATION_TIMEOUT
 
@@ -159,10 +159,10 @@ def main() -> None:
             commands = new_commands
 
         for single_cmd in commands:
-            trg = words.TRIGGERS.intersection(single_cmd.split())
+            trg = settings.TRIGGERS.intersection(single_cmd.split())
             if trg:
-                play_audio.play("great")
-                print("Активация продлена! Jarvis слушает еще 15 минут...")
+                play_audio.play(random.choice(['ok1', 'ok2', 'ok3']))
+                print("Активация продлена! Jarvis слушает еще 15 секунд...")
                 logger.info(f"Команда активирована триггером: {trg}")
                 active_until = time.time() + ACTIVATION_TIMEOUT
                 cmd = single_cmd
@@ -174,6 +174,7 @@ def main() -> None:
                 continue
             logger.debug(f"Обработка команды: {single_cmd}")
             process_command(single_cmd)
+        # После первой активации Jarvis всегда слушает команды, не сбрасывая active_until
         active_until = time.time() + ACTIVATION_TIMEOUT
 
 
