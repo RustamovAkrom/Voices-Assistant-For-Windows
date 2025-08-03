@@ -7,4 +7,4 @@ def open_browser():
 
 
 def close_browser():
-    os.system('taskkill /f /im Browser.exe')
+    os.system("taskkill /f /im Browser.exe")

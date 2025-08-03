@@ -3,10 +3,11 @@ import webbrowser
 
 wikipedia.set_lang("ru")
 
+
 def search_wiki(query: str) -> str:
     if not query:
         return "Что нужно найти?"
-    
+
     try:
         summary = wikipedia.summary(query, sentences=2)
         return f"Вот что я нашел: {summary}"
@@ -18,4 +19,3 @@ def search_wiki(query: str) -> str:
         return "Я не нашел информации по вашему запросу. Открыл Google для поиска."
     except Exception as e:
         return f"Произошла ошибка при поиске: {str(e)}"
-    

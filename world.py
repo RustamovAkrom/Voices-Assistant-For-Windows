@@ -1,4 +1,5 @@
 import os
+
 # import random
 
 
@@ -13,4 +14,4 @@ import os
 #     print(count_path_to_dir_songs)
 
 # open_music()
-os.system('taskkill /f /im MediaPlayer.exe')
+os.system("taskkill /f /im MediaPlayer.exe")

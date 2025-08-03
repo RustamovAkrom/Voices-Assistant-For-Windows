@@ -10,5 +10,5 @@ def find_best_match(text, phrases, threshold=70):
         if score > best_score and score >= threshold:
             best_match = phrase
             best_score = score
-    
+
     return best_match

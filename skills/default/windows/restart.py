@@ -1,5 +1,6 @@
 import os
 
+
 def restart_windows() -> str:
     try:
         os.system("shutdown /r /t 5")

@@ -1,4 +1,5 @@
 import sys
+
 # Проверка версии Python
 if sys.version_info < (3, 7):
     print("Python 3.7+ is required to run this script.")
@@ -23,40 +24,37 @@ from typing import Optional, Tuple
 
 
 def find_command(
-    user_text: str, 
-    dataset: list, 
-    threshold: int = 3
-    
+    user_text: str, dataset: list, threshold: int = 3
 ) -> Tuple[Optional[str], Optional[str], Optional[str], bool]:
     """
     Ищет команду в пользовательском тексте, используя fuzzy matching.
     Возвращает: (handler, phrase, text, param_required)
     """
     user_text = user_text.lower().strip()
-    user_text = user_text.translate(str.maketrans('', '', string.punctuation))
+    user_text = user_text.translate(str.maketrans("", "", string.punctuation))
 
     best = (None, None, None, None)
     min_dist = threshold + 1
 
     for item in dataset:
-        for phrase in item['phrases']:
+        for phrase in item["phrases"]:
             phrase_clean = phrase.lower().strip()
             dist = levenshtein_distance(user_text, phrase_clean)
             if dist < min_dist:
                 min_dist = dist
                 best = (
-                    item.get('handler'),
+                    item.get("handler"),
                     phrase,
                     item.get("text", None),
-                    item.get('param', False)
+                    item.get("param", False),
                 )
             # Точное вхождение фразы в текст пользователя (без Левенштейна)
             if phrase_clean in user_text:
                 return (
-                    item.get('handler'),
+                    item.get("handler"),
                     phrase,
                     item.get("text", None),
-                    item.get('param', False)
+                    item.get("param", False),
                 )
 
     if min_dist <= threshold:
@@ -89,7 +87,7 @@ def process_command(cmd_text: str) -> None:
         logger.info(f"Команда распознана: {phrase} → {handler}")
         speaker.say(text)
     else:
-        play_audio.play(random.choice(['ok1', 'ok2', 'ok3']))
+        play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
 
     try:
         func = resolve_attr(skills, handler)
@@ -97,10 +95,20 @@ def process_command(cmd_text: str) -> None:
 
         if param_required:
             # Если требуется параметр, передаем его в функцию
-            logger.debug(f"Выполнение команды с параметрами: {cmd_text}, phrase={phrase}, text={text}, param_required={param_required}")
-            result = func(cmd_text, handler=handler, phrase=phrase, text=text, param_required=param_required)
+            logger.debug(
+                f"Выполнение команды с параметрами: {cmd_text}, phrase={phrase}, text={text}, param_required={param_required}"
+            )
+            result = func(
+                cmd_text,
+                handler=handler,
+                phrase=phrase,
+                text=text,
+                param_required=param_required,
+            )
         else:
-            logger.debug(f"Выполнение команды без параметров: {cmd_text}, handler={handler}, phrase={phrase}, text={text}, param_required={param_required}")
+            logger.debug(
+                f"Выполнение команды без параметров: {cmd_text}, handler={handler}, phrase={phrase}, text={text}, param_required={param_required}"
+            )
             result = func()
 
         if result:
@@ -120,7 +128,7 @@ def process_command(cmd_text: str) -> None:
 def main() -> None:
     logger.info("Jarvis is starting...")
     ACTIVATION_TIMEOUT = 15  # 15 секунд
-    play_audio.play(random.choice(['run1', 'run2']))
+    play_audio.play(random.choice(["run1", "run2"]))
 
     active_until = 0
 
@@ -130,7 +138,7 @@ def main() -> None:
             print("Ожидание активационного слова (Porcupine)...")
 
             if porcupine_listener.listen():
-                play_audio.play(random.choice(['great1', 'great2', 'great3']))
+                play_audio.play(random.choice(["great1", "great2", "great3"]))
 
                 print("Активация! Jarvis слушает команды 15 секунд...")
                 logger.info("Активация Jarvis через PorcupineListener")
@@ -161,7 +169,7 @@ def main() -> None:
         for single_cmd in commands:
             trg = settings.TRIGGERS.intersection(single_cmd.split())
             if trg:
-                play_audio.play(random.choice(['ok1', 'ok2', 'ok3']))
+                play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
                 print("Активация продлена! Jarvis слушает еще 15 секунд...")
                 logger.info(f"Команда активирована триггером: {trg}")
                 active_until = time.time() + ACTIVATION_TIMEOUT
@@ -180,8 +188,10 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("Initializing...")
-    
-    porcupine_listener = PorcupineListener(keywords=settings.PORCUPINE_KEYWORDS, access_key=settings.PORCUPINE_ACCESS_KEY)
+
+    porcupine_listener = PorcupineListener(
+        keywords=settings.PORCUPINE_KEYWORDS, access_key=settings.PORCUPINE_ACCESS_KEY
+    )
     recognizer = OfflineRecognizer(settings.VOSK_MODEL_PATH)
     speaker = Speaker()
     speaker.speaker = settings.SILERO_TTS_SPEAKER

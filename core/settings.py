@@ -4,9 +4,13 @@ from dotenv import load_dotenv
 load_dotenv()
 # Settings for the Jarvis application
 # Activation settings for Porcupine wake word detection
-PORCUPINE_KEYWORDS = ("jarvis", )
+PORCUPINE_KEYWORDS = ("jarvis",)
 
-TRIGGERS = {"джарвис", "djarvis", "чарльз", }
+TRIGGERS = {
+    "джарвис",
+    "djarvis",
+    "чарльз",
+}
 
 VOSK_MODEL_PATH = "data/models/vosk"
 
@@ -19,5 +23,4 @@ LOGGER_FILE = "asistent.log"
 LOGGER_ACTIVE = False
 
 # Default speaker for the Silero TTS (Text-to-Speech) engine
-SILERO_TTS_SPEAKER = "aidar" # Default speaker for Silero TTS example: "aidar", "baya", "jane", "omaz", "xenia"
-
+SILERO_TTS_SPEAKER = "aidar"  # Default speaker for Silero TTS example: "aidar", "baya", "jane", "omaz", "xenia"

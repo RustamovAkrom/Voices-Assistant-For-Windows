@@ -7,4 +7,4 @@ def open_notepad():
 
 
 def close_notepad():
-    os.system('taskkill /f /im Notepad.exe')
+    os.system("taskkill /f /im Notepad.exe")

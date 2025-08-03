@@ -1,1 +1,1 @@
-from .skill import * # noqa
+from .skill import *  # noqa

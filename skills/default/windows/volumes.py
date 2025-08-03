@@ -10,7 +10,7 @@ def controle_volume(volume: float) -> None:
     devices = AudioUtilities.GetSpeakers()
     interface = devices.Activate(IAudioEndpointVolume._iid_, 0, None)
     volume_control = interface.QueryInterface(IAudioEndpointVolume)
-    
+
     # Set the volume level
     volume_control.SetMasterVolumeLevelScalar(volume, None)
     print(f"Volume set to {volume * 100:.2f}%")
