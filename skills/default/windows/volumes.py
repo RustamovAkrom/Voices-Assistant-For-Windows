@@ -14,3 +14,18 @@ def controle_volume(volume: float) -> None:
     # Set the volume level
     volume_control.SetMasterVolumeLevelScalar(volume, None)
     print(f"Volume set to {volume * 100:.2f}%")
+
+
+def set_volume_max() -> None:
+    controle_volume(1.0)
+
+
+def set_volume_mid() -> None:
+    controle_volume(0.5)
+
+
+def set_volume_min() -> None:
+    controle_volume(0)
+
+
+__all__ = ("set_volume_max", "set_volume_mid", "set_volume_min", )

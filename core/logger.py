@@ -4,6 +4,7 @@ from core import settings
 
 
 logger = logging.getLogger("VoiceAsistant")
+
 if settings.LOGGER_ACTIVE:
     logger.setLevel(logging.DEBUG)
 
@@ -11,7 +12,7 @@ if settings.LOGGER_ACTIVE:
         settings.LOGGER_FILE, maxBytes=5_000_000, backupCount=3, encoding="utf-8"
     )
     formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        settings.LOGGER_FILE_FORMAT
     )
     handler.setFormatter(formatter)
     logger.addHandler(handler)

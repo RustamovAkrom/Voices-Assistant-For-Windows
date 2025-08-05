@@ -2,65 +2,55 @@ import sys
 
 # Проверка версии Python
 if sys.version_info < (3, 7):
-    print("Python 3.7+ is required to run this script.")
+    print("Python 3.7+ is required to run this script. Please upgrade Python to 3.13")
     sys.exit(1)
 
 import time
 import string
 import random
+import re
 
 import skills
 from utils.resolve import resolve_attr
-from tts.silero_tts import Speaker
+from utils.fuzzy_matcher import find_best_match
+from tts.silero_tts import SpeakerSileroTTS
+# from tts.pyttsx3_tts import SpeakerPyTTSx3
 from tts.audio_play import PlayAudio
 from recognizer.offline import OfflineRecognizer
+from recognizer.online import OnlineRecognizer
 from recognizer.porcupine_listener import PorcupineListener
 from core.logger import logger
 from core import settings
 from core import words_data as words
 
-from Levenshtein import distance as levenshtein_distance
-from typing import Optional, Tuple
+
+def clean_query_text(text: str):
+    stop_words = {"о", "об", "в", "на", "про", "по", "из", "с", "от", "для", "и", "мне"}
+    words = text.strip().split()
+    if words and words[0] in stop_words:
+        words.pop(0)
+    return " ".join(words)
 
 
-def find_command(
-    user_text: str, dataset: list, threshold: int = 3
-) -> Tuple[Optional[str], Optional[str], Optional[str], bool]:
-    """
-    Ищет команду в пользовательском тексте, используя fuzzy matching.
-    Возвращает: (handler, phrase, text, param_required)
-    """
+def find_command_from_dataset(user_text: str, dataset: list, threshold: int = 70):
+    # original_text = user_text
     user_text = user_text.lower().strip()
     user_text = user_text.translate(str.maketrans("", "", string.punctuation))
 
-    best = (None, None, None, None)
-    min_dist = threshold + 1
-
     for item in dataset:
-        for phrase in item["phrases"]:
-            phrase_clean = phrase.lower().strip()
-            dist = levenshtein_distance(user_text, phrase_clean)
-            if dist < min_dist:
-                min_dist = dist
-                best = (
-                    item.get("handler"),
-                    phrase,
-                    item.get("text", None),
-                    item.get("param", False),
-                )
-            # Точное вхождение фразы в текст пользователя (без Левенштейна)
-            if phrase_clean in user_text:
-                return (
-                    item.get("handler"),
-                    phrase,
-                    item.get("text", None),
-                    item.get("param", False),
-                )
-
-    if min_dist <= threshold:
-        return best
-
-    return None, None, None, None
+        best_match, best_score = find_best_match(user_text, item["phrases"])
+        if best_score >= threshold:
+            pattern = re.escape(best_match.lower())
+            cleaned_text = re.sub(pattern, "", user_text, count=1).strip()
+            cleaned_text = clean_query_text(cleaned_text)
+            return (
+                item.get("handler", None),
+                cleaned_text.strip(".|"),
+                item.get("text", None),
+                item.get("param", False)
+            )
+        
+    return (None, None, None, False)
 
 
 def process_command(cmd_text: str) -> None:
@@ -71,24 +61,26 @@ def process_command(cmd_text: str) -> None:
     """
 
     logger.debug(f"process_command: cmd_text='{cmd_text}'")
-    handler, phrase, text, param_required = find_command(cmd_text, words.data_set)
+    handler, phrase, text, param_required = find_command_from_dataset(cmd_text, words.data_set, 95)
 
+    # If handler not found run that code
     if not handler:
         if text:
             logger.info(f"Команда не распознана: {phrase}")
-            speaker.say(text)
+            speaker_silero.say(text)
         else:
             logger.warning(f"Команда не распознана: {cmd_text}")
             print(f"[{cmd_text}] → Команда не распознана и не реализована")
             play_audio.play("not_found")
         return
 
+    # If text already exist it will speak by SileroTTS
     if text:
         logger.info(f"Команда распознана: {phrase} → {handler}")
-        speaker.say(text)
+        speaker_silero.say(text)
     else:
         play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
-
+    
     try:
         func = resolve_attr(skills, handler)
         logger.debug(f"Resolved handler: {handler} → {func}")
@@ -112,7 +104,7 @@ def process_command(cmd_text: str) -> None:
             result = func()
 
         if result:
-            speaker.say(result)
+            speaker_silero.say(result)
             logger.info(f"[{cmd_text}] → Выполнена команда: {result}")
             print(f"[{cmd_text}] → Выполнена команда: {result}")
 
@@ -125,6 +117,17 @@ def process_command(cmd_text: str) -> None:
         play_audio.play("not_found")
 
 
+def splitter_commands(cmd_text: str = None):
+    splitters = [".", ",", " и ", " затем "]
+    commands = [cmd_text]
+    for splitter in splitters:
+        new_commands = []
+        for c in commands:
+            new_commands.extend([x.strip() for x in c.split(splitter) if x.strip()])
+        commands = new_commands
+    return commands
+
+
 def main() -> None:
     logger.info("Jarvis is starting...")
     ACTIVATION_TIMEOUT = 15  # 15 секунд
@@ -135,7 +138,7 @@ def main() -> None:
     while True:
         # Если не активен, ждем активационное слово через PorcupineListener
         if time.time() > active_until:
-            print("Ожидание активационного слова (Porcupine)...")
+            print(f"Ожидание активационного слова ({settings.PORCUPINE_KEYWORDS})...")
 
             if porcupine_listener.listen():
                 play_audio.play(random.choice(["great1", "great2", "great3"]))
@@ -148,7 +151,9 @@ def main() -> None:
 
         # Активен: слушаем команду через OfflineRecognizer
         print("Jarvis активен. Ожидание команды...")
+
         cmd_text = recognizer.listen().lower()
+
         print(f"Recognized command: {cmd_text}")
         logger.debug(f"Recognized command: {cmd_text}")
 
@@ -156,20 +161,14 @@ def main() -> None:
             print("Команда не распознана, повторите.")
             logger.warning("Команда не распознана, повторите.")
             continue
-
-        # Разделяем на несколько команд по разделителям (точка, запятая, 'и', 'затем')
-        splitters = [".", ",", " и ", " затем "]
-        commands = [cmd_text]
-        for splitter in splitters:
-            new_commands = []
-            for c in commands:
-                new_commands.extend([x.strip() for x in c.split(splitter) if x.strip()])
-            commands = new_commands
+        
+        # Split commands which talked user
+        commands = splitter_commands(cmd_text)
 
         for single_cmd in commands:
             trg = settings.TRIGGERS.intersection(single_cmd.split())
             if trg:
-                play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
+                play_audio.play(random.choice(["great1", "great2", "great3"]))
                 print("Активация продлена! Jarvis слушает еще 15 секунд...")
                 logger.info(f"Команда активирована триггером: {trg}")
                 active_until = time.time() + ACTIVATION_TIMEOUT
@@ -188,16 +187,29 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("Initializing...")
+    logger.info("Initializing...")
+
+    porcupine_keywords: tuple = settings.PORCUPINE_KEYWORDS # Porcupine keywords
+    porcupine_access_key: str = settings.PORCUPINE_ACCESS_KEY # Porcupine access key
+    vosk_model_path: str = settings.VOSK_MODEL_PATH # Vosk Small Ru model path
+    silero_tts_speaker: str = settings.SILERO_TTS_SPEAKER # SileroTTS speaker
+    audio_files_collections: dict = settings.AUDIO_FILES # Audio files
 
     porcupine_listener = PorcupineListener(
-        keywords=settings.PORCUPINE_KEYWORDS, access_key=settings.PORCUPINE_ACCESS_KEY
+        keywords=porcupine_keywords, access_key=porcupine_access_key
     )
-    recognizer = OfflineRecognizer(settings.VOSK_MODEL_PATH)
-    speaker = Speaker(settings.SILERO_TTS_SPEAKER)
-    play_audio = PlayAudio()
+    speaker_silero = SpeakerSileroTTS(silero_tts_speaker)
+    play_audio = PlayAudio(audio_files_collections)
 
-    print("Initialization complete. Jarvis is ready to listen.")
-    print("Press Ctrl+C to stop.")
+    if not settings.ONLINE_VOICE_RECOGNIZER_IS_ACTIVE:
+        recognizer = OfflineRecognizer(vosk_model_path)
+    else:
+        recognizer = OnlineRecognizer()
+
+    print(
+        "Initialization complete. Jarvis is ready to listen.\n"
+        "Press Ctrl+C to stop.\n"
+    )
 
     try:
         main()

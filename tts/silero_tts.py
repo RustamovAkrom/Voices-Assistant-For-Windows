@@ -3,7 +3,7 @@ import sounddevice as sd
 import time
 
 
-class Speaker:
+class SpeakerSileroTTS:
     language: str = "ru"  # Язык
     model_id: str = "ru_v3"  # Идентификатор модели
     sample_rate: int = 48000  # Частота дискретизации
