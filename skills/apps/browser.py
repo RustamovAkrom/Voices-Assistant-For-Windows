@@ -2,7 +2,7 @@ import os
 
 
 def open_browser():
-    path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" # Replace to your directory
     os.startfile(path)
 
 

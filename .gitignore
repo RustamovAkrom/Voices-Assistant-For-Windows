@@ -12,3 +12,6 @@ assistant.log
 example.py
 asistent.log
 controller
+dev.py
+news_parser.py
+old_main.py

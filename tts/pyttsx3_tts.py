@@ -1,7 +1,7 @@
 import pyttsx3
 
 
-class Speaker:
+class SpeakerPyTTSx3:
     def __init__(self):
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", 150)  # Скорость речи

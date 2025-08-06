@@ -1,15 +1,8 @@
 import webbrowser
 
 
-def search_web(*args: tuple, **kwargs) -> str:
-    print(args, kwargs)
-    query = str(args[0]) if args else None
-    phrase = kwargs.get("phrase", None)
-
-    if not query:
-        return "Что нужно найти?"
-
-    search_query = query.replace(phrase, "", 1).strip() if phrase else query
+def search_web(*args: tuple, **kwargs: dict) -> str:
+    search_query = kwargs.get("phrase", None)
 
     if not search_query:
         return "Что нужно найти?"
