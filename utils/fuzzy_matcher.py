@@ -14,12 +14,10 @@
 #     return best_match, best_score
 from rapidfuzz import process, fuzz
 
+
 def find_best_match(text, phrases, threshold=70):
     result = process.extractOne(
-        text,
-        phrases,
-        scorer=fuzz.partial_ratio,
-        score_cutoff=threshold
+        text, phrases, scorer=fuzz.partial_ratio, score_cutoff=threshold
     )
     if result:
         return result[0], result[1]

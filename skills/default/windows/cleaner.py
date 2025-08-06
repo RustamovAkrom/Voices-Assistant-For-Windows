@@ -31,10 +31,16 @@ def clear_recycle_bin():
 
 def clear_downloads_except_important(keep_extensions=None):
     """Clear downloads folder"""
-    
+
     if keep_extensions is None:
-        keep_extensions = ['.txt', '.pdf', '.docx', '.jpg', '.mp3']  # Примеры расширений для сохранения
-    downloads_path = Path.home() / 'Downloads'
+        keep_extensions = [
+            ".txt",
+            ".pdf",
+            ".docx",
+            ".jpg",
+            ".mp3",
+        ]  # Примеры расширений для сохранения
+    downloads_path = Path.home() / "Downloads"
     print(f"[Downloads] Очистка папки загрузок: {downloads_path}")
 
     for item in downloads_path.iterdir():
