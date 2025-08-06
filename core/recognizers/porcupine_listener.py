@@ -21,7 +21,7 @@ class PorcupineListener:
                 f"Please check you access key or get new key from https://picovoice.ai/platform/porcupine/"
             )
             sys.exit(1)
-        
+
         self.pa = pyaudio.PyAudio()
         self.stream = self.pa.open(
             format=pyaudio.paInt16,

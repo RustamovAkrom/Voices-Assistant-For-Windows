@@ -11,8 +11,6 @@ if settings.LOGGER_ACTIVE:
     handler = RotatingFileHandler(
         settings.LOGGER_FILE, maxBytes=5_000_000, backupCount=3, encoding="utf-8"
     )
-    formatter = logging.Formatter(
-        settings.LOGGER_FILE_FORMAT
-    )
+    formatter = logging.Formatter(settings.LOGGER_FILE_FORMAT)
     handler.setFormatter(formatter)
     logger.addHandler(handler)

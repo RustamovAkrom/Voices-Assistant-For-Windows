@@ -33,13 +33,20 @@ DEFAULT_DATA = [
     },
     # Do Screenshot
     {
-        "phrases": ["сделай скриншот", "скриншот", ],
+        "phrases": [
+            "сделай скриншот",
+            "скриншот",
+        ],
         "handler": "default.windows.screen.screenshot_windows",
         "param": False,
     },
     # Set volume max
     {
-        "phrases": ["звук на максимум", "увеличь громкость", "звук компьютера на максимум"],
+        "phrases": [
+            "звук на максимум",
+            "увеличь громкость",
+            "звук компьютера на максимум",
+        ],
         "handler": "default.windows.volumes.set_volume_max",
         "param": False,
     },
@@ -51,11 +58,15 @@ DEFAULT_DATA = [
     },
     # Set volume min
     {
-        "phrases": ["отключить звук", "выключи звук", "отключения звука", "тихие режим"],
+        "phrases": [
+            "отключить звук",
+            "выключи звук",
+            "отключения звука",
+            "тихие режим",
+        ],
         "handler": "default.windows.volumes.set_volume_min",
         "param": False,
-    }
-
+    },
 ]
 
 ANSWERS_TO_WORDS_DATA = [
@@ -105,7 +116,6 @@ SEARCH_DATA = [
             "расскажи о",
             "расскажи про",
             "расскажи что такое",
-
         ],
         "handler": "wiki.search_wiki",
         "param": True,
@@ -131,12 +141,11 @@ SEARCH_DATA = [
             "расскажи о",
             "что пишут о",
             "найди инфу",
-            "что известно про"
+            "что известно про",
         ],
         "handler": "news.search_news",
-        "param": True
-    }
-
+        "param": True,
+    },
 ]
 
 APPS_DATA = [

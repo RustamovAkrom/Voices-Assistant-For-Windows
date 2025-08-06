@@ -13,13 +13,14 @@ import re
 import skills
 from utils.resolve import resolve_attr
 from utils.fuzzy_matcher import find_best_match
-from tts.silero_tts import SpeakerSileroTTS
+from core.speakers.silero_tts import SpeakerSileroTTS
+
 # from tts.pyttsx3_tts import SpeakerPyTTSx3
-from tts.audio_play import PlayAudio
-from recognizer.offline import OfflineRecognizer
-from recognizer.online import OnlineRecognizer
-from recognizer.porcupine_listener import PorcupineListener
-from core.logger import logger
+from core.speakers.audio_play import PlayAudio
+from core.recognizers.offline import OfflineRecognizer
+from core.recognizers.online import OnlineRecognizer
+from core.recognizers.porcupine_listener import PorcupineListener
+from utils.logger import logger
 from core import settings
 from core import words_data as words
 
@@ -47,9 +48,9 @@ def find_command_from_dataset(user_text: str, dataset: list, threshold: int = 70
                 item.get("handler", None),
                 cleaned_text.strip(".|"),
                 item.get("text", None),
-                item.get("param", False)
+                item.get("param", False),
             )
-        
+
     return (None, None, None, False)
 
 
@@ -61,7 +62,9 @@ def process_command(cmd_text: str) -> None:
     """
 
     logger.debug(f"process_command: cmd_text='{cmd_text}'")
-    handler, phrase, text, param_required = find_command_from_dataset(cmd_text, words.data_set, 95)
+    handler, phrase, text, param_required = find_command_from_dataset(
+        cmd_text, words.data_set, 95
+    )
 
     # If handler not found run that code
     if not handler:
@@ -80,7 +83,7 @@ def process_command(cmd_text: str) -> None:
         speaker_silero.say(text)
     else:
         play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
-    
+
     try:
         func = resolve_attr(skills, handler)
         logger.debug(f"Resolved handler: {handler} → {func}")
@@ -118,7 +121,7 @@ def process_command(cmd_text: str) -> None:
 
 
 def splitter_commands(cmd_text: str = None):
-    splitters = [".", ",", " и ", " затем "]
+    splitters = settings.SPLITTERS
     commands = [cmd_text]
     for splitter in splitters:
         new_commands = []
@@ -161,7 +164,7 @@ def main() -> None:
             print("Команда не распознана, повторите.")
             logger.warning("Команда не распознана, повторите.")
             continue
-        
+
         # Split commands which talked user
         commands = splitter_commands(cmd_text)
 
@@ -189,22 +192,17 @@ if __name__ == "__main__":
     print("Initializing...")
     logger.info("Initializing...")
 
-    porcupine_keywords: tuple = settings.PORCUPINE_KEYWORDS # Porcupine keywords
-    porcupine_access_key: str = settings.PORCUPINE_ACCESS_KEY # Porcupine access key
-    vosk_model_path: str = settings.VOSK_MODEL_PATH # Vosk Small Ru model path
-    silero_tts_speaker: str = settings.SILERO_TTS_SPEAKER # SileroTTS speaker
-    audio_files_collections: dict = settings.AUDIO_FILES # Audio files
-
+    # Инициализация компонентов
     porcupine_listener = PorcupineListener(
-        keywords=porcupine_keywords, access_key=porcupine_access_key
+        keywords=settings.PORCUPINE_KEYWORDS, access_key=settings.PORCUPINE_ACCESS_KEY
     )
-    speaker_silero = SpeakerSileroTTS(silero_tts_speaker)
-    play_audio = PlayAudio(audio_files_collections)
-
-    if not settings.ONLINE_VOICE_RECOGNIZER_IS_ACTIVE:
-        recognizer = OfflineRecognizer(vosk_model_path)
-    else:
-        recognizer = OnlineRecognizer()
+    speaker_silero = SpeakerSileroTTS(settings.SILERO_TTS_SPEAKER)
+    play_audio = PlayAudio(settings.AUDIO_FILES)
+    recognizer = (
+        OnlineRecognizer()
+        if settings.USE_ONLINE_RECOGNIZER
+        else OfflineRecognizer(settings.VOSK_MODEL_PATH)
+    )
 
     print(
         "Initialization complete. Jarvis is ready to listen.\n"

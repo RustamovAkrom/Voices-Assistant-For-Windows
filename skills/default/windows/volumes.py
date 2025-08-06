@@ -28,4 +28,8 @@ def set_volume_min() -> None:
     controle_volume(0)
 
 
-__all__ = ("set_volume_max", "set_volume_mid", "set_volume_min", )
+__all__ = (
+    "set_volume_max",
+    "set_volume_mid",
+    "set_volume_min",
+)

@@ -1,8 +1,9 @@
 import sys
-from tts.audio_play import PlayAudio
+from core.speakers.audio_play import PlayAudio
 from core import settings
 
 play_audio = PlayAudio(settings.AUDIO_FILES)
+
 
 def exit_handle():
     """
