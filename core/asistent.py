@@ -132,6 +132,7 @@ class VoicesAsistentProcess:
 
 
 class VoicesAsistentRunner:
+    
     def __init__(
         self,
         dataset: list[dict],
@@ -194,7 +195,7 @@ class VoicesAsistentRunner:
                 for t in trg:
                     single_cmd = single_cmd.replace(t, "").strip()
                 if single_cmd:
-                    logger.debug(f"Команда после триггера: {cmd}")
+                    logger.debug(f"Команда после триггера: {cmd_text}")
                     voices_asistent.process_command(cmd_text)
                 continue
             logger.debug(f"Обработка команды: {single_cmd}")
