@@ -8,6 +8,7 @@ from core import settings
 from utils.fuzzy_matcher import find_best_match
 from utils.resolve import resolve_attr
 from utils.logger import logger
+import threading
 import skills
 import random
 import string
@@ -73,11 +74,8 @@ class VoicesAsistentProcess:
 
     def process_command(self, user_text) -> None:
         logger.debug(f"process_command: cmd_text='{user_text}'")
-        handler, phrase, text, param_required = self.find_command_from_dataset(
-            user_text
-        )
+        handler, phrase, text, param_required = self.find_command_from_dataset(user_text)
 
-        # If handler not found run that code
         if not handler:
             if text:
                 logger.info(f"Команда не распознана: {phrase}")
@@ -88,7 +86,6 @@ class VoicesAsistentProcess:
                 self.play_audio.play("not_found")
             return
 
-        # If text already exist it will speak by SileroTTS
         if text:
             logger.info(f"Команда распознана: {phrase} → {handler}")
             self.speaker_silero.say(text)
@@ -99,36 +96,91 @@ class VoicesAsistentProcess:
             func = resolve_attr(skills, handler)
             logger.debug(f"Resolved handler: {handler} → {func}")
 
-            if param_required:
-                # Если требуется параметр, передаем его в функцию
-                logger.debug(
-                    f"Выполнение команды с параметрами: {user_text}, phrase={phrase}, text={text}, param_required={param_required}"
-                )
-                result = func(
-                    user_text,
-                    handler=handler,
-                    phrase=phrase,
-                    text=text,
-                    param_required=param_required,
-                )
-            else:
-                logger.debug(
-                    f"Выполнение команды без параметров: {user_text}, handler={handler}, phrase={phrase}, text={text}, param_required={param_required}"
-                )
-                result = func()
+            def run_func():
+                try:
+                    if param_required:
+                        func(
+                            user_text, 
+                            handler=handler,
+                            phrase=phrase,
+                            text=text, 
+                            param_required=param_required,
+                            speaker_silero=self.speaker_silero,
+                            speaker_pyttsx3=self.speaker_pyttsx3,
+                            play_audio=self.play_audio,
+                        )
+                    else:
+                        func()
+                    logger.info(f"[{user_text}] → Команда успешно выполнена")
+                except Exception as inner_e:
+                    logger.error(f"[{user_text}] → Ошибка внутри потока: {inner_e}")
+                    self.play_audio.play("not_found")
 
-            if result:
-                self.speaker_silero.say(result)
-                logger.info(f"[{user_text}] → Выполнена команда: {result}")
-                print(f"[{user_text}] → Выполнена команда: {result}")
-
-            else:
-                print(f"[{user_text}] → Команда выполнена, но нет ответа")
+            threading.Thread(target=run_func).start()
 
         except Exception as e:
             logger.error(f"[{user_text}] → Ошибка при выполнении команды: {e}")
             print(f"[{user_text}] → Ошибка при выполнении команды: {e}")
             self.play_audio.play("not_found")
+
+    # def process_command(self, user_text) -> None:
+    #     logger.debug(f"process_command: cmd_text='{user_text}'")
+    #     handler, phrase, text, param_required = self.find_command_from_dataset(
+    #         user_text
+    #     )
+
+    #     # If handler not found run that code
+    #     if not handler:
+    #         if text:
+    #             logger.info(f"Команда не распознана: {phrase}")
+    #             self.speaker_silero.say(text)
+    #         else:
+    #             logger.warning(f"Команда не распознана: {user_text}")
+    #             print(f"[{user_text}] → Команда не распознана и не реализована")
+    #             self.play_audio.play("not_found")
+    #         return
+
+    #     # If text already exist it will speak by SileroTTS
+    #     if text:
+    #         logger.info(f"Команда распознана: {phrase} → {handler}")
+    #         self.speaker_silero.say(text)
+    #     else:
+    #         self.play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
+
+    #     try:
+    #         func = resolve_attr(skills, handler)
+    #         logger.debug(f"Resolved handler: {handler} → {func}")
+
+    #         if param_required:
+    #             # Если требуется параметр, передаем его в функцию
+    #             logger.debug(
+    #                 f"Выполнение команды с параметрами: {user_text}, phrase={phrase}, text={text}, param_required={param_required}"
+    #             )
+    #             result = func(
+    #                 user_text,
+    #                 handler=handler,
+    #                 phrase=phrase,
+    #                 text=text,
+    #                 param_required=param_required,
+    #             )
+    #         else:
+    #             logger.debug(
+    #                 f"Выполнение команды без параметров: {user_text}, handler={handler}, phrase={phrase}, text={text}, param_required={param_required}"
+    #             )
+    #             result = func()
+
+    #         if result:
+    #             self.speaker_silero.say(result)
+    #             logger.info(f"[{user_text}] → Выполнена команда: {result}")
+    #             print(f"[{user_text}] → Выполнена команда: {result}")
+
+    #         else:
+    #             print(f"[{user_text}] → Команда выполнена, но нет ответа")
+
+    #     except Exception as e:
+    #         logger.error(f"[{user_text}] → Ошибка при выполнении команды: {e}")
+    #         print(f"[{user_text}] → Ошибка при выполнении команды: {e}")
+    #         self.play_audio.play("not_found")
 
 
 class VoicesAsistentRunner:
@@ -208,7 +260,7 @@ class VoicesAsistentRunner:
         logger.info("Jarvis is starting...")
         self.play_startup_sound()
 
-        while True:
+        while settings.ASISTENT_IS_ACTIVE:
             if time.time() > self.active_until:
                 print(
                     f"Ожидание активационного слова ({settings.PORCUPINE_KEYWORDS})..."
@@ -228,12 +280,12 @@ class VoicesAsistentRunner:
                 print("Команда не распознана, повторите.")
                 logger.warning("Команда не распознана, повторите.")
                 continue
+            else:
+                print(f"Recognized command: {cmd_text}")
+                logger.debug(f"Recognized command: {cmd_text}")
+                self.handle_command(cmd_text=cmd_text)
 
-            print(f"Recognized command: {cmd_text}")
-            logger.debug(f"Recognized command: {cmd_text}")
-            self.handle_command(cmd_text=cmd_text)
-
-            self.active_until = time.time() + self.ACTIVATION_TIMEOUT
+                self.active_until = time.time() + self.ACTIVATION_TIMEOUT
 
     def close(self):
         self.porcupine_listener.close()

@@ -10,4 +10,6 @@ def exit_handle():
     Завершает программу с кодом 1.
     """
     play_audio.play("off")
-    sys.exit(1)
+    sys.exit()
+    settings.ASISTENT_IS_ACTIVE = False
+

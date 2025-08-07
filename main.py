@@ -17,7 +17,7 @@ import sys
 def main() -> None:
     voices_asistent_runner = VoicesAsistentRunner(
         dataset=data_set,
-        speaker_silero=SpeakerSileroTTS(),
+        speaker_silero=SpeakerSileroTTS(settings.SILERO_TTS_SPEAKER),
         speaker_pyttsx3=SpeakerPyTTSx3(),
         play_audio=PlayAudio(settings.AUDIO_FILES),
         porcupine_listener=PorcupineListener(

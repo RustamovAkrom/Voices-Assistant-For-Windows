@@ -7,6 +7,7 @@ load_dotenv(find_dotenv(".env"))
 # Activation settings for Porcupine wake word detection
 PORCUPINE_KEYWORDS = ("jarvis",)
 
+ASISTENT_IS_ACTIVE = True
 # If you want voices recognitions detect online, you would replace value to `True`
 USE_ONLINE_RECOGNIZER = False
 
@@ -33,7 +34,7 @@ LOGGER_ACTIVE = os.getenv("LOGGER_ACTIVE", True)
 LOGGER_FILE_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 # Default speaker for the Silero TTS (Text-to-Speech) engine
-SILERO_TTS_SPEAKER = "aidar"  # Default speaker for Silero TTS example: "aidar", "baya", "jane", "omaz", "xenia"
+SILERO_TTS_SPEAKER = "xenia"  # Default speaker for Silero TTS example: "aidar", "baya", "jane", "omaz", "xenia"
 
 # Auto play audo files settings please do not tuch
 AUDIO_FILES = {
