@@ -85,7 +85,6 @@ ANSWERS_TO_WORDS_DATA = [
         ],
         "handler": "default.answers.simple.simple_answer",
         "param": False,
-        "text": "Привет! Чем могу помочь?",
     },
 ]
 
@@ -103,6 +102,8 @@ SEARCH_DATA = [
             "поиск в интернете",
             "поиск информации в интернете",
             "найти информацию",
+            "найти в интернете кто такой",
+            "поищи в интернете",
         ],
         "handler": "web.search_web",
         "param": True,
@@ -236,6 +237,7 @@ APPS_DATA = [
             "музыку поставь",
             "музыку давай",
             "воспроизведи музыку",
+            "поставь другую музыку",
         ],
         "handler": "apps.music.open_music",
         "param": False,

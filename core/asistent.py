@@ -191,15 +191,18 @@ class VoicesAsistentRunner:
             if trg:
                 self.play_activation_sound()
                 print("Активация продлена! Jarvis слушает еще 15 секунд...")
+                logger.info(f"Команда активирована триггером: {trg}")
                 self.active_until = time.time() + self.ACTIVATION_TIMEOUT
+                cmd = single_cmd
                 for t in trg:
-                    single_cmd = single_cmd.replace(t, "").strip()
-                if single_cmd:
-                    logger.debug(f"Команда после триггера: {cmd_text}")
-                    voices_asistent.process_command(cmd_text)
+                    cmd = cmd.replace(t, "").strip()
+                if cmd:
+                    logger.debug(f"Команда после триггера: {cmd}")
+                    voices_asistent.process_command(cmd)
                 continue
-            logger.debug(f"Обработка команды: {single_cmd}")
-            voices_asistent.process_command(cmd_text)
+            else:
+                logger.debug(f"Обработка команды: {single_cmd}")
+                voices_asistent.process_command(single_cmd)
 
     def run(self):
         logger.info("Jarvis is starting...")

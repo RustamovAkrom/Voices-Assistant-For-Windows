@@ -15,7 +15,7 @@ TRIGGERS = {
     "djarvis",
     "чарльз",
 }
-SPLITTERS = ["и", "после", "затем", "далее", "а", "но", "или", "также", "кроме того"]
+SPLITTERS = [".", ",", " и ", " затем "]
 
 VOSK_MODEL_PATH = "data/models/vosk"
 
@@ -29,7 +29,7 @@ NEWS_API_ACCESS_KEY = os.getenv("NEWS_API_ACCESS_KEY")
 
 # Path to the directory where the audio files are stored
 LOGGER_FILE = "asistent.log"
-LOGGER_ACTIVE = True
+LOGGER_ACTIVE = os.getenv("LOGGER_ACTIVE", True)
 LOGGER_FILE_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 # Default speaker for the Silero TTS (Text-to-Speech) engine
