@@ -67,6 +67,41 @@ DEFAULT_DATA = [
         "handler": "default.windows.volumes.set_volume_min",
         "param": False,
     },
+    # Clear recycle bin
+    {
+        "phrases": [
+            "очистить корзинку",
+            "очистки корзинку",
+            "очисти корзинку",
+        ],
+        "handler": "default.windows.cleaner.clear_recycle_bin",
+        "param": False,
+    },
+    {
+        "phrases": [
+            "очисти ненужные файлы",
+            "очисти временные файлы",
+        ],
+        "handler": "default.windows.cleaner.clear_temp_folder",
+        "param": False,
+    },
+    {
+        "phrases": [
+            "очисти компьютер",
+            "очистить загрузки",
+        ],
+        "handler": "default.windows.cleaner.clear_downloads_except_import",
+        "param": False,
+    },
+    {
+        "phrases": [
+            "очисти компьютер",
+            "удалить все нужные файлы с компьютера",
+            "давай очистим компьютер",
+        ],
+        "handler": "default.windows.cleaner.clear_all_files",
+        "param": False,
+    },
 ]
 
 ANSWERS_TO_WORDS_DATA = [
@@ -86,6 +121,7 @@ ANSWERS_TO_WORDS_DATA = [
         "handler": "default.answers.simple.simple_answer",
         "param": False,
     },
+    # 
 ]
 
 SEARCH_DATA = [

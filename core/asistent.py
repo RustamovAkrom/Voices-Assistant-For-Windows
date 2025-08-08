@@ -112,6 +112,7 @@ class VoicesAsistentProcess:
                     else:
                         func()
                     logger.info(f"[{user_text}] → Команда успешно выполнена")
+                    
                 except Exception as inner_e:
                     logger.error(f"[{user_text}] → Ошибка внутри потока: {inner_e}")
                     self.play_audio.play("not_found")
