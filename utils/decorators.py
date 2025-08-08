@@ -3,16 +3,18 @@ from functools import wraps
 from utils.logger import logger
 
 
-def timeit(func):
-    """Измеряет время выполнения функции."""
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        result = func(*args, **kwargs)
-        duration = time.time() - start
-        logger.info(f"Function {func.__name__} executed in {duration:.4f}s")
-        return result
-    return wrapper
+def timeit():
+    def decorator(func):
+        """Измеряет время выполнения функции."""
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            result = func(*args, **kwargs)
+            duration = time.time() - start
+            logger.info(f"Function {func.__name__} executed in {duration:.4f}s")
+            return result
+        return wrapper
+    return decorator
 
 
 def catch_errors(log=True, default=None):

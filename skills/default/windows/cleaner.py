@@ -3,11 +3,12 @@ import ctypes
 from pathlib import Path
 import tempfile
 
-from utils.decorators import timeit, log_command
+from utils.decorators import timeit, log_command, catch_errors
 
 
 @log_command("default.windows.cleaner.clear_temp_folder")
-@timeit
+@catch_errors()
+@timeit()
 def clear_temp_folder():
     """Clear temp files folder"""
 
@@ -24,7 +25,8 @@ def clear_temp_folder():
 
 
 @log_command("default.windows.cleaner.clear_recycle_bin")
-@timeit
+@catch_errors()
+@timeit()
 def clear_recycle_bin():
     """Clear recycle bin"""
 
@@ -36,7 +38,8 @@ def clear_recycle_bin():
 
 
 @log_command("default.windows.cleaner.clear_windows_except_important")
-@timeit
+@catch_errors()
+@timeit()
 def clear_downloads_except_important(keep_extensions=None):
     """Clear downloads folder"""
 
@@ -67,3 +70,5 @@ def clean_all_files():
     clear_recycle_bin()
     clear_downloads_except_important()
     clear_temp_folder()
+
+__all__ = ("clear_temp_folder", "clear_downloads_except_important", "clean_all_files", "clear_recycle_bin")

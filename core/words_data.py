@@ -77,6 +77,7 @@ DEFAULT_DATA = [
         "handler": "default.windows.cleaner.clear_recycle_bin",
         "param": False,
     },
+    # Clear Temp folder files
     {
         "phrases": [
             "очисти ненужные файлы",
@@ -85,6 +86,7 @@ DEFAULT_DATA = [
         "handler": "default.windows.cleaner.clear_temp_folder",
         "param": False,
     },
+    # Clear Downloads files
     {
         "phrases": [
             "очисти компьютер",
@@ -93,6 +95,7 @@ DEFAULT_DATA = [
         "handler": "default.windows.cleaner.clear_downloads_except_import",
         "param": False,
     },
+    # Clear all files from downloads, recycle bin, temp
     {
         "phrases": [
             "очисти компьютер",
