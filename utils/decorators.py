@@ -1,6 +1,7 @@
 import time
 from functools import wraps
 from utils.logger import logger
+from utils.base import check_internet
 
 
 def timeit():
@@ -54,5 +55,17 @@ def log_command(handler_path):
         def wrapper(*args, **kwargs):
             logger.info(f"[COMMAND] Handler called: {handler_path}")
             return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
+def require_internet():
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            if check_internet():
+                return func(*args, **kwargs)
+            else:
+                logger.warning(f"[COMMAND]({func.__name__}) can`t work because internet is desconnected!")
+            return None
         return wrapper
     return decorator

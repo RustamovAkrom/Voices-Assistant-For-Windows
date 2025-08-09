@@ -1,8 +1,10 @@
 import requests
 import webbrowser
 from core import settings
+from utils.decorators import require_internet, log_command, timeit, catch_errors
 
 
+@catch_errors()
 def get_news_data(query: str, api_key: str, language="en", speaker=None, max_results=3) -> None:
     url = f"https://newsapi.org/v2/everything?q={query}&language={language}&pageSize={max_results}&sortBy=publishedAt"
     headers = {"Authorization": api_key}
@@ -25,6 +27,9 @@ def get_news_data(query: str, api_key: str, language="en", speaker=None, max_res
         speaker.say("Нет новостей по вашему запросу.")
 
 
+@log_command("news.skill.search_news")
+@timeit()
+@require_internet()
 def search_news(*args: tuple, **kwargs: dict) -> str:
     """
     Функция для получения последних новостей по запросу.

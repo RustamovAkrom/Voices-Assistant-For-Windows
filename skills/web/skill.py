@@ -1,6 +1,11 @@
 import webbrowser
 
+from utils.decorators import require_internet, log_command, timeit
 
+
+log_command("web.skill.search_web")
+@timeit()
+@require_internet()
 def search_web(*args: tuple, **kwargs: dict) -> str:
     
     search_query = kwargs.get("phrase", None)

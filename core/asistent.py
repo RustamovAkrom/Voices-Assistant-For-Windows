@@ -52,8 +52,7 @@ class VoicesAsistentProcess:
             words.pop(0)
         return " ".join(words)
 
-    def find_command_from_dataset(self, user_text, threshold: int = 95):
-        # original_text = user_text
+    def find_command_from_dataset(self, user_text:str, threshold: int = 95):
         user_text = user_text.lower().strip()
         user_text = user_text.translate(str.maketrans("", "", string.punctuation))
 
@@ -68,7 +67,7 @@ class VoicesAsistentProcess:
                     cleaned_text.strip(".|"),
                     item.get("text", None),
                     item.get("param", False),
-                )
+                )                
 
         return (None, None, None, False)
 
@@ -81,6 +80,7 @@ class VoicesAsistentProcess:
                 logger.info(f"Команда не распознана: {phrase}")
                 self.speaker_silero.say(text)
             else:
+                # There may make AI response to unrecognized commands!
                 logger.warning(f"Команда не распознана: {user_text}")
                 print(f"[{user_text}] → Команда не распознана и не реализована")
                 self.play_audio.play("not_found")
@@ -123,65 +123,6 @@ class VoicesAsistentProcess:
             logger.error(f"[{user_text}] → Ошибка при выполнении команды: {e}")
             print(f"[{user_text}] → Ошибка при выполнении команды: {e}")
             self.play_audio.play("not_found")
-
-    # def process_command(self, user_text) -> None:
-    #     logger.debug(f"process_command: cmd_text='{user_text}'")
-    #     handler, phrase, text, param_required = self.find_command_from_dataset(
-    #         user_text
-    #     )
-
-    #     # If handler not found run that code
-    #     if not handler:
-    #         if text:
-    #             logger.info(f"Команда не распознана: {phrase}")
-    #             self.speaker_silero.say(text)
-    #         else:
-    #             logger.warning(f"Команда не распознана: {user_text}")
-    #             print(f"[{user_text}] → Команда не распознана и не реализована")
-    #             self.play_audio.play("not_found")
-    #         return
-
-    #     # If text already exist it will speak by SileroTTS
-    #     if text:
-    #         logger.info(f"Команда распознана: {phrase} → {handler}")
-    #         self.speaker_silero.say(text)
-    #     else:
-    #         self.play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
-
-    #     try:
-    #         func = resolve_attr(skills, handler)
-    #         logger.debug(f"Resolved handler: {handler} → {func}")
-
-    #         if param_required:
-    #             # Если требуется параметр, передаем его в функцию
-    #             logger.debug(
-    #                 f"Выполнение команды с параметрами: {user_text}, phrase={phrase}, text={text}, param_required={param_required}"
-    #             )
-    #             result = func(
-    #                 user_text,
-    #                 handler=handler,
-    #                 phrase=phrase,
-    #                 text=text,
-    #                 param_required=param_required,
-    #             )
-    #         else:
-    #             logger.debug(
-    #                 f"Выполнение команды без параметров: {user_text}, handler={handler}, phrase={phrase}, text={text}, param_required={param_required}"
-    #             )
-    #             result = func()
-
-    #         if result:
-    #             self.speaker_silero.say(result)
-    #             logger.info(f"[{user_text}] → Выполнена команда: {result}")
-    #             print(f"[{user_text}] → Выполнена команда: {result}")
-
-    #         else:
-    #             print(f"[{user_text}] → Команда выполнена, но нет ответа")
-
-    #     except Exception as e:
-    #         logger.error(f"[{user_text}] → Ошибка при выполнении команды: {e}")
-    #         print(f"[{user_text}] → Ошибка при выполнении команды: {e}")
-    #         self.play_audio.play("not_found")
 
 
 class VoicesAsistentRunner:
