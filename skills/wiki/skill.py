@@ -10,7 +10,7 @@ def search_wiki(*args: tuple, **kwargs: dict) -> str:
 
     if not search_query:
         return "Что нужно найти?"
-    
+
     if not speaker_silero:
         return "Error speaker Silero not found"
 
@@ -19,13 +19,16 @@ def search_wiki(*args: tuple, **kwargs: dict) -> str:
         speaker_silero.say(f"Вот что я нашел: {summary}")
 
     except wikipedia.exceptions.DisambiguationError as e:
-        speaker_silero.say(f"Найдено несколько вариантов: {e.options}. Пожалуйста, уточните запрос.")
+        speaker_silero.say(
+            f"Найдено несколько вариантов: {e.options}. Пожалуйста, уточните запрос."
+        )
 
     except wikipedia.exceptions.PageError:
         search_url = f"https://google.com/search?q={search_query}"
         webbrowser.open(search_url)
-        speaker_silero.say("Я не нашел информации по вашему запросу. Открыл Google для поиска.")
+        speaker_silero.say(
+            "Я не нашел информации по вашему запросу. Открыл Google для поиска."
+        )
 
     except Exception as e:
         speaker_silero.say(f"Произошла ошибка при поиске: {str(e)}")
-

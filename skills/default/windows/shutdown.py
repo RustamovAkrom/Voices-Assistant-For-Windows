@@ -13,4 +13,5 @@ def shutdown_windows() -> str:
     except Exception as e:
         return f"Не удалось выключить компьютер: {str(e)}"
 
-__all__ = ("shutdown_windows", )
+
+__all__ = ("shutdown_windows",)

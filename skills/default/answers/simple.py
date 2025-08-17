@@ -24,7 +24,7 @@ def simple_answer(*args: tuple, **kwargs: dict) -> None:
 
 def thanks_answer(*args: tuple, **kwargs: dict) -> None:
     play_audio = kwargs.get("play_audio", None)
-    
+
     if not play_audio:
         print("Play Audio not found")
 

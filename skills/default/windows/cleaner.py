@@ -71,4 +71,10 @@ def clean_all_files():
     clear_downloads_except_important()
     clear_temp_folder()
 
-__all__ = ("clear_temp_folder", "clear_downloads_except_important", "clean_all_files", "clear_recycle_bin")
+
+__all__ = (
+    "clear_temp_folder",
+    "clear_downloads_except_important",
+    "clean_all_files",
+    "clear_recycle_bin",
+)

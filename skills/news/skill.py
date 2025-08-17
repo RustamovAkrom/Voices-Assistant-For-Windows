@@ -5,7 +5,9 @@ from utils.decorators import require_internet, log_command, timeit, catch_errors
 
 
 @catch_errors()
-def get_news_data(query: str, api_key: str, language="en", speaker=None, max_results=3) -> None:
+def get_news_data(
+    query: str, api_key: str, language="en", speaker=None, max_results=3
+) -> None:
     url = f"https://newsapi.org/v2/everything?q={query}&language={language}&pageSize={max_results}&sortBy=publishedAt"
     headers = {"Authorization": api_key}
 
@@ -39,16 +41,16 @@ def search_news(*args: tuple, **kwargs: dict) -> str:
 
     if not search_query:
         return "Что нужно найти?"
-    
+
     if not speaker_silero:
         return "Error speaker Silero not found"
 
     get_news_data(
-        search_query, 
-        settings.NEWS_API_ACCESS_KEY, 
-        language="ru", 
+        search_query,
+        settings.NEWS_API_ACCESS_KEY,
+        language="ru",
         speaker=speaker_silero,
-        max_results=3
+        max_results=3,
     )
 
 

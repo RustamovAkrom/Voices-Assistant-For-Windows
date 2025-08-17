@@ -13,4 +13,5 @@ def restart_windows() -> str:
     except Exception as e:
         return f"Не удалось перезагрузить компьютер: {str(e)}"
 
-__all__ = ("restart_windows", )
+
+__all__ = ("restart_windows",)

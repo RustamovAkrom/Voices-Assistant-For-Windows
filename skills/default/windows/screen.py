@@ -16,4 +16,5 @@ def screenshot_windows():
     image.save(path)
     return f"Скриншот сохранен на рабочем столе: {path}"
 
-__all__ = ("screenshot_windows", )
+
+__all__ = ("screenshot_windows",)

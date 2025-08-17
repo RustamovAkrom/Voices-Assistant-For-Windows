@@ -52,7 +52,7 @@ class VoicesAsistentProcess:
             words.pop(0)
         return " ".join(words)
 
-    def find_command_from_dataset(self, user_text:str, threshold: int = 95):
+    def find_command_from_dataset(self, user_text: str, threshold: int = 95):
         user_text = user_text.lower().strip()
         user_text = user_text.translate(str.maketrans("", "", string.punctuation))
 
@@ -67,18 +67,20 @@ class VoicesAsistentProcess:
                     cleaned_text.strip(".|"),
                     item.get("param", False),
                     item.get("is_active", True),
-                )                
+                )
 
         return (None, None, False, True)
 
     def process_command(self, user_text) -> None:
         logger.debug(f"process_command: cmd_text='{user_text}'")
-        handler, phrase, param_required, is_active = self.find_command_from_dataset(user_text)
+        handler, phrase, param_required, is_active = self.find_command_from_dataset(
+            user_text
+        )
 
         if not is_active:
             print(f"[{handler}] Command is not Active")
             return
-        
+
         if not handler:
 
             # There may make AI response to unrecognized commands!
@@ -97,7 +99,7 @@ class VoicesAsistentProcess:
                 try:
                     if param_required:
                         func(
-                            user_text, 
+                            user_text,
                             handler=handler,
                             phrase=phrase,
                             param_required=param_required,
@@ -108,7 +110,7 @@ class VoicesAsistentProcess:
                     else:
                         func()
                     logger.info(f"[{user_text}] → Команда успешно выполнена")
-                    
+
                 except Exception as inner_e:
                     print(inner_e)
                     logger.error(f"[{user_text}] → Ошибка внутри потока: {inner_e}")
@@ -128,7 +130,7 @@ class VoicesAsistentProcess:
 
 
 class VoicesAsistentRunner:
-    
+
     def __init__(
         self,
         dataset: list[dict],

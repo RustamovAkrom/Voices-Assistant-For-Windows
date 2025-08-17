@@ -3,7 +3,6 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from utils.decorators import log_command, catch_errors, timeit
 
 
-
 def controle_volume(volume: float) -> None:
     """
     Control the system volume.

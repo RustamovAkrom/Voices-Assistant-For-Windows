@@ -14,6 +14,6 @@ def say_time(*args: tuple, **kwargs: dict):
 
     if not speaker_pyttsx3:
         print("Error speaker PyTTSx3 not found")
-    
+
     current_time = datetime.now().strftime("%H:%M:%S")
     speaker_pyttsx3.say(f"сегодня время: {current_time}")

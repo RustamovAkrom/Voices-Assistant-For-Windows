@@ -14,7 +14,7 @@ def say_date(*args: tuple, **kwargs: dict):
 
     if not speaker_pyttsx3:
         print("Error speaker PyTTSx3 not found")
-    
+
     date_object = datetime.date(datetime.now())
     current_day = date_object.day
     current_month = date_object.month

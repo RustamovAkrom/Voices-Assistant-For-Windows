@@ -18,18 +18,21 @@ DEFAULT_DATA = [
         "phrases": ["перезагрузить компьютер"],
         "handler": "default.windows.restart.restart_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Shutdown PK
     {
         "phrases": ["выключи компьютер"],
         "handler": "default.windows.shutdown.shutdown_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Sleep PK
     {
         "phrases": ["спящий режим"],
         "handler": "default.windows.sleep.sleep_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Do Screenshot
     {
@@ -76,6 +79,7 @@ DEFAULT_DATA = [
         ],
         "handler": "default.windows.cleaner.clear_recycle_bin",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Clear Temp folder files
     {
@@ -94,6 +98,7 @@ DEFAULT_DATA = [
         ],
         "handler": "default.windows.cleaner.clear_downloads_except_import",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Clear all files from downloads, recycle bin, temp
     {
@@ -104,7 +109,7 @@ DEFAULT_DATA = [
         ],
         "handler": "default.windows.cleaner.clean_all_files",
         "param": False,
-        "is_active": False
+        "is_active": False,  # replace to True
     },
     # Say Time
     {
@@ -161,7 +166,7 @@ ANSWERS_TO_WORDS_DATA = [
         "handler": "default.answers.simple.thanks_answer",
         "param": True,
     },
-    # 
+    #
 ]
 
 SEARCH_DATA = [
@@ -226,7 +231,7 @@ SEARCH_DATA = [
 ]
 
 APPS_DATA = [
-    # Telegram
+    # Telegram Open
     {
         "phrases": [
             "открой телеграм",
@@ -237,6 +242,7 @@ APPS_DATA = [
         "handler": "apps.telegram.open_telegram",
         "param": False,
     },
+    # Telegram close
     {
         "phrases": [
             "закрой телеграм",
@@ -248,7 +254,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Notepad
+    # Notepad Open
     {
         "phrases": [
             "открой блокнот",
@@ -259,6 +265,7 @@ APPS_DATA = [
         "handler": "apps.notepad.open_notepad",
         "param": False,
     },
+    # Notepad Close
     {
         "phrases": [
             "закрой блокнот",
@@ -270,7 +277,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Browser
+    # Browser Open
     {
         "phrases": [
             "открой гугл",
@@ -283,6 +290,7 @@ APPS_DATA = [
         "handler": "apps.browser.open_browser",
         "param": False,
     },
+    # Browser Close
     {
         "phrases": [
             "закрой гугл",
@@ -296,7 +304,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Music
+    # Music Play
     {
         "phrases": [
             "открой музыку",
@@ -318,6 +326,7 @@ APPS_DATA = [
         "handler": "apps.music.open_music",
         "param": False,
     },
+    # Music Stop
     {
         "phrases": [
             "закрой музыку",
