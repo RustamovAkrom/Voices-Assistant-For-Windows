@@ -102,12 +102,39 @@ DEFAULT_DATA = [
             "удалить все нужные файлы с компьютера",
             "давай очистим компьютер",
         ],
-        "handler": "default.windows.cleaner.clear_all_files",
+        "handler": "default.windows.cleaner.clean_all_files",
         "param": False,
+        "is_active": False
+    },
+    # Say Time
+    {
+        "phrases": [
+            "сегодняшнее время",
+            "какой сегодняшнее время",
+            "скажи время",
+            "посмотри на время",
+        ],
+        "handler": "default.date_time.time_speaker.say_time",
+        "param": True,
+    },
+    # Say Date
+    {
+        "phrases": [
+            "сегодняшнее число",
+            "сегодняшнее дата",
+            "какой сегодняшнее дата",
+            "скажи дату",
+            "посмотри на дату",
+            "скажи сегодняшнюю дату",
+            "сегодняшняя дата",
+        ],
+        "handler": "default.date_time.date_speaker.say_date",
+        "param": True,
     },
 ]
 
 ANSWERS_TO_WORDS_DATA = [
+    # Hello Answer
     {
         "phrases": [
             "привет",
@@ -122,7 +149,17 @@ ANSWERS_TO_WORDS_DATA = [
             "добрейшего времени суток",
         ],
         "handler": "default.answers.simple.simple_answer",
-        "param": False,
+        "param": True,
+    },
+    # Thanks Answer
+    {
+        "phrases": [
+            "спасибо",
+            "молодец",
+            "ты такой крутой",
+        ],
+        "handler": "default.answers.simple.thanks_answer",
+        "param": True,
     },
     # 
 ]

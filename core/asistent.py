@@ -65,32 +65,29 @@ class VoicesAsistentProcess:
                 return (
                     item.get("handler", None),
                     cleaned_text.strip(".|"),
-                    item.get("text", None),
                     item.get("param", False),
+                    item.get("is_active", True),
                 )                
 
-        return (None, None, None, False)
+        return (None, None, False, True)
 
     def process_command(self, user_text) -> None:
         logger.debug(f"process_command: cmd_text='{user_text}'")
-        handler, phrase, text, param_required = self.find_command_from_dataset(user_text)
+        handler, phrase, param_required, is_active = self.find_command_from_dataset(user_text)
 
+        if not is_active:
+            print(f"[{handler}] Command is not Active")
+            return
+        
         if not handler:
-            if text:
-                logger.info(f"Команда не распознана: {phrase}")
-                self.speaker_silero.say(text)
-            else:
-                # There may make AI response to unrecognized commands!
-                logger.warning(f"Команда не распознана: {user_text}")
-                print(f"[{user_text}] → Команда не распознана и не реализована")
-                self.play_audio.play("not_found")
+
+            # There may make AI response to unrecognized commands!
+            logger.warning(f"Команда не распознана: {user_text}")
+            print(f"[{user_text}] → Команда не распознана и не реализована")
+            self.play_audio.play("not_found")
             return
 
-        if text:
-            logger.info(f"Команда распознана: {phrase} → {handler}")
-            self.speaker_silero.say(text)
-        else:
-            self.play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
+        self.play_audio.play(random.choice(["ok1", "ok2", "ok3"]))
 
         try:
             func = resolve_attr(skills, handler)
@@ -103,7 +100,6 @@ class VoicesAsistentProcess:
                             user_text, 
                             handler=handler,
                             phrase=phrase,
-                            text=text, 
                             param_required=param_required,
                             speaker_silero=self.speaker_silero,
                             speaker_pyttsx3=self.speaker_pyttsx3,
@@ -114,10 +110,16 @@ class VoicesAsistentProcess:
                     logger.info(f"[{user_text}] → Команда успешно выполнена")
                     
                 except Exception as inner_e:
+                    print(inner_e)
                     logger.error(f"[{user_text}] → Ошибка внутри потока: {inner_e}")
                     self.play_audio.play("not_found")
 
-            threading.Thread(target=run_func).start()
+            # threading.Thread(target=run_func).start()
+            # task = threading.Thread(target=run_func)
+            # task.start()
+            # task.join()
+            # task.
+            run_func()
 
         except Exception as e:
             logger.error(f"[{user_text}] → Ошибка при выполнении команды: {e}")

@@ -1,5 +1,6 @@
 __pycache__/
 assistant.log
+.vscode/
 .git/
 .venv/
 *.pyc
