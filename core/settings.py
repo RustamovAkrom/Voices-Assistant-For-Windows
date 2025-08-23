@@ -7,14 +7,16 @@ load_dotenv(find_dotenv(".env"))
 # Activation settings for Porcupine wake word detection
 PORCUPINE_KEYWORDS = ("jarvis",)
 
- # If you want voices recognitions detect online, you would replace value to `True`
-ONLINE_VOICE_RECOGNIZER_IS_ACTIVE = False
+ASISTENT_IS_ACTIVE = True
+# If you want voices recognitions detect online, you would replace value to `True`
+USE_ONLINE_RECOGNIZER = False
 
 TRIGGERS = {
     "джарвис",
     "djarvis",
     "чарльз",
 }
+SPLITTERS = [".", ",", " и ", " затем "]
 
 VOSK_MODEL_PATH = "data/models/vosk"
 
@@ -28,7 +30,7 @@ NEWS_API_ACCESS_KEY = os.getenv("NEWS_API_ACCESS_KEY")
 
 # Path to the directory where the audio files are stored
 LOGGER_FILE = "asistent.log"
-LOGGER_ACTIVE = False
+LOGGER_ACTIVE = os.getenv("LOGGER_ACTIVE", True)
 LOGGER_FILE_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 # Default speaker for the Silero TTS (Text-to-Speech) engine

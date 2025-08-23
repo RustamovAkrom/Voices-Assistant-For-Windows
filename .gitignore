@@ -1,5 +1,6 @@
 __pycache__/
 assistant.log
+.vscode/
 .git/
 .venv/
 *.pyc
@@ -14,4 +15,6 @@ asistent.log
 controller
 dev.py
 news_parser.py
-old_main.py
+old_main_1.py
+old_main_2.py
+setup.py

@@ -1,24 +1,16 @@
 import requests
 import webbrowser
-
 from core import settings
-from tts.pyttsx3_tts import SpeakerPyTTSx3
-
-newsapi_access_key = settings.NEWS_API_ACCESS_KEY
+from utils.decorators import require_internet, log_command, timeit, catch_errors
 
 
-def speak_news(text: str) -> None:
-    """
-    Функция для озвучивания текста новостей.
-    """
-    speaker = SpeakerPyTTSx3()
-    speaker.say(text)
-    
-
-def get_news_data(query: str, api_key: str, language='en', max_results=3) -> None:
+@catch_errors()
+def get_news_data(
+    query: str, api_key: str, language="en", speaker=None, max_results=3
+) -> None:
     url = f"https://newsapi.org/v2/everything?q={query}&language={language}&pageSize={max_results}&sortBy=publishedAt"
     headers = {"Authorization": api_key}
-    
+
     response = requests.get(url, headers=headers)
     data = response.json()
 
@@ -30,25 +22,36 @@ def get_news_data(query: str, api_key: str, language='en', max_results=3) -> Non
             print(f"Заголовок: {title}\nОписание: {description}\nСсылка: {link}\n\n")
             webbrowser.open(link)
             result = f"Заголовок: {title}\nОписание: {description}."
-            speak_news(result)
-        return "."
-    else:   
-        return "Нет новостей по вашему запросу."
+            if speaker is not None:
+                speaker.say(result)
+        return
+    else:
+        speaker.say("Нет новостей по вашему запросу.")
 
 
-
+@log_command("news.skill.search_news")
+@timeit()
+@require_internet()
 def search_news(*args: tuple, **kwargs: dict) -> str:
     """
     Функция для получения последних новостей по запросу.
     """
     search_query = kwargs.get("phrase", None)
+    speaker_silero = kwargs.get("speaker_silero", None)
 
     if not search_query:
         return "Что нужно найти?"
-    
-    result = get_news_data(search_query, newsapi_access_key, language='ru', max_results=3)
-    # Здесь должна быть логика получения новостей, например, через API
-    # Для примера вернем статический ответ
-    return result
+
+    if not speaker_silero:
+        return "Error speaker Silero not found"
+
+    get_news_data(
+        search_query,
+        settings.NEWS_API_ACCESS_KEY,
+        language="ru",
+        speaker=speaker_silero,
+        max_results=3,
+    )
+
 
 __all__ = ("search_news",)

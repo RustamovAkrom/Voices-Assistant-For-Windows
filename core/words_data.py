@@ -18,28 +18,38 @@ DEFAULT_DATA = [
         "phrases": ["перезагрузить компьютер"],
         "handler": "default.windows.restart.restart_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Shutdown PK
     {
         "phrases": ["выключи компьютер"],
         "handler": "default.windows.shutdown.shutdown_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Sleep PK
     {
         "phrases": ["спящий режим"],
         "handler": "default.windows.sleep.sleep_windows",
         "param": False,
+        "is_active": False,  # replace to True
     },
     # Do Screenshot
     {
-        "phrases": ["сделай скриншот", "скриншот", ],
+        "phrases": [
+            "сделай скриншот",
+            "скриншот",
+        ],
         "handler": "default.windows.screen.screenshot_windows",
         "param": False,
     },
     # Set volume max
     {
-        "phrases": ["звук на максимум", "увеличь громкость", "звук компьютера на максимум"],
+        "phrases": [
+            "звук на максимум",
+            "увеличь громкость",
+            "звук компьютера на максимум",
+        ],
         "handler": "default.windows.volumes.set_volume_max",
         "param": False,
     },
@@ -51,14 +61,85 @@ DEFAULT_DATA = [
     },
     # Set volume min
     {
-        "phrases": ["отключить звук", "выключи звук", "отключения звука", "тихие режим"],
+        "phrases": [
+            "отключить звук",
+            "выключи звук",
+            "отключения звука",
+            "тихие режим",
+        ],
         "handler": "default.windows.volumes.set_volume_min",
         "param": False,
-    }
-
+    },
+    # Clear recycle bin
+    {
+        "phrases": [
+            "очистить корзинку",
+            "очистки корзинку",
+            "очисти корзинку",
+        ],
+        "handler": "default.windows.cleaner.clear_recycle_bin",
+        "param": False,
+        "is_active": False,  # replace to True
+    },
+    # Clear Temp folder files
+    {
+        "phrases": [
+            "очисти ненужные файлы",
+            "очисти временные файлы",
+        ],
+        "handler": "default.windows.cleaner.clear_temp_folder",
+        "param": False,
+    },
+    # Clear Downloads files
+    {
+        "phrases": [
+            "очисти компьютер",
+            "очистить загрузки",
+        ],
+        "handler": "default.windows.cleaner.clear_downloads_except_import",
+        "param": False,
+        "is_active": False,  # replace to True
+    },
+    # Clear all files from downloads, recycle bin, temp
+    {
+        "phrases": [
+            "очисти компьютер",
+            "удалить все нужные файлы с компьютера",
+            "давай очистим компьютер",
+        ],
+        "handler": "default.windows.cleaner.clean_all_files",
+        "param": False,
+        "is_active": False,  # replace to True
+    },
+    # Say Time
+    {
+        "phrases": [
+            "сегодняшнее время",
+            "какой сегодняшнее время",
+            "скажи время",
+            "посмотри на время",
+        ],
+        "handler": "default.date_time.time_speaker.say_time",
+        "param": True,
+    },
+    # Say Date
+    {
+        "phrases": [
+            "сегодняшнее число",
+            "сегодняшнее дата",
+            "какой сегодняшнее дата",
+            "скажи дату",
+            "посмотри на дату",
+            "скажи сегодняшнюю дату",
+            "сегодняшняя дата",
+        ],
+        "handler": "default.date_time.date_speaker.say_date",
+        "param": True,
+    },
 ]
 
 ANSWERS_TO_WORDS_DATA = [
+    # Hello Answer
     {
         "phrases": [
             "привет",
@@ -73,9 +154,19 @@ ANSWERS_TO_WORDS_DATA = [
             "добрейшего времени суток",
         ],
         "handler": "default.answers.simple.simple_answer",
-        "param": False,
-        "text": "Привет! Чем могу помочь?",
+        "param": True,
     },
+    # Thanks Answer
+    {
+        "phrases": [
+            "спасибо",
+            "молодец",
+            "ты такой крутой",
+        ],
+        "handler": "default.answers.simple.thanks_answer",
+        "param": True,
+    },
+    #
 ]
 
 SEARCH_DATA = [
@@ -92,6 +183,8 @@ SEARCH_DATA = [
             "поиск в интернете",
             "поиск информации в интернете",
             "найти информацию",
+            "найти в интернете кто такой",
+            "поищи в интернете",
         ],
         "handler": "web.search_web",
         "param": True,
@@ -105,7 +198,6 @@ SEARCH_DATA = [
             "расскажи о",
             "расскажи про",
             "расскажи что такое",
-
         ],
         "handler": "wiki.search_wiki",
         "param": True,
@@ -131,16 +223,15 @@ SEARCH_DATA = [
             "расскажи о",
             "что пишут о",
             "найди инфу",
-            "что известно про"
+            "что известно про",
         ],
         "handler": "news.search_news",
-        "param": True
-    }
-
+        "param": True,
+    },
 ]
 
 APPS_DATA = [
-    # Telegram
+    # Telegram Open
     {
         "phrases": [
             "открой телеграм",
@@ -151,6 +242,7 @@ APPS_DATA = [
         "handler": "apps.telegram.open_telegram",
         "param": False,
     },
+    # Telegram close
     {
         "phrases": [
             "закрой телеграм",
@@ -162,7 +254,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Notepad
+    # Notepad Open
     {
         "phrases": [
             "открой блокнот",
@@ -173,6 +265,7 @@ APPS_DATA = [
         "handler": "apps.notepad.open_notepad",
         "param": False,
     },
+    # Notepad Close
     {
         "phrases": [
             "закрой блокнот",
@@ -184,7 +277,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Browser
+    # Browser Open
     {
         "phrases": [
             "открой гугл",
@@ -197,6 +290,7 @@ APPS_DATA = [
         "handler": "apps.browser.open_browser",
         "param": False,
     },
+    # Browser Close
     {
         "phrases": [
             "закрой гугл",
@@ -210,7 +304,7 @@ APPS_DATA = [
         "param": False,
         "text": "Закрываю приложение...",
     },
-    # Music
+    # Music Play
     {
         "phrases": [
             "открой музыку",
@@ -227,10 +321,12 @@ APPS_DATA = [
             "музыку поставь",
             "музыку давай",
             "воспроизведи музыку",
+            "поставь другую музыку",
         ],
         "handler": "apps.music.open_music",
         "param": False,
     },
+    # Music Stop
     {
         "phrases": [
             "закрой музыку",

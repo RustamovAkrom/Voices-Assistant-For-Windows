@@ -5,7 +5,7 @@ from speech_recognition import (
     UnknownValueError,
     RequestError,
 )
-from core.logger import logger
+from utils.logger import logger
 
 
 class OnlineRecognizer:

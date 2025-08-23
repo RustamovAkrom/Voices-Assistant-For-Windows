@@ -3,7 +3,12 @@ import ctypes
 from pathlib import Path
 import tempfile
 
+from utils.decorators import timeit, log_command, catch_errors
 
+
+@log_command("default.windows.cleaner.clear_temp_folder")
+@catch_errors()
+@timeit()
 def clear_temp_folder():
     """Clear temp files folder"""
 
@@ -19,6 +24,9 @@ def clear_temp_folder():
             print(f"Не удалось удалить: {item} — {e}")
 
 
+@log_command("default.windows.cleaner.clear_recycle_bin")
+@catch_errors()
+@timeit()
 def clear_recycle_bin():
     """Clear recycle bin"""
 
@@ -29,12 +37,21 @@ def clear_recycle_bin():
         print(f"Не удалось очистить корзину: {e}")
 
 
+@log_command("default.windows.cleaner.clear_windows_except_important")
+@catch_errors()
+@timeit()
 def clear_downloads_except_important(keep_extensions=None):
     """Clear downloads folder"""
-    
+
     if keep_extensions is None:
-        keep_extensions = ['.txt', '.pdf', '.docx', '.jpg', '.mp3']  # Примеры расширений для сохранения
-    downloads_path = Path.home() / 'Downloads'
+        keep_extensions = [
+            ".img",
+            ".jpeg",
+            ".jpg",
+            ".mp3",
+            ".mp4",
+        ]  # Примеры расширений для сохранения
+    downloads_path = Path.home() / "Downloads"
     print(f"[Downloads] Очистка папки загрузок: {downloads_path}")
 
     for item in downloads_path.iterdir():
@@ -47,3 +64,17 @@ def clear_downloads_except_important(keep_extensions=None):
                 print(f"Удалена папка: {item}")
         except Exception as e:
             print(f"Не удалось удалить: {item} — {e}")
+
+
+def clean_all_files():
+    clear_recycle_bin()
+    clear_downloads_except_important()
+    clear_temp_folder()
+
+
+__all__ = (
+    "clear_temp_folder",
+    "clear_downloads_except_important",
+    "clean_all_files",
+    "clear_recycle_bin",
+)
