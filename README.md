@@ -4,8 +4,14 @@
  - [Sounddevice](https://pypi.org/project/sounddevice/) - For audio
  - [RapidFuzz](https://pypi.org/project/RapidFuzz/) - For checking words
  - [PyYAML](https://pypi.org/project/PyYAML/) - For load .yaml files
+ - [langdetect](https://pypi.org/project/langdetect/) - For text language detection
+ - [PyAudio](https://pypi.org/project/PyAudio/) - For Audios of python libraries
+ - [numpy](https://pypi.org/project/numpy/) - For array 
  - [pyttsx3](https://pypi.org/project/pyttsx3/) - For local text to speach
-  
+ - [gTTS](https://pypi.org/project/gTTS/) - gTTS (Google Text-to-Speech)
+ - [playsound](https://pypi.org/project/playsound/) -  For playing sounds
+ - [torch](https://pypi.org/project/torch/) - Tensor computation (like NumPy) with strong GPU acceleration
+ 
  + 🎤 Пользователь говорит →
  + 🎧 Listener записывает звук →
  + 🧠 Recognizer превращает речь в текст →

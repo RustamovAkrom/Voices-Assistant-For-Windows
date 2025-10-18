@@ -1,4 +1,39 @@
-voice_speed: 180
-voice_volume: 1.0
-language: "ru-RU"
-wake_word: "акром"
+# === Основные настройки голоса ===
+voice_enabled: true          # Включить/выключить голосовое воспроизведение
+voice_engine: "silero"       # "silero" (реалистичный, офлайн) или "pyttsx3" (классический офлайн)
+voice_speed: 180             # Скорость речи (для pyttsx3)
+voice_volume: 1.0            # Громкость (0.0 - 1.0)
+voice_gender: "female"       # "male" | "female" (используется для выбора Silero speaker)
+voice_speaker: "baya"        # Имя спикера (Silero): aidar, baya, kseniya, xenia, eugene, en_0, en_1, uz_0 и т.д.
+
+# === Настройки распознавания ===
+language: "ru-RU"            # Язык распознавания по умолчанию
+wake_word: "акром"           # Слово-пробуждение (если используешь активацию)
+auto_detect_language: true   # Определять язык автоматически (если доступно)
+
+# === Настройки ассистента ===
+assistant:
+  name: "Jarvis"             # Имя голосового ассистента
+  default_language: "ru"     # Язык по умолчанию: ru | en | uz
+  voice: "default"           # Голос по умолчанию (можно менять в коде или командами)
+  personality: "friendly"    # "friendly" | "professional" | "funny" (можно использовать для будущих режимов)
+
+# === Режимы работы ===
+debug: false                 # Включить подробный лог
+offline_mode: true           # Работать без интернета, если True
+auto_switch_mode: true       # Автоматически переключаться между онлайн/офлайн
+
+# === Папки и ресурсы ===
+paths:
+  datasets: "data/commands.yaml"
+  tts_models: "data/models/tts"
+  stt_models: "data/models/stt"
+  cache_dir: "data/cache"
+
+# === Дополнительно ===
+silero:
+  ru_speakers: ["aidar", "baya", "kseniya", "xenia", "eugene"]
+  en_speakers: ["en_0", "en_1", "en_2"]
+  uz_speakers: ["uz_0", "uz_1", "uz_2"]
+  sample_rate: 48000
+  use_cuda: true             # Использовать GPU (если доступно)
