@@ -1,0 +1,39 @@
+[project]
+name = "jarvis"
+version = "0.1.0"
+description = "This is voices artificial asistent for windows"
+authors = [
+    {name = "AkromR"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytest (>=8.4.1,<9.0.0)",
+    "black (>=25.1.0,<26.0.0)",
+    "speechrecognition (>=3.14.3,<4.0.0)",
+    "vosk (>=0.3.45,<0.4.0)",
+    "pyaudio (>=0.2.14,<0.3.0)",
+    "sounddevice (>=0.5.2,<0.6.0)",
+    "soundfile (>=0.13.1,<0.14.0)",
+    "noisereduce (>=3.0.3,<4.0.0)",
+    "pyttsx3 (>=2.99,<3.0)",
+    "python-vlc (==3.0.21203)",
+    "pycaw (>=20240210,<20240211)",
+    "pyautogui (>=0.9.54,<0.10.0)",
+    "fuzzywuzzy (>=0.18.0,<0.19.0)",
+    "rapidfuzz (>=3.13.0,<4.0.0)",
+    "python-levenshtein (>=0.27.1,<0.28.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "wikipedia (>=1.4.0,<2.0.0)",
+    "websockets (>=15.0.1,<16.0.0)",
+    "beautifulsoup4 (>=4.13.4,<5.0.0)",
+    "soupsieve (>=2.7,<3.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "setuptools (>=80.9.0,<81.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
