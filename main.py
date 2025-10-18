@@ -1,39 +1,31 @@
-from core.asistent import VoicesAsistentRunner
-from core.speakers.silero_tts import SpeakerSileroTTS
-from core.speakers.pyttsx3_tts import SpeakerPyTTSx3
-from core.speakers.audio_play import PlayAudio
-from core.recognizers.offline import OfflineRecognizer
-from core.recognizers.online import OnlineRecognizer
-from core.recognizers.porcupine_listener import PorcupineListener
+from src.core.recognizer import Recognizer
+from src.core.executor import Executor
+from src.core.tts import TTS
+from src.core.config_loader import load_config
+from src.core.dataset_loader import load_dataset
+from src.core.skill_manager import SkillManager
 
-from core.words_data import data_set
-from core import settings
+def main():
+    config = load_config("data/config.yaml")
+    dataset = load_dataset("data/commands.yaml")
 
-from utils.logger import logger
+    recognizer = Recognizer(config)
+    tts = TTS(config)
+    skills = SkillManager()
+    executor = Executor(dataset, skills)
 
-import sys
+    print("🎧 Voice Assistant is ready! Say something...")
 
+    while True:
+        text = recognizer.listen_text()  # Пока только текст, потом подключим голос
+        if not text:
+            continue
 
-def main() -> None:
-    voices_asistent_runner = VoicesAsistentRunner(
-        dataset=data_set,
-        speaker_silero=SpeakerSileroTTS(settings.SILERO_TTS_SPEAKER),
-        speaker_pyttsx3=SpeakerPyTTSx3(),
-        play_audio=PlayAudio(settings.AUDIO_FILES),
-        porcupine_listener=PorcupineListener(
-            settings.PORCUPINE_KEYWORDS, settings.PORCUPINE_ACCESS_KEY
-        ),
-        offline_recognizer=OfflineRecognizer(settings.VOSK_MODEL_PATH),
-        online_recognizer=OnlineRecognizer(),
-    )
+        print(f"🧠 You said: {text}")
+        response = executor.handle(text)
 
-    try:
-        voices_asistent_runner.run()
-    except KeyboardInterrupt:
-        voices_asistent_runner.close()
-        print("\nExiting Jarvis...")
-        logger.info("Exiting Jarvis...")
-        sys.exit(0)
+        print(f"🤖 Assistant: {response}")
+        tts.speak(response)
 
 
 if __name__ == "__main__":

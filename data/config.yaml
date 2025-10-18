@@ -1,0 +1,4 @@
+voice_speed: 180
+voice_volume: 1.0
+language: "ru-RU"
+wake_word: "акром"

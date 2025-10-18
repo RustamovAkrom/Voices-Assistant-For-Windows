@@ -1,0 +1,11 @@
+music:
+  keywords: ["включи музыку", "запусти музыку", "хочу послушать песни"]
+  action: skills.music.play_music
+
+browser:
+  keywords: ["открой браузер", "запусти интернет", "открой хром"]
+  action: skills.open_apps.open_browser
+
+weather:
+  keywords: ["какая погода", "покажи погоду", "посмотри прогноз"]
+  action: skills.weather.get_weather

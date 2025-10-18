@@ -1,0 +1,24 @@
+skills:
+  system:
+    description: "Системные команды"
+    commands:
+      - patterns: ["открой браузер", "запусти хром", "вруби интернет"]
+        action: open_browser
+        response: "Открываю браузер."
+      - patterns: ["выключи компьютер", "заверши работу"]
+        action: shutdown
+        response: "Выключаю компьютер."
+
+  music:
+    description: "Музыкальные команды"
+    commands:
+      - patterns: ["включи музыку", "вруби музон"]
+        action: play_music
+        response: "Включаю музыку."
+
+  weather:
+    description: "Погода"
+    commands:
+      - patterns: ["какая погода", "посмотри погоду"]
+        action: get_weather
+        response: "Секунду, узнаю погоду..."
