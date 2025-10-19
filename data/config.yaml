@@ -4,7 +4,7 @@ voice_engine: "silero"       # "silero" (реалистичный, офлайн)
 voice_speed: 180             # Скорость речи (для pyttsx3)
 voice_volume: 1.0            # Громкость (0.0 - 1.0)
 voice_gender: "female"       # "male" | "female" (используется для выбора Silero speaker)
-voice_speaker: "baya"        # Имя спикера (Silero): aidar, baya, kseniya, xenia, eugene, en_0, en_1, uz_0 и т.д.
+voice_speaker: "aidar"        # Имя спикера (Silero): aidar, baya, kseniya, xenia, eugene, en_0, en_1, uz_0 и т.д.
 
 # === Настройки распознавания ===
 language: "ru-RU"            # Язык распознавания по умолчанию
