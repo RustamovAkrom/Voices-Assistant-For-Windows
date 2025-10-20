@@ -1,0 +1,89 @@
+# Универсальный датасет команд (RU / EN / UZ)
+# Каждая команда может иметь:
+#  - patterns: список строк (можно смешивать языки)
+#  - patterns_lang: optional dict {ru:[], en:[], uz:[]}
+#  - action: имя функции в модуле-скилле (skill.action)
+#  - response: str или dict {ru,en,uz}
+
+skills:
+  system:
+    description: "Системные команды"
+    commands:
+      - patterns:
+          - "открой браузер"
+          - "запусти хром"
+          - "open browser"
+          - "launch chrome"
+          - "brauzerni och"
+          - "xromni ishga tushur"
+        action: open_browser
+        response:
+          ru: "Открываю браузер."
+          en: "Opening browser."
+          uz: "Brauzerni ochaman."
+
+      - patterns:
+          - "выключи компьютер"
+          - "заверши работу"
+          - "shutdown computer"
+          - "turn off computer"
+          - "kompyuterni o'chir"
+          - "kompyuterni o'chir"
+        action: shutdown
+        response:
+          ru: "Выключаю компьютер."
+          en: "Shutting down computer."
+          uz: "Kompyuterni o'chiraman."
+
+  music:
+    description: "Музыкальные команды"
+    commands:
+      - patterns:
+          - "включи музыку"
+          - "вруби музон"
+          - "play music"
+          - "start music"
+          - "musiqani yoq"
+          - "qo'shiqni ijro et"
+        action: play_music
+        response:
+          ru: "Включаю музыку."
+          en: "Playing music."
+          uz: "Musiqani yoqaman."
+
+  weather:
+    description: "Погода"
+    commands:
+      - patterns:
+          - "какая погода"
+          - "посмотри погоду"
+          - "what's the weather"
+          - "check the weather"
+          - "havo qanday"
+          - "ob-havo qanday"
+        action: get_weather
+        response:
+          ru: "Секунду, узнаю погоду..."
+          en: "One moment, checking the weather..."
+          uz: "Bir daqiqa, ob-havoni tekshiryapman..."
+
+# Горячие фразы для управления приложением (могут быть сказаны на любом языке)
+meta:
+  reload_dataset:
+    patterns:
+      - "обнови команды"
+      - "reload dataset"
+      - "yangilash buyruqlar"
+    response:
+      ru: "Датасет обновлён."
+      en: "Dataset reloaded."
+      uz: "Buyruqlar yangilandi."
+  restart_skills:
+    patterns:
+      - "перезагрузи навыки"
+      - "reload skills"
+      - "skills yangila"
+    response:
+      ru: "Навыки перезагружены."
+      en: "Skills reloaded."
+      uz: "Ko'nikmalar yangilandi."
