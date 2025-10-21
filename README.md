@@ -71,8 +71,11 @@ Voices-Assistant-For-Windows/
 │   └── main.py
 ├── data/
 │   ├── media/audios/          # Звуковые эффекты (например, Jarvis.wav)
-│   └── datasets/
-├── settings.yaml
+│   └── models/...
+│   ├── commands.yaml
+│   └── configl.yaml
+├── main.py
+│
 └── README.md
 ```
 
@@ -102,10 +105,12 @@ Voices-Assistant-For-Windows/
 
 ```bash
 # Клонировать репозиторий
-git clone https://github.com/username/Voices-Assistant-For-Windows.git
+git clone https://github.com/RustamovAkrom/Voices-Assistant-For-Windows.git
 cd Voices-Assistant-For-Windows
 
 # Создать виртуальное окружение и установить зависимости
+uv venv .venv
+.venv\Scripts\activate
 uv sync
 ```
 
@@ -114,12 +119,12 @@ uv sync
 ## 🧪 Запуск
 
 ```bash
-uv run python src/main.py
+uv run python main.py
 ```
 
 ---
 
-## 🧰 Пример конфигурации (`settings.yaml`)
+## 🧰 Пример конфигурации (`data/config.yaml`)
 
 ```yaml
 assistant:
@@ -160,7 +165,7 @@ assistant:
 **Akrom** — разработчик, программист и студент,
 создающий многофункционального и живого голосового ассистента.
 
-📫 Контакты: [Telegram](https://t.me/) • [GitHub](https://github.com/)
+📫 Контакты: [Telegram](https://t.me/Akrom_Rustamov) • [GitHub](https://github.com/RustamovAkrom)
 
 ---
 
