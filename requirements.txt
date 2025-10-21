@@ -18,6 +18,7 @@ rapidfuzz==3.14.1
 requests==2.32.5
 six==1.17.0
 sounddevice==0.5.3
+soundfile==0.13.1
 speechrecognition==3.14.3
 srt==3.5.3
 standard-aifc==3.13.0
