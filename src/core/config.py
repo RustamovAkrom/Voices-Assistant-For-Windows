@@ -4,7 +4,7 @@ from functools import lru_cache
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_PATH = BASE_DIR / "data"
-CONFIG_PATH = DATA_PATH / "config.yaml"
+DEFAULT_CONFIG_PATH = DATA_PATH / "config.yaml"
 DATASET_PATH = DATA_PATH / "commands.yaml"
 MODELS_DIR = DATA_PATH / "models"
 
@@ -14,6 +14,7 @@ VOSK_MODEL_URLS = {
     "uz": "https://alphacephei.com/vosk/models/vosk-model-small-uz-0.22.zip",
 }
 
+# Ключевые слова для определения языка текста (если langdetect не сработал)
 DETECT_LANGUAGE_WORDS = {
     "en": {"hello", "thanks", "how", "you", "open", "music"},
     "uz": {"salom", "rahmat", "qandaysiz", "yaxshi"},
@@ -21,37 +22,50 @@ DETECT_LANGUAGE_WORDS = {
 }
 
 class Settings:
-    def __init__(
-            self, 
-            config_path: Path = CONFIG_PATH,
-            dataset_path: Path = DATASET_PATH
-    ):
+    def __init__(self, config_path: Path = DEFAULT_CONFIG_PATH, dataset_path: Path = DATASET_PATH):
         self.config_path = config_path
         self.dataset_path = dataset_path
         self.config = self.load_config(config_path)
         self.dataset = self.load_dataset(dataset_path)
 
-    def load_config(self, path: str):
-        p = Path(path or self.config_path)
-        if not p.exists():
-            print(f"[WARN] Config not found at {p}, using defaults.")
+    def load_config(self, path: Path):
+        if not path.exists():
+            print(f"[WARN] Config not found at {path}, using defaults.")
+            # Значения по умолчанию
             return {
-                "language_default": "ru",
-                "voice_enabled": False,
-                "speech_rate": 160,
+                "assistant": {"default_language": "ru"},
+                "voice_enabled": True,
+                "voice_engine": "silero",
+                "voice_speed": 160,
+                "voice_volume": 1.0,
+                "voice_gender": "female",
+                "voice_speaker": "aidar",
                 "matcher_threshold": 60,
-                "debug": True
+                "debug": False,
+                "offline_mode": False,
+                "auto_switch_mode": True,
+                "wake_word": "джарвис",
             }
-        with open(p, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f)
+        with open(path, "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+        # Проверка наличия необходимых ключей и настройка при их отсутствии:
+        cfg.setdefault("voice_enabled", True)
+        cfg.setdefault("voice_engine", "silero")
+        cfg.setdefault("voice_speed", 160)
+        cfg.setdefault("voice_volume", 1.0)
+        cfg.setdefault("offline_mode", False)
+        cfg.setdefault("auto_switch_mode", True)
+        cfg.setdefault("debug", False)
+        cfg.setdefault("matcher_threshold", 60)
+        cfg.setdefault("wake_word", "джарвис")
+        return cfg
     
-    def load_dataset(self, path: str):
-        p = Path(path)
-        if not p.exists():
+    def load_dataset(self, path: Path):
+        if not path.exists():
             raise FileNotFoundError(f"Dataset not found: {path}")
-        with open(p, "r", encoding="utf-8") as f:
+        with open(path, "r", encoding="utf-8") as f:
             return yaml.safe_load(f)
-    
+
     def get(self, *keys, default=None):
         data = self.config
         for k in keys:
@@ -60,14 +74,10 @@ class Settings:
             else:
                 return default
         return data
-    
 
-@lru_cache(maxsize=30)
+# Убираем кеширование, чтобы перезагрузка конфига реально читала файл заново
 def get_settings(
-    config_path: Path = CONFIG_PATH, 
+    config_path: Path = DEFAULT_CONFIG_PATH, 
     dataset_path: Path = DATASET_PATH
 ):
-    return Settings(
-        config_path=config_path,
-        dataset_path=dataset_path,
-    )
+    return Settings(config_path=config_path, dataset_path=dataset_path)

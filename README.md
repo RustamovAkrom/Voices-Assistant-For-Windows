@@ -10,4 +10,4 @@
  - [gTTS](https://pypi.org/project/gTTS/) - gTTS (Google Text-to-Speech)
  - [playsound](https://pypi.org/project/playsound/) -  For playing sounds
  - [torch](https://pypi.org/project/torch/) - Tensor computation (like NumPy) with strong GPU acceleration
- 
+ - [soundfile](https://pypi.org/project/soundfile/) - For playing audio files

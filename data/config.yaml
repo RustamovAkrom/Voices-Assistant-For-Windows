@@ -17,6 +17,8 @@ assistant:
   default_language: "ru"     # Язык по умолчанию: ru | en | uz
   voice: "default"           # Голос по умолчанию (можно менять в коде или командами)
   personality: "friendly"    # "friendly" | "professional" | "funny" (можно использовать для будущих режимов)
+  gemeni_enabled: true
+  gemeni_api_key: ""
 
 # === Режимы работы ===
 debug: false                 # Включить подробный лог

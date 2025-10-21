@@ -5,10 +5,8 @@ from functools import lru_cache
 
 class SkillManager:
     """
-    Класс SkillManager отвечает за загрузку, перезагрузку и выполнение "навыков" (skills)
-    из директории src/skills. Каждый навык — это обычный .py файл с функциями.
+    Загрузка, перезагрузка и выполнение навыков из директории src/skills.
     """
-
     def __init__(self, skills_path: str = "src/skills", debug: bool = False):
         self.skills_path = Path(skills_path)
         self.debug = debug
@@ -16,47 +14,43 @@ class SkillManager:
         self.load_all_skills()
 
     def log(self, message: str):
-        """Упрощённый логгер."""
         if self.debug:
             print(f"[DEBUG SkillManager] {message}")
 
     def load_all_skills(self):
-        """Загружает все навыки из указанной директории."""
+        """Загружает все навыки из директории."""
         self.skills.clear()
-
         if not self.skills_path.exists():
-            self.log(f"Директория с навыками не найдена: {self.skills_path}")
+            self.log(f"Директория навыков не найдена: {self.skills_path}")
             return
-
         for file in os.listdir(self.skills_path):
             if file.endswith(".py") and file != "__init__.py":
                 name = file[:-3]
                 module_name = f"src.skills.{name}"
-
                 try:
                     module = importlib.import_module(module_name)
                     importlib.reload(module)
                     self.skills[name] = module
                     self.log(f"Загружен навык: {name}")
                 except Exception as e:
-                    print(f"[ERROR] Не удалось загрузить {module_name}: {e}")
+                    print(f"[ERROR] Не удалось загрузить навык {name}: {e}")
 
     def reload(self):
-        """Перезагружает все навыки (например, при изменении кода во время работы)."""
+        """Перезагружает все навыки (при изменении кода)."""
         self.load_all_skills()
         self.log("Все навыки перезагружены")
 
     def execute(self, action: str):
         """
-        Выполняет указанное действие.
-        Поддерживает два формата:
-          1. "имя_функции"
-          2. "модуль.функция"
+        Выполняет действие.
+        Формат action:
+          - "module.function"
+          - или просто "function" (ищем среди всех модулей).
         """
         if not action:
-            return "⚠️ Не указано действие."
+            return "⚠️ Действие не указано."
 
-        # формат: "module.function"
+        # Если указано модуль.функция
         if "." in action:
             mod, func = action.split(".", 1)
             module = self.skills.get(mod)
@@ -71,7 +65,7 @@ class SkillManager:
             except Exception as e:
                 return f"⚠️ Ошибка при выполнении '{action}': {e}"
 
-        # поиск функции по всем модулям
+        # Ищем функцию по всем навыкам
         for name, module in self.skills.items():
             fn = getattr(module, action, None)
             if callable(fn):
@@ -85,5 +79,5 @@ class SkillManager:
 
     @lru_cache(maxsize=32)
     def list_skills(self):
-        """Возвращает список всех загруженных навыков."""
+        """Список доступных навыков (для справки)."""
         return list(self.skills.keys())

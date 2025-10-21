@@ -12,6 +12,7 @@ dependencies = [
     "pyyaml>=6.0.3",
     "rapidfuzz>=3.14.1",
     "sounddevice>=0.5.3",
+    "soundfile>=0.13.1",
     "speechrecognition>=3.14.3",
     "vosk>=0.3.45",
 ]
