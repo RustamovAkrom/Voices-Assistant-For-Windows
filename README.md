@@ -5,7 +5,6 @@
  - [RapidFuzz](https://pypi.org/project/RapidFuzz/) - For checking words
  - [PyYAML](https://pypi.org/project/PyYAML/) - For load .yaml files
  - [langdetect](https://pypi.org/project/langdetect/) - For text language detection
- - [PyAudio](https://pypi.org/project/PyAudio/) - For Audios of python libraries
  - [numpy](https://pypi.org/project/numpy/) - For array 
  - [pyttsx3](https://pypi.org/project/pyttsx3/) - For local text to speach
  - [gTTS](https://pypi.org/project/gTTS/) - gTTS (Google Text-to-Speech)
