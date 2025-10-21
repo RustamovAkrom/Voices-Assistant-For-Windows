@@ -7,8 +7,7 @@
 ![Status](https://img.shields.io/badge/Status-Active_Development-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![AI](https://img.shields.io/badge/AI-Gemini_Integration-blueviolet?logo=google)
-
----
+![banner](/data/media/banner.webp)
 
 ## 🌟 О проекте
 
