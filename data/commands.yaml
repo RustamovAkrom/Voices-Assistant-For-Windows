@@ -29,7 +29,7 @@ skills:
           - "включи музыку"
           - "play music"
           - "qo'shiqni ijro et"
-        action: media.play_music
+        action: music.play_music
         response:
           ru: "Включаю музыку."
           en: "Playing music."

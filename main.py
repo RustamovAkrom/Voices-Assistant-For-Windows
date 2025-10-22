@@ -66,12 +66,12 @@ def main():
     executor = Executor(dataset, skills, config=config)
 
     # Если есть приветственный аудио-файл, проигрываем его
-    try:
-        greet_path = Path("data/media/audios/greeting.wav")
-        if greet_path.exists():
-            tts.play_audio_file(greet_path)
-    except Exception:
-        pass
+    # try:
+    #     greet_path = Path("data/media/audios/greeting.wav")
+    #     if greet_path.exists():
+    #         tts.play_audio_file(greet_path)
+    # except Exception:
+    #     pass
 
     wake_word = config.get("wake_word", "джарвис").lower().strip()
     active_mode = False

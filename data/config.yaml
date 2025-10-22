@@ -21,7 +21,7 @@ assistant:
   gemeni_api_key: ""
 
 # === Режимы работы ===
-debug: false                 # Включить подробный лог
+debug: true                 # Включить подробный лог
 offline_mode: true           # Работать без интернета, если True
 auto_switch_mode: true       # Автоматически переключаться между онлайн/офлайн
 

@@ -2,12 +2,7 @@ import requests
 import sounddevice as sd
 from pathlib import Path
 
-# Опциональные импорты
-try:
-    import torch
-except ImportError:
-    torch = None
-
+# --- Опциональные импорты ---
 try:
     import soundfile as sf
 except ImportError:
@@ -17,6 +12,11 @@ try:
     import pyttsx3
 except ImportError:
     pyttsx3 = None
+
+try:
+    import torch
+except ImportError:
+    torch = None
 
 
 class HybridTTS:
@@ -30,9 +30,15 @@ class HybridTTS:
         self.config = config or {}
         self.voice_enabled = self.config.get("voice_enabled", True)
         self.default_lang = self.config.get("assistant", {}).get("default_language", "ru")
-        self.device = "cuda" if torch and torch.cuda.is_available() and self.config.get("silero", {}).get("use_cuda", True) else "cpu"
 
-        # Пути и директории
+        # 🧠 Безопасная инициализация torch
+        self.device = "cuda" if (
+            torch is not None
+            and torch.cuda.is_available()
+            and self.config.get("silero", {}).get("use_cuda", True)
+        ) else "cpu"
+
+        # Пути
         self.models_dir = Path("data/models/tts")
         self.models_dir.mkdir(parents=True, exist_ok=True)
         self.media_dir = Path("data/media/audios")
@@ -57,7 +63,7 @@ class HybridTTS:
         self.current_engine = self.config.get("voice_engine", "silero")
         self.model = None
 
-        # pyttsx3 — всегда готов к работе
+        # pyttsx3 готов
         self.engine = None
         if pyttsx3 is not None:
             self.engine = pyttsx3.init()
@@ -69,12 +75,17 @@ class HybridTTS:
                     self.engine.setProperty("voice", v.id)
                     break
 
-        # Загрузка модели Silero только если torch установлен
+        # Загрузка Silero, если torch установлен
         if torch is not None:
-            self._ensure_models_exist()
-            self._load_model(self.current_lang)
+            try:
+                self._ensure_models_exist()
+                self._load_model(self.current_lang)
+            except Exception as e:
+                print(f"⚠️ Ошибка загрузки Torch/Silero ({e}). Используется pyttsx3.")
+                self.model = None
+                self.current_engine = "pyttsx3"
         else:
-            print("⚠️ Torch не установлен — Silero TTS отключен. Используется pyttsx3.")
+            print("⚠️ Torch не установлен — используется pyttsx3.")
 
     # ----------------------------- #
     # 🔹 Silero Model Management
@@ -98,15 +109,15 @@ class HybridTTS:
 
     def _load_model(self, lang: str):
         """Загружает модель Silero для нужного языка"""
+        if torch is None:
+            return
         try:
-            if torch is None:
-                return
             model_name = self.supported_langs.get(lang, "v3_1_ru")
             self.model, _ = torch.hub.load(
                 repo_or_dir="snakers4/silero-models",
                 model="silero_tts",
                 language=lang,
-                speaker=model_name
+                speaker=model_name,
             )
             self.model.to(self.device)
             print(f"🎙️ Silero TTS загружен для языка {lang.upper()}.")
@@ -129,7 +140,7 @@ class HybridTTS:
         speaker = speaker or self.current_speaker
         engine = engine or self.current_engine
 
-        # Silero (если доступен)
+        # Silero
         if engine == "silero" and self.model and torch is not None:
             try:
                 if speaker not in self.silero_speakers.get(lang, []):
@@ -158,12 +169,12 @@ class HybridTTS:
             except Exception as e:
                 print(f"[TTS error] {e}")
 
-        # Если нет ни одного TTS, просто текст
+        # Если нет ни одного TTS
         elif not self.engine:
             print(f"💭 {text}")
 
     def play_audio_file(self, file_path: Path):
-        """Проигрывает WAV-файл (например, аудиоклип при старте)."""
+        """Проигрывает WAV-файл."""
         if not file_path.exists():
             print(f"⚠️ Аудиофайл не найден: {file_path}")
             return
