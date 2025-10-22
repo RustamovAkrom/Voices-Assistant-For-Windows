@@ -41,7 +41,7 @@ skills:
           - "какая погода"
           - "what's the weather"
           - "ob-havo qanday"
-        action: utils.get_weather
+        action: weather.get_weather
         response:
           ru: "Секунду, узнаю погоду..."
           en: "One moment, checking weather..."

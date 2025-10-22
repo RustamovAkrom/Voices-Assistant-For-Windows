@@ -62,7 +62,8 @@ Voices-Assistant-For-Windows/
 │   │   ├── tts.py
 │   │   ├── executor.py
 │   │   ├── skill_manager.py
-│   │   └── utils.py
+│   │   └── ...
+│   ├── utils/...
 │   ├── skills/
 │   │   ├── ai_skill.py        # Интеграция с Gemini
 │   │   ├── system_skill.py    # Системные и базовые команды
