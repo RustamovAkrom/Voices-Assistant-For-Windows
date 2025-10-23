@@ -17,10 +17,10 @@ wake_words:
 # === Настройки ассистента ===
 assistant:
   name: "Jarvis"             # Имя голосового ассистента
-  default_language: "uz"     # Язык по умолчанию: ru | en | uz
+  default_language: "ru"     # Язык по умолчанию: ru | en | uz
   voice: "default"           # Голос по умолчанию (можно менять в коде или командами)
   personality: "friendly"    # "friendly" | "professional" | "funny" (можно использовать для будущих режимов)
-  gemeni_enabled: true
+  gemeni_enabled: false
   gemeni_api_key: ""
 
 # === Режимы работы ===

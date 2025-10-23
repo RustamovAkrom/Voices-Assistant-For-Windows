@@ -15,7 +15,7 @@ class Executor:
         self.dataset = new_dataset or {}
         self.matcher = SmartMatcher(self.dataset, threshold=self.matcher.threshold, debug=self.matcher.debug)
 
-    def handle(self, text: str, lang: str = "en") -> str:
+    def handle(self, text: str, lang: str = "ru") -> str:
         """
         Обрабатывает входной текст и возвращает ответ для TTS/печати.
         """

@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 
-def play_music():
+def play_music(*args, **kwargs):
     """
     Находит случайный музыкальный файл в папке Music (или её подпапках)
     и воспроизводит его через системный проигрыватель.

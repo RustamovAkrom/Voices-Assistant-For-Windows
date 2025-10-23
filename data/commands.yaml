@@ -109,6 +109,9 @@ skills:
           - "musiqani chala"
           - "musiqa qo‘y"
           - "qo‘shiq qo‘y"
+          - "musiqa yoqib ber"
+          - "musiqani qo'y"
+          
         action: music.play_music
         response:
           ru: "Включаю музыку."

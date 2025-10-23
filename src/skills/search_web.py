@@ -1,39 +1,52 @@
 import re
 import webbrowser
 
-def search_internet(query: str = None):
+def search_internet(*args, **kwargs):
     """
-    Выполняет поиск в интернете.
-    Извлекает запрос из текста команды и открывает браузер.
+    Универсальная функция поиска в интернете.
+    Работает с любыми аргументами (*args, **kwargs).
+    В kwargs можно передавать:
+      - dataset: словарь команд (из commands.yaml)
+      - query: текст команды пользователя
     """
+
+    dataset = kwargs.get("dataset", {})
+    query = kwargs.get("text")
+
+    # 🧠 Если query не задан — пытаемся взять из args
+    if not query and args:
+        query = " ".join(str(a) for a in args if isinstance(a, str)).strip()
+
     if not query:
-        print("⚠️ Нет текста для поиска.")
-        return {
-            "ru": "Не понял, что искать.",
-            "en": "I didn't catch what to search for.",
-            "uz": "Nimani izlash kerakligini tushunmadim."
-        }["ru"]
+        return "⚠️ Не понял, что искать."
 
-    # Очищаем текст от служебных слов
-    patterns = [
-        r"джарвис[,]*", r"найди в интернете", r"искать", r"в интернете",
-        r"search", r"in the internet", r"find", r"online",
-        r"internetda", r"top", r"kimligini", r"haqida", r"malumot"
-    ]
+    # 🧩 Извлекаем паттерны из dataset (если есть)
+    patterns = []
+    for skill_data in dataset.get("skills", {}).values():
+        for command in skill_data.get("commands", []):
+            if command.get("action") == "search_web.search_internet":
+                patterns.extend(command.get("patterns", []))
+
+    # 🔁 Резервные паттерны
+    if not patterns:
+        patterns = [
+            "найди в интернете", "поиск в интернете", "search", "find", "google it",
+            "internetda qidir", "internetda izla"
+        ]
+
+    # 🧹 Очищаем команду от паттернов и служебных слов
     clean_query = query.lower()
-    for p in patterns:
-        clean_query = re.sub(p, "", clean_query, flags=re.IGNORECASE)
+    for pattern in patterns:
+        clean_query = re.sub(re.escape(pattern.lower()), "", clean_query, flags=re.IGNORECASE)
 
+    clean_query = re.sub(r"\b(джарвис|jarvis)[,]*", "", clean_query, flags=re.IGNORECASE)
     clean_query = clean_query.strip()
-    if not clean_query:
-        print("⚠️ Не удалось извлечь запрос.")
-        return "Не понял, что искать."
 
+    if not clean_query:
+        return "⚠️ Не понял, что искать."
+
+    # 🌍 Выполняем поиск
     print(f"🌍 Открываю поиск: {clean_query}")
     webbrowser.open(f"https://www.google.com/search?q={clean_query}")
 
-    return {
-        "ru": f"Ищу в интернете: {clean_query}",
-        "en": f"Searching the internet for {clean_query}",
-        "uz": f"Internetda {clean_query} ni qidirmoqdaman"
-    }["ru"]
+    return f"🔎 Ищу в интернете: {clean_query}"
