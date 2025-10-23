@@ -9,12 +9,15 @@ voice_speaker: "aidar"        # Имя спикера (Silero): aidar, baya, kse
 # === Настройки распознавания ===
 language: "ru-RU"            # Язык распознавания по умолчанию
 wake_word: "джарвис"           # Слово-пробуждение (если используешь активацию)
-auto_detect_language: true   # Определять язык автоматически (если доступно)
+wake_words:
+  ru: ["джарвис", "жарвис"]
+  en: ["jarvis", "hey jarvis"]
+  uz: ["jarvis", "jarvisjon"]
 
 # === Настройки ассистента ===
 assistant:
   name: "Jarvis"             # Имя голосового ассистента
-  default_language: "ru"     # Язык по умолчанию: ru | en | uz
+  default_language: "uz"     # Язык по умолчанию: ru | en | uz
   voice: "default"           # Голос по умолчанию (можно менять в коде или командами)
   personality: "friendly"    # "friendly" | "professional" | "funny" (можно использовать для будущих режимов)
   gemeni_enabled: true

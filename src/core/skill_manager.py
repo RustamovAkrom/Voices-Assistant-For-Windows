@@ -2,6 +2,8 @@ import importlib
 import os
 from pathlib import Path
 from functools import lru_cache
+import inspect
+
 
 class SkillManager:
     """
@@ -40,7 +42,7 @@ class SkillManager:
         self.load_all_skills()
         self.log("Все навыки перезагружены")
 
-    def execute(self, action: str):
+    def execute(self, action: str, text: str = None):
         """
         Выполняет действие.
         Формат action:
@@ -50,31 +52,39 @@ class SkillManager:
         if not action:
             return "⚠️ Действие не указано."
 
+        def _call_function(fn):
+            try:
+                params = inspect.signature(fn).parameters
+                if len(params) == 0:
+                    return fn()
+                elif "query" in params:
+                    return fn(query=text)
+                elif "text" in params:
+                    return fn(text)
+                else:
+                    return fn()
+            except Exception as e:
+                return f"⚠️ Ошибка при выполнении '{action}': {e}"
+            
         # Если указано модуль.функция
         if "." in action:
             mod, func = action.split(".", 1)
             module = self.skills.get(mod)
+
             if not module:
                 return f"❌ Навык '{mod}' не найден."
+            
             fn = getattr(module, func, None)
             if not callable(fn):
                 return f"⚠️ В '{mod}' нет функции '{func}'."
-            try:
-                result = fn()
-                return result if result is not None else f"✅ Выполнено: {action}"
-            except Exception as e:
-                return f"⚠️ Ошибка при выполнении '{action}': {e}"
+            return _call_function(fn)
 
         # Ищем функцию по всем навыкам
         for name, module in self.skills.items():
             fn = getattr(module, action, None)
             if callable(fn):
-                try:
-                    result = fn()
-                    return result if result is not None else f"✅ Выполнено: {action}"
-                except Exception as e:
-                    return f"⚠️ Ошибка выполнения '{action}': {e}"
-
+                return _call_function(fn)
+            
         return f"❌ Действие '{action}' не найдено."
 
     @lru_cache(maxsize=32)

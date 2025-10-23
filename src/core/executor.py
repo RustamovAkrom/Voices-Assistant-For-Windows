@@ -51,7 +51,7 @@ class Executor:
             action = m.get("action")
             resp_cfg = m.get("response")
             # выполнение скилла
-            result = self.skill_manager.execute(action)
+            result = self.skill_manager.execute(action, text)
             if result and not (str(result).startswith("❌") or str(result).startswith("⚠️")):
                 # если скилл вернул текст — используем его
                 responses.append(str(result))

@@ -2,6 +2,7 @@ import os
 import requests
 from typing import Optional
 
+
 class GeminiSkill:
     """
     Навык общения с AI (Google Gemini)

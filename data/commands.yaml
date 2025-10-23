@@ -2,76 +2,211 @@ skills:
   system:
     description: "Системные команды"
     commands:
+      # === Browser ===
       - patterns:
           - "открой браузер"
+          - "запусти браузер"
+          - "браузер открой"
+          - "включи браузер"
+          - "chrome открой"
+          - "google открой"
+          - "интернет открой"
           - "open browser"
+          - "launch browser"
+          - "open google"
+          - "open chrome"
           - "launch chrome"
-          - "браузерни оч"
+          - "start chrome"
+          - "run browser"
+          - "brauzerni och"
+          - "brauzer och"
+          - "brauzerni yoq"
+          - "xromni och"
           - "xromni ishga tushur"
+          - "internetni och"
+          - "internetni yoq"
         action: system.open_browser
         response:
           ru: "Открываю браузер."
           en: "Opening browser."
           uz: "Brauzerni ochaman."
+
+      # === Shutdown ===
       - patterns:
           - "выключи компьютер"
+          - "выключи пк"
+          - "отключи компьютер"
+          - "заверши работу"
+          - "заверши систему"
           - "shutdown computer"
+          - "turn off computer"
+          - "power off"
+          - "turn off pc"
+          - "shut down the system"
           - "kompyuterni o'chir"
+          - "kompyuterni o'chirib qo'y"
+          - "kompyuterni o'chirib tashla"
+          - "pc ni o'chir"
+          - "kompyuterni to'xtat"
+          - "kompyuterni o'chiraman"
         action: system.shutdown
         response:
           ru: "Выключаю компьютер."
           en: "Shutting down."
           uz: "Kompyuterni o'chiraman."
+
+      # === Search online ===
+      - patterns:
+          - "найди в интернете"
+          - "поиск в интернете"
+          - "искать в интернете"
+          - "поищи в интернете"
+          - "поищи онлайн"
+          - "поиск онлайн"
+          - "search"
+          - "search online"
+          - "search in internet"
+          - "find in the internet"
+          - "find online"
+          - "google it"
+          - "look it up"
+          - "search for"
+          - "search about"
+          - "internetda qidir"
+          - "internetda izla"
+          - "internetda top"
+          - "internetda qarab ko‘r"
+          - "internetdan qidir"
+          - "qidiruv"
+          - "qidiruvni boshlang"
+          - "internetda izlash"
+        action: search_web.search_internet
+        response:
+          ru: "Секунду, ищу информацию..."
+          en: "One moment, searching online..."
+          uz: "Bir daqiqa, internetdan izlayapman..."
+
   music:
     description: "Музыкальные команды"
     commands:
+      # === Play music ===
       - patterns:
           - "включи музыку"
+          - "воспроизведи музыку"
+          - "музыку включи"
+          - "запусти музыку"
+          - "играй музыку"
+          - "музыка"
           - "play music"
+          - "start music"
+          - "turn on music"
+          - "play some music"
+          - "start playing"
           - "qo'shiqni ijro et"
+          - "qo'shiqni yoq"
+          - "musiqani yoq"
+          - "musiqani ijro et"
+          - "musiqani chala"
+          - "musiqa qo‘y"
+          - "qo‘shiq qo‘y"
         action: music.play_music
         response:
           ru: "Включаю музыку."
           en: "Playing music."
           uz: "Musiqani yoqaman."
+
   weather:
     description: "Погода"
     commands:
+      # === Weather ===
       - patterns:
           - "какая погода"
+          - "погода сейчас"
+          - "скажи погоду"
+          - "что по погоде"
+          - "погоду покажи"
+          - "how’s the weather"
           - "what's the weather"
+          - "tell me the weather"
+          - "check weather"
+          - "show weather"
+          - "weather now"
           - "ob-havo qanday"
+          - "ob havo qanday"
+          - "ob-havo ni ayt"
+          - "ob-havoni bil"
+          - "bugungi ob-havo"
+          - "bugun havo qanday"
         action: weather.get_weather
         response:
           ru: "Секунду, узнаю погоду..."
           en: "One moment, checking weather..."
           uz: "Bir daqiqa, ob-havoni bilib kelyapman..."
+
+  language:
+    description: "Смена языка"
+    commands:
+      - patterns:
+          - "измени язык"
+          - "поменяй язык"
+          - "сменить язык"
+          - "change language"
+          - "switch language"
+          - "set language"
+          - "tilni o'zgartir"
+          - "tilni almashtir"
+          - "yangi til tanla"
+        action: system.change_language
+        response:
+          ru: "Язык обновлён."
+          en: "Language changed."
+          uz: "Til o‘zgartirildi."
+
 meta:
   reload_dataset:
     patterns:
       - "обнови команды"
+      - "перезагрузи команды"
+      - "перезагрузи датасет"
       - "reload dataset"
+      - "update dataset"
+      - "reload commands"
       - "yangilash buyruqlar"
+      - "buyruqlarni yangila"
+      - "buyruqlarni yangilash"
     response:
       ru: "Датасет обновлён."
       en: "Dataset reloaded."
       uz: "Buyruqlar yangilandi."
+
   restart_skills:
     patterns:
       - "перезагрузи навыки"
+      - "перезапусти навыки"
+      - "обнови навыки"
       - "reload skills"
+      - "restart skills"
+      - "update skills"
       - "skills yangila"
+      - "ko'nikmalarni yangila"
+      - "ko'nikmalarni qayta yukla"
     response:
       ru: "Навыки перезапущены."
       en: "Skills reloaded."
       uz: "Ko'nikmalar yangilandi."
-  # Пример новой команды для проигрывания аудиоклипа
+
   play_quote:
     patterns:
       - "проиграй цитату"
+      - "воспроизведи цитату"
+      - "цитату включи"
       - "play quote"
+      - "play a movie quote"
+      - "quote from film"
       - "kino sitata yangila"
+      - "film sitatasini ijro et"
+      - "film iqtibosini yangila"
     response:
       ru: "Сейчас воспроизведу цитату из фильма."
-      en: "Playing a quote from movie."
+      en: "Playing a quote from a movie."
       uz: "Film sitatasini ijro etaman."

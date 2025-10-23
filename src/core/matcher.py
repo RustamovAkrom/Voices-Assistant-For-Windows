@@ -59,7 +59,7 @@ class SmartMatcher:
 
     def split_phrases(self, text: str):
         # Разбиваем по разделителям для нескольких команд в одной фразе
-        separators = [" и ", ",", ";", " а потом ", " затем ", " потом ", " then ", " and "]
+        separators = [" и ", " а потом ", " затем ", " потом ", " then ", " and ", "keyin", "yana", "undan keyin"]
         t = text
         for sep in separators:
             t = t.replace(sep, "|")
