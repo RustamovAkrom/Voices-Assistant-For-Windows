@@ -19,6 +19,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("Assistant")
 
+WORKERS = []
 tts_queue = queue.Queue()
 recognizer_queue = queue.Queue()
 
@@ -93,10 +94,14 @@ def main():
     settings = get_settings()
     config = settings.config
     dataset = settings.dataset
-
+    context = {
+        "config": config,
+        "dataset": dataset,
+        "workers": WORKERS
+    }
     recognizer = Recognizer(config)
     tts = HybridTTS(config)
-    skills = SkillManager(context={"config": config, "dataset": dataset})
+    skills = SkillManager(context=context)
     executor = Executor(dataset, skills, config=config)
 
     # === Настройка wake words ===
@@ -120,8 +125,10 @@ def main():
     last_activation = 0
     active_duration = 20  # больше времени, чтобы не спешить
 
-    threading.Thread(target=tts_worker, args=(tts,), daemon=True).start()
-    threading.Thread(target=recognizer_worker, args=(recognizer,), daemon=True).start()
+    thread1 = threading.Thread(target=tts_worker, args=(tts,), daemon=True).start()
+    thread2 = threading.Thread(target=recognizer_worker, args=(recognizer,), daemon=True).start()
+
+    WORKERS.append(thread1, thread2)
 
     logger.info("🤖 Jarvis запущен и слушает...")
 

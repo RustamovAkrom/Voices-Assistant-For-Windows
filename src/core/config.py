@@ -8,19 +8,6 @@ DEFAULT_CONFIG_PATH = DATA_PATH / "config.yaml"
 DATASET_PATH = DATA_PATH / "commands.yaml"
 MODELS_DIR = DATA_PATH / "models"
 
-VOSK_MODEL_URLS = {
-    "ru": "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip",
-    "en": "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip",
-    "uz": "https://alphacephei.com/vosk/models/vosk-model-small-uz-0.22.zip",
-}
-
-# Ключевые слова для определения языка текста (если langdetect не сработал)
-DETECT_LANGUAGE_WORDS = {
-    "en": {"hello", "thanks", "how", "you", "open", "music"},
-    "uz": {"salom", "rahmat", "qandaysiz", "yaxshi"},
-    "ru": {"привет", "спасибо", "открой", "включи", "поставь"},
-}
-
 class Settings:
     def __init__(self, config_path: Path = DEFAULT_CONFIG_PATH, dataset_path: Path = DATASET_PATH):
         self.config_path = config_path

@@ -86,6 +86,20 @@ skills:
           en: "One moment, searching online..."
           uz: "Bir daqiqa, internetdan izlayapman..."
 
+      # === Terminate Program ===
+      - patterns:
+          - "выключись"
+          - "останови работу"
+          - "заверши программу"
+          - "джарвис выключись"
+          - "jarvis stop"
+          - "shut down"
+          - "terminate"
+        action: "system.shutdown_assistant"
+        response: 
+          ru: "Останавливает ассистента"
+          en: "Stopping assistant"
+          uz: "Asistentni tohtatish"
   music:
     description: "Музыкальные команды"
     commands:
