@@ -125,9 +125,11 @@ def main():
     last_activation = 0
     active_duration = 20  # больше времени, чтобы не спешить
 
-    thread1 = threading.Thread(target=tts_worker, args=(tts,), daemon=True).start()
-    thread2 = threading.Thread(target=recognizer_worker, args=(recognizer,), daemon=True).start()
-
+    thread1 = threading.Thread(target=tts_worker, args=(tts,), daemon=True)
+    thread2 = threading.Thread(target=recognizer_worker, args=(recognizer,), daemon=True)
+    thread1.start()
+    thread2.start()
+    
     WORKERS.append(thread1, thread2)
 
     logger.info("🤖 Jarvis запущен и слушает...")

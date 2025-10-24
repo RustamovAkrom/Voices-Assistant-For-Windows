@@ -95,7 +95,7 @@ skills:
           - "jarvis stop"
           - "shut down"
           - "terminate"
-        action: "system.shutdown_assistant"
+        action: "assistant_control.shutdown_assistant"
         response: 
           ru: "Останавливает ассистента"
           en: "Stopping assistant"
