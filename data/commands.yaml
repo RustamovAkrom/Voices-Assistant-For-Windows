@@ -7,7 +7,6 @@ skills:
           - "выключись"
           - "останови работу"
           - "заверши программу"
-          - "джарвис выключись"
           - "jarvis stop"
           - "shut down"
           - "terminate"
@@ -120,6 +119,50 @@ skills:
           en: "One moment, searching online..."
           uz: "Bir daqiqa, internetdan izlayapman..."
   
+  system_info:
+    description: "Навыки для получения системной информации: время и дата"
+    commands:
+      - patterns:
+          # ==== ВРЕМЯ ====
+          - "сколько времени"
+          - "который час"
+          - "время сейчас"
+          - "скажи время"
+          - "текущее время"
+          - "время"
+          - "what time is it"
+          - "tell me the time"
+          - "current time"
+          - "time now"
+          - "hozir soat nechchi"
+          - "soat nechchi"
+          - "soat nechi"
+          - "vaqt qancha"
+        action: time_info.get_time
+        response:
+          ru: "Секунду, проверяю время..."
+          en: "Just a second, checking the time..."
+          uz: "Bir soniya, vaqtni tekshiryapman..."
+
+      - patterns:
+          # ==== ДАТА ====
+          - "какая сегодня дата"
+          - "дата сегодня"
+          - "какое сегодня число"
+          - "дата"
+          - "today's date"
+          - "what date is it"
+          - "what day is it"
+          - "what is the date today"
+          - "bugun sana nima"
+          - "bugungi sana"
+          - "sana bugun"
+        action: time_info.get_date
+        response:
+          ru: "Сейчас скажу дату."
+          en: "Let me tell you the date."
+          uz: "Sana haqida aytaman."
+
   music:
     description: "Музыкальные команды"
     commands:

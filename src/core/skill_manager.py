@@ -1,6 +1,6 @@
 import importlib, os
 from pathlib import Path
-from functools import lru_cache
+
 
 class SkillManager:
     def __init__(self, skills_path: str = "src/skills", debug: bool = True, context: dict = None):
@@ -34,12 +34,14 @@ class SkillManager:
     def execute(self, action: str, text: str = None):
         if not action:
             return "⚠️ Действие не указано."
+        
         if "." in action:
             mod, fn = action.split(".", 1)
             module = self.skills.get(mod)
             if not module or not hasattr(module, fn):
                 return f"❌ Не найдено: {action}"
             return self._safe_call(getattr(module, fn), action, text)
+        
         for module in self.skills.values():
             fn = getattr(module, action, None)
             if callable(fn):

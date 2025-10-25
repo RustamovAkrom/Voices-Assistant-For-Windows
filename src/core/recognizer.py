@@ -146,7 +146,7 @@ class Recognizer:
         with sr.AudioFile(wav_bytes) as source:
             audio = r.record(source)
 
-        lang_code = self.language_map.get(self.default_lang, "ru-RU")
+        lang_code = self.language_map.get(self.default_lang, "ru")
         try:
             text = r.recognize_google(audio, language=lang_code)
             print(f"🧠 Распознано ({self.default_lang.upper()}): {text}")
