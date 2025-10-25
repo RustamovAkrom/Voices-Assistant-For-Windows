@@ -193,3 +193,16 @@ class Recognizer:
             return None
         import numpy as np
         return np.frombuffer(b"".join(frames), dtype="int16")
+
+    def stop(self):
+        """Останавливает микрофон и очищает очередь."""
+        try:
+            if self.stream:
+                self.stream.stop()
+                self.stream.close()
+                self.stream = None
+            with self.audio_queue.mutex:
+                self.audio_queue.queue.clear()
+            print("🛑 Распознавание остановлено.")
+        except Exception as e:
+            print(f"⚠️ Ошибка при остановке микрофона: {e}")

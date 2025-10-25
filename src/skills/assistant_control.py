@@ -15,25 +15,25 @@ def change_language(lang_code):
 
     return f"Язык успешно изменён на {lang_code}."
 
-def shutdown_asistant(*args, **kwargs):
+def shutdown_assistant(*args, **kwargs):
     """
     Корректно завершает работу Jarvis.
     Останавливает фоновые воркеры и завершает процесс.
     """
     print("🛑 Остановка Jarvis...")
+    print(*args, **kwargs)
+    # context = kwargs.get("context", {})
+    # workers = context.get("workers", [])
 
-    context = kwargs.get("context", {})
-    workers = context.get("workers", [])
+    # # Пробуем корректно завершить все потоки
+    # for w in workers:
+    #     if hasattr(w, "stop"):
+    #         try:
+    #             w.stop()
+    #             print(f"[INFO] 🔻 Остановлен поток: {w.name}")
+    #         except Exception as e:
+    #             print(f"[WARN] Не удалось остановить {w.name}: {e}")
 
-    # Пробуем корректно завершить все потоки
-    for w in workers:
-        if hasattr(w, "stop"):
-            try:
-                w.stop()
-                print(f"[INFO] 🔻 Остановлен поток: {w.name}")
-            except Exception as e:
-                print(f"[WARN] Не удалось остановить {w.name}: {e}")
-
-    # Если потоков нет, просто выходим
-    print("👋 Jarvis завершает работу.")
-    sys.exit(0)
+    # # Если потоков нет, просто выходим
+    # print("👋 Jarvis завершает работу.")
+    # sys.exit(0)

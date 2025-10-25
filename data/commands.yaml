@@ -1,4 +1,38 @@
 skills:
+  assistant_control:
+    description: "Assistant Commands"
+    commands:
+      # Terminate Assistant
+      - patterns:
+          - "выключись"
+          - "останови работу"
+          - "заверши программу"
+          - "джарвис выключись"
+          - "jarvis stop"
+          - "shut down"
+          - "terminate"
+        action: "assistant_control.shutdown_assistant"
+        response: 
+          ru: "Останавливает ассистента"
+          en: "Stopping assistant"
+          uz: "Asistentni tohtatish"
+      # Change Language
+      - patterns:
+          - "измени язык"
+          - "поменяй язык"
+          - "сменить язык"
+          - "change language"
+          - "switch language"
+          - "set language"
+          - "tilni o'zgartir"
+          - "tilni almashtir"
+          - "yangi til tanla"
+        action: assistant_control.change_language
+        response:
+          ru: "Язык обновлён."
+          en: "Language changed."
+          uz: "Til o‘zgartirildi."
+  
   system:
     description: "Системные команды"
     commands:
@@ -85,21 +119,7 @@ skills:
           ru: "Секунду, ищу информацию..."
           en: "One moment, searching online..."
           uz: "Bir daqiqa, internetdan izlayapman..."
-
-      # === Terminate Program ===
-      - patterns:
-          - "выключись"
-          - "останови работу"
-          - "заверши программу"
-          - "джарвис выключись"
-          - "jarvis stop"
-          - "shut down"
-          - "terminate"
-        action: "assistant_control.shutdown_assistant"
-        response: 
-          ru: "Останавливает ассистента"
-          en: "Stopping assistant"
-          uz: "Asistentni tohtatish"
+  
   music:
     description: "Музыкальные команды"
     commands:
@@ -160,25 +180,6 @@ skills:
           en: "One moment, checking weather..."
           uz: "Bir daqiqa, ob-havoni bilib kelyapman..."
 
-  language:
-    description: "Смена языка"
-    commands:
-      - patterns:
-          - "измени язык"
-          - "поменяй язык"
-          - "сменить язык"
-          - "change language"
-          - "switch language"
-          - "set language"
-          - "tilni o'zgartir"
-          - "tilni almashtir"
-          - "yangi til tanla"
-        action: system.change_language
-        response:
-          ru: "Язык обновлён."
-          en: "Language changed."
-          uz: "Til o‘zgartirildi."
-
 meta:
   reload_dataset:
     patterns:
@@ -227,3 +228,45 @@ meta:
       ru: "Сейчас воспроизведу цитату из фильма."
       en: "Playing a quote from a movie."
       uz: "Film sitatasini ijro etaman."
+smalltalk:
+  description: "Простые разговорные ответы"
+  commands:
+    - patterns:
+        - "ты молодец"
+        - "молодец"
+        - "красавчик"
+        - "good job"
+        - "well done"
+      response:
+        ru: "Спасибо, сэр. Вы тоже на высоте!"
+        en: "Thank you, sir. You're amazing too!"
+        uz: "Rahmat, janob. Siz ham ajoyibsiz!"
+
+    - patterns:
+        - "ты тупой"
+        - "глупый"
+        - "идиот"
+        - "stupid"
+        - "fool"
+      response:
+        ru: "Очень тонкое замечание, сэр."
+        en: "A very subtle remark, sir."
+        uz: "Juda nozik fikr, janob."
+
+    - patterns:
+        - "спасибо"
+        - "thank you"
+        - "rahmat"
+      response:
+        ru: "Всегда пожалуйста!"
+        en: "You're welcome!"
+        uz: "Doimo marhamat!"
+
+    - patterns:
+        - "как дела"
+        - "how are you"
+        - "qandaysiz"
+      response:
+        ru: "Всё отлично, сэр! А у вас?"
+        en: "I’m great, sir! How about you?"
+        uz: "Hammasi zo‘r, janob! Sizchi?"

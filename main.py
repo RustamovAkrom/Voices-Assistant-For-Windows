@@ -130,7 +130,7 @@ def main():
     thread1.start()
     thread2.start()
     
-    WORKERS.append(thread1, thread2)
+    WORKERS.extend([thread1, thread2])
 
     logger.info("🤖 Jarvis запущен и слушает...")
 
@@ -210,10 +210,9 @@ def main():
             if response:
                 logger.info(f"🤖 Jarvis: {response}")
                 tts_queue.put((response, lang))
-                extra_time = 10
                 last_activation = time.time()
-                active_duration += extra_time
-                print(f"⏱️ Активное время продлено на {extra_time} сек (итого {active_duration})")
+                active_duration = 20
+                print(f"⏱️ Активное время продлено на 20 сек (итого {active_duration})")
             else:
                 tts_queue.put(("Не понял, повторите.", lang))
 
