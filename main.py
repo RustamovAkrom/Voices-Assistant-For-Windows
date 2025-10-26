@@ -37,31 +37,56 @@ def tts_worker(tts: HybridTTS):
         finally:
             tts_queue.task_done()
 
-
-# === Поток прослушивания ===
 def recognizer_worker(recognizer: Recognizer, silence_threshold=3.0):
-    """Постоянно слушает микрофон и отправляет фразы в очередь"""
-    last_speech_time = 0
-    buffer_text = ""
+    """
+    Базовая рабочая логика — сразу помещаем распознанные фразы в очередь.
+    (Более сложная агрегация по паузе можно вернуть позднее)
+    """
+    miss_count = 0
+    miss_threshold = 3
 
     while True:
         try:
             result = recognizer.listen_text()
             if result:
+                miss_count = 0
                 text, lang = result
-                buffer_text = text
-                last_speech_time = time.time()
-                recognizer_queue.put((buffer_text.strip(), lang))
+                if text:
+                    recognizer_queue.put((text.strip(), lang))
             else:
-                # Проверяем тишину
-                if buffer_text and time.time() - last_speech_time >= silence_threshold:
-                    recognizer_queue.put((buffer_text.strip(), None))
-                    buffer_text = ""
-                time.sleep(0.15)
+                miss_count += 1
+                if miss_count >= miss_threshold:
+                    tts_queue.put(("Извини, я не понял, повторите...", recognizer.default_lang))
+                    logger.info("🤔 Не понял, повторите...")
+                    miss_count = 0
+                time.sleep(0.05)
         except Exception as e:
             logger.error(f"[Recognizer ERROR] {e}")
             time.sleep(0.5)
-            recognizer.stop()
+# === Поток прослушивания ===
+# def recognizer_worker(recognizer: Recognizer, silence_threshold=3.0):
+#     """Постоянно слушает микрофон и отправляет фразы в очередь"""
+#     last_speech_time = 0
+#     buffer_text = ""
+
+#     while True:
+#         try:
+#             result = recognizer.listen_text()
+#             if result:
+#                 text, lang = result
+#                 buffer_text = text
+#                 last_speech_time = time.time()
+#                 recognizer_queue.put((buffer_text.strip(), lang))
+#             else:
+#                 # Проверяем тишину
+#                 if buffer_text and time.time() - last_speech_time >= silence_threshold:
+#                     recognizer_queue.put((buffer_text.strip(), None))
+#                     buffer_text = ""
+#                 time.sleep(0.15)
+#         except Exception as e:
+#             logger.error(f"[Recognizer ERROR] {e}")
+#             time.sleep(0.5)
+#             recognizer.stop()
 
 
 # === Вспомогательные функции ===

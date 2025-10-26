@@ -11,8 +11,9 @@ class Executor:
     def _init_matcher(self):
         self.matcher = SmartMatcher(
             self.dataset,
-            threshold=self.config.get("matcher_threshold", 70),
-            debug=self.config.get("debug", False)
+            threshold=self.config.get("matcher_threshold", 60),
+            debug=self.config.get("debug", False),
+            config=self.config
         )
 
     def update_dataset(self, new_dataset: dict):

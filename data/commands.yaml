@@ -271,6 +271,7 @@ meta:
       ru: "Сейчас воспроизведу цитату из фильма."
       en: "Playing a quote from a movie."
       uz: "Film sitatasini ijro etaman."
+
 smalltalk:
   description: "Простые разговорные ответы"
   commands:
@@ -287,6 +288,7 @@ smalltalk:
 
     - patterns:
         - "ты тупой"
+        - "ты дурак"
         - "глупый"
         - "идиот"
         - "stupid"

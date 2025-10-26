@@ -1,6 +1,7 @@
 import requests
 import sounddevice as sd
 from pathlib import Path
+import logging
 
 # --- Опциональные импорты ---
 try:
@@ -27,6 +28,7 @@ class HybridTTS:
     """
 
     def __init__(self, config: dict = None):
+        self.logger = logging.getLogger("HybridTTS")
         self.config = config or {}
         self.voice_enabled = self.config.get("voice_enabled", True)
         self.default_lang = self.config.get("assistant", {}).get("default_language", "ru")
@@ -81,12 +83,11 @@ class HybridTTS:
                 self._ensure_models_exist()
                 self._load_model(self.current_lang)
             except Exception as e:
-                print(f"⚠️ Ошибка загрузки Torch/Silero ({e}). Используется pyttsx3.")
+                self.logger.warning(f"Ошибка загрузки Torch/Silero ({e}). Используется pyttsx3.")                
                 self.model = None
                 self.current_engine = "pyttsx3"
         else:
-            print("⚠️ Torch не установлен — используется pyttsx3.")
-
+            self.logger.info("Torch не установлен — используется pyttsx3.")
     # ----------------------------- #
     # 🔹 Silero Model Management
     # ----------------------------- #
@@ -97,15 +98,15 @@ class HybridTTS:
         for lang, model_name in self.supported_langs.items():
             model_path = self.models_dir / f"{model_name}.pt"
             if not model_path.exists():
-                print(f"⬇️ Скачиваю Silero модель ({model_name}) для {lang.upper()}...")
+                self.logger.info(f"Скачиваю Silero модель ({model_name}) для {lang.upper()}...")                
                 try:
                     url = f"{base_url}/{lang}/{model_name}.pt"
                     r = requests.get(url, stream=True, timeout=20)
                     with open(model_path, "wb") as f:
                         f.write(r.content)
-                    print(f"✅ Модель {model_name} установлена.")
+                    self.logger.info(f"Модель {model_name} установлена.")                
                 except Exception as e:
-                    print(f"⚠️ Ошибка скачивания {model_name}: {e}")
+                    self.logger.warning(f"Ошибка скачивания {model_name}: {e}")
 
     def _load_model(self, lang: str):
         """Загружает модель Silero для нужного языка"""
@@ -120,9 +121,9 @@ class HybridTTS:
                 speaker=model_name,
             )
             self.model.to(self.device)
-            print(f"🎙️ Silero TTS загружен для языка {lang.upper()}.")
+            self.logger.info(f"Silero TTS загружен для языка {lang.upper()}.")        
         except Exception as e:
-            print(f"⚠️ Ошибка загрузки Silero ({lang}): {e}")
+            self.logger.warning(f"Ошибка загрузки Silero ({lang}): {e}")            
             self.model = None
             self.current_engine = "pyttsx3"
 
@@ -133,7 +134,7 @@ class HybridTTS:
     def speak(self, text: str, lang: str = None, speaker: str = None, engine: str = None):
         """Произносит текст с помощью Silero или pyttsx3"""
         if not text or not self.voice_enabled:
-            print(f"💬 {text}")
+            self.logger.debug(f"Текст пустой или голос отключён: '{text}'")
             return
 
         lang = lang or self.current_lang
@@ -145,7 +146,7 @@ class HybridTTS:
             try:
                 if speaker not in self.silero_speakers.get(lang, []):
                     speaker = self.silero_speakers[lang][0]
-                print(f"🗣️ [{lang.upper()}:{speaker}] {text}")
+                self.logger.info(f"[SILERO] [{lang}:{speaker}] {text}")
                 audio = self.model.apply_tts(
                     text=text,
                     speaker=speaker,
@@ -157,17 +158,17 @@ class HybridTTS:
                 sd.wait()
                 return
             except Exception as e:
-                print(f"[Silero error] {e}")
+                self.logger.warning(f"[Silero error] {e}")
                 engine = "pyttsx3"
 
         # pyttsx3 fallback
         if self.engine and engine == "pyttsx3":
-            print(f"🔊 [pyttsx3] {text}")
+            self.logger.info(f"[pyttsx3] {text}")
             try:
                 self.engine.say(text)
                 self.engine.runAndWait()
             except Exception as e:
-                print(f"[TTS error] {e}")
+                self.logger.warning(f"[TTS error] {e}")
 
         # Если нет ни одного TTS
         elif not self.engine:

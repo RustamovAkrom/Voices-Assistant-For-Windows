@@ -13,6 +13,11 @@ class SkillManager:
     def log(self, msg: str):
         if self.debug:
             print(f"[SkillManager] {msg}")
+            
+    def reload(self):
+        """Перезагружает все навыки (например, после обновления файлов)."""
+        self.log("🔄 Все навыки перезагружены")
+        self.load_all_skills()
 
     def load_all_skills(self):
         self.skills.clear()
@@ -53,6 +58,8 @@ class SkillManager:
             return fn(action=action, text=text, **self.context)
         except Exception as e:
             return f"⚠️ Ошибка в {action}: {e}"
+
+
 
 # import importlib
 # import os
