@@ -10,7 +10,7 @@ voice_speaker: "aidar"        # Имя спикера (Silero): aidar, baya, kse
 language: "ru-RU"            # Язык распознавания по умолчанию
 wake_word: "джарвис"           # Слово-пробуждение (если используешь активацию)
 wake_words:
-  ru: ["джарвис", "жарвис"]
+  ru: ["джарвис", "жарвис", "чарльз"]
   en: ["jarvis", "hey jarvis"]
   uz: ["jarvis", "jarvisjon"]
 

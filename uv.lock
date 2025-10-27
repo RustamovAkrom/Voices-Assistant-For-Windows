@@ -221,6 +221,8 @@ dependencies = [
     { name = "numpy" },
     { name = "omegaconf" },
     { name = "psutil" },
+    { name = "pyautogui" },
+    { name = "pycaw" },
     { name = "pyttsx3" },
     { name = "pywin32" },
     { name = "pyyaml" },
@@ -242,6 +244,8 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.3.4" },
     { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "psutil", specifier = ">=7.1.1" },
+    { name = "pyautogui", specifier = ">=0.9.54" },
+    { name = "pycaw", specifier = ">=20251023" },
     { name = "pyttsx3", specifier = ">=2.99" },
     { name = "pywin32", specifier = ">=311" },
     { name = "pyyaml", specifier = ">=6.0.3" },
@@ -297,6 +301,17 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1a/8a/0402ba61a2f16038b48b39bccca271134be00c5c9f0f623208399333c448/markupsafe-3.0.3-cp314-cp314t-win_amd64.whl", hash = "sha256:4faffd047e07c38848ce017e8725090413cd80cbc23d86e55c587bf979e579c9", size = 15426, upload-time = "2025-09-27T18:37:27.316Z" },
     { url = "https://files.pythonhosted.org/packages/70/bc/6f1c2f612465f5fa89b95bead1f44dcb607670fd42891d8fdcd5d039f4f4/markupsafe-3.0.3-cp314-cp314t-win_arm64.whl", hash = "sha256:32001d6a8fc98c8cb5c947787c5d08b0a50663d139f1305bac5885d98d9b40fa", size = 14146, upload-time = "2025-09-27T18:37:28.327Z" },
 ]
+
+[[package]]
+name = "mouseinfo"
+version = "0.1.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyperclip" },
+    { name = "python3-xlib", marker = "sys_platform == 'linux'" },
+    { name = "rubicon-objc", marker = "sys_platform == 'darwin'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/28/fa/b2ba8229b9381e8f6381c1dcae6f4159a7f72349e414ed19cfbbd1817173/MouseInfo-0.1.3.tar.gz", hash = "sha256:2c62fb8885062b8e520a3cce0a297c657adcc08c60952eb05bc8256ef6f7f6e7", size = 10850, upload-time = "2020-03-27T21:20:10.136Z" }
 
 [[package]]
 name = "mpmath"
@@ -510,12 +525,59 @@ wheels = [
 ]
 
 [[package]]
+name = "pyautogui"
+version = "0.9.54"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mouseinfo" },
+    { name = "pygetwindow" },
+    { name = "pymsgbox" },
+    { name = "pyobjc-core", marker = "sys_platform == 'darwin'" },
+    { name = "pyobjc-framework-quartz", marker = "sys_platform == 'darwin'" },
+    { name = "pyscreeze" },
+    { name = "python3-xlib", marker = "sys_platform == 'linux'" },
+    { name = "pytweening" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/65/ff/cdae0a8c2118a0de74b6cf4cbcdcaf8fd25857e6c3f205ce4b1794b27814/PyAutoGUI-0.9.54.tar.gz", hash = "sha256:dd1d29e8fd118941cb193f74df57e5c6ff8e9253b99c7b04f39cfc69f3ae04b2", size = 61236, upload-time = "2023-05-24T20:11:32.972Z" }
+
+[[package]]
+name = "pycaw"
+version = "20251023"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "comtypes" },
+    { name = "psutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d1/81/19181e3118a503f94d8689fbbed60616e85d08cee3a295c11245ae73018f/pycaw-20251023.tar.gz", hash = "sha256:19935b92eb5efc3f3ea5ee8a2d37ca49009e9dc00f83d067b74b9922e84b5b3b", size = 23421, upload-time = "2025-10-23T18:26:45.087Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ff/bc/f60c1622da5c53770c2d62457b5b6fc9623ab41b9d276269b857cd337e22/pycaw-20251023-py3-none-any.whl", hash = "sha256:ef06d234a2fe3c175925a2a8c7ed8824e450851014fdb7d900af1b56ce422d4e", size = 25849, upload-time = "2025-10-23T18:26:43.955Z" },
+]
+
+[[package]]
 name = "pycparser"
 version = "2.23"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/fe/cf/d2d3b9f5699fb1e4615c8e32ff220203e43b248e1dfcc6736ad9057731ca/pycparser-2.23.tar.gz", hash = "sha256:78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2", size = 173734, upload-time = "2025-09-09T13:23:47.91Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/e3/59cd50310fc9b59512193629e1984c1f95e5c8ae6e5d8c69532ccc65a7fe/pycparser-2.23-py3-none-any.whl", hash = "sha256:e5c6e8d3fbad53479cab09ac03729e0a9faf2bee3db8208a550daf5af81a5934", size = 118140, upload-time = "2025-09-09T13:23:46.651Z" },
+]
+
+[[package]]
+name = "pygetwindow"
+version = "0.0.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyrect" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e1/70/c7a4f46dbf06048c6d57d9489b8e0f9c4c3d36b7479f03c5ca97eaa2541d/PyGetWindow-0.0.9.tar.gz", hash = "sha256:17894355e7d2b305cd832d717708384017c1698a90ce24f6f7fbf0242dd0a688", size = 9699, upload-time = "2020-10-04T02:12:50.806Z" }
+
+[[package]]
+name = "pymsgbox"
+version = "2.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/6a/e80da7594ee598a776972d09e2813df2b06b3bc29218f440631dfa7c78a8/pymsgbox-2.0.1.tar.gz", hash = "sha256:98d055c49a511dcc10fa08c3043e7102d468f5e4b3a83c6d3c61df722c7d798d", size = 20768, upload-time = "2025-09-09T00:38:56.863Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6f/3e/08c8cac81b2b2f7502746e6b9c8e5b0ec6432cd882c605560fc409aaf087/pymsgbox-2.0.1-py3-none-any.whl", hash = "sha256:5de8ec19bca2ca7e6c09d39c817c83f17c75cee80275235f43a9931db699f73b", size = 9994, upload-time = "2025-09-09T00:38:55.672Z" },
 ]
 
 [[package]]
@@ -2926,6 +2988,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyperclip"
+version = "1.11.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/52/d87eba7cb129b81563019d1679026e7a112ef76855d6159d24754dbd2a51/pyperclip-1.11.0.tar.gz", hash = "sha256:244035963e4428530d9e3a6101a1ef97209c6825edab1567beac148ccc1db1b6", size = 12185, upload-time = "2025-09-26T14:40:37.245Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/df/80/fc9d01d5ed37ba4c42ca2b55b4339ae6e200b456be3a1aaddf4a9fa99b8c/pyperclip-1.11.0-py3-none-any.whl", hash = "sha256:299403e9ff44581cb9ba2ffeed69c7aa96a008622ad0c46cb575ca75b5b84273", size = 11063, upload-time = "2025-09-26T14:40:36.069Z" },
+]
+
+[[package]]
 name = "pypiwin32"
 version = "223"
 source = { registry = "https://pypi.org/simple" }
@@ -2936,6 +3007,24 @@ sdist = { url = "https://files.pythonhosted.org/packages/13/e8/4f38eb30c4dae3663
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d0/1b/2f292bbd742e369a100c91faa0483172cd91a1a422a6692055ac920946c5/pypiwin32-223-py3-none-any.whl", hash = "sha256:67adf399debc1d5d14dffc1ab5acacb800da569754fafdc576b2a039485aa775", size = 1674, upload-time = "2018-02-26T00:43:23.108Z" },
 ]
+
+[[package]]
+name = "pyrect"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/04/2ba023d5f771b645f7be0c281cdacdcd939fe13d1deb331fc5ed1a6b3a98/PyRect-0.2.0.tar.gz", hash = "sha256:f65155f6df9b929b67caffbd57c0947c5ae5449d3b580d178074bffb47a09b78", size = 17219, upload-time = "2022-03-16T04:45:52.36Z" }
+
+[[package]]
+name = "pyscreeze"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ee/f0/cb456ac4f1a73723d5b866933b7986f02bacea27516629c00f8e7da94c2d/pyscreeze-1.0.1.tar.gz", hash = "sha256:cf1662710f1b46aa5ff229ee23f367da9e20af4a78e6e365bee973cad0ead4be", size = 27826, upload-time = "2024-08-20T23:03:07.291Z" }
+
+[[package]]
+name = "python3-xlib"
+version = "0.15"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ef/c6/2c5999de3bb1533521f1101e8fe56fd9c266732f4d48011c7c69b29d12ae/python3-xlib-0.15.tar.gz", hash = "sha256:dc4245f3ae4aa5949c1d112ee4723901ade37a96721ba9645f2bfa56e5b383f8", size = 132828, upload-time = "2014-05-31T12:28:59.603Z" }
 
 [[package]]
 name = "pyttsx3"
@@ -2951,6 +3040,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/94/4e/a37786f666f4f084f
 wheels = [
     { url = "https://files.pythonhosted.org/packages/84/14/9fb5842581f0419b5eb85f8c26c1c0c0f4cf6b4d5be638ae3157316a2650/pyttsx3-2.99-py3-none-any.whl", hash = "sha256:ff3e4ff756c24d72b9f3f2f304e0edaafd0f58adb0e6f4b90d930440cda8b207", size = 32157, upload-time = "2025-07-08T12:24:20.299Z" },
 ]
+
+[[package]]
+name = "pytweening"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/0c/c16bc93ac2755bac0066a8ecbd2a2931a1735a6fffd99a2b9681c7e83e90/pytweening-1.2.0.tar.gz", hash = "sha256:243318b7736698066c5f362ec5c2b6434ecf4297c3c8e7caa8abfe6af4cac71b", size = 171241, upload-time = "2024-02-20T03:37:56.809Z" }
 
 [[package]]
 name = "pywin32"
@@ -3029,6 +3124,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf", size = 134517, upload-time = "2025-08-18T20:46:02.573Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload-time = "2025-08-18T20:46:00.542Z" },
+]
+
+[[package]]
+name = "rubicon-objc"
+version = "0.5.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/2f/612049b8601e810080f63f4b85acbf2ed0784349088d3c944eb288e1d487/rubicon_objc-0.5.2.tar.gz", hash = "sha256:1180593935f6a8a39c23b5f4b7baa24aedf9f7285e80804a1d9d6b50a50572f5", size = 175710, upload-time = "2025-08-07T06:12:25.194Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9f/a4/11ad29100060af56408ed084dca76a16d2ce8eb31b75081bfc0eec45d755/rubicon_objc-0.5.2-py3-none-any.whl", hash = "sha256:829b253c579e51fc34f4bb6587c34806e78960dcc1eb24e62b38141a1fe02b39", size = 63512, upload-time = "2025-08-07T06:12:23.766Z" },
 ]
 
 [[package]]

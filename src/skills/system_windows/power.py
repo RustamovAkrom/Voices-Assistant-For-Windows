@@ -1,14 +1,4 @@
 import os
-import webbrowser
-import platform
-
-def open_browser(*args, **kwargs):
-    try:
-        # cross-platform try
-        webbrowser.open("https://www.google.com")
-        return "Открываю браузер."
-    except Exception as e:
-        return f"Ошибка при открытии браузера: {e}"
 
 
 def shutdown(*args, **kwargs):
@@ -32,10 +22,3 @@ def restart(*args, **kwargs):
 def sleep(*args, **kwargs):
     # os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
     return "Команда выключения получена (в демо режимe не выполняю)."
-
-
-def lock_screen():
-    if platform.system() == "Windows":
-        os.system("rundll32.exe user32.dll,LockWorkStation")
-    else:
-        os.system("gnome-screensaver-command -l")

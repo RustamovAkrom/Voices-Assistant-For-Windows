@@ -1,9 +1,8 @@
 import re
-from pathlib import Path
 import yaml
-import sys
 
 from src.core.config import get_settings, DEFAULT_CONFIG_PATH
+
 
 def _detect_lang_from_text(text: str):
     if not text:
@@ -33,6 +32,7 @@ def _persist_settings(settings):
             DEFAULT_CONFIG_PATH.write_text(yaml.safe_dump(settings, allow_unicode=True))
     except Exception:
         pass
+
 
 def change_language(*args, **kwargs):
     """
@@ -93,32 +93,3 @@ def change_language(*args, **kwargs):
         "uz": "Til yangilandi."
     }
     return messages.get(lang, messages["ru"])
-# ...existing code...
-
-def shutdown_assistant(*args, **kwargs):
-    """
-    🛑 Корректно завершает работу Jarvis.
-
-    В kwargs можно передавать:
-      - context: { "workers": [...], "assistant_name": str }
-      - query: исходная команда пользователя
-    """
-
-    context = kwargs.get("context", {})
-    query = kwargs.get("query", "")
-    assistant_name = context.get("assistant_name", "Jarvis")
-    workers = context.get("workers", [])
-
-    print(f"🧠 {assistant_name} получил команду завершения: {query}")
-    print("🔻 Завершение активных процессов...")
-
-    for w in workers:
-        if hasattr(w, "stop"):
-            try:
-                w.stop()
-                print(f"✅ Остановлен поток: {getattr(w, 'name', 'Unnamed')}")
-            except Exception as e:
-                print(f"⚠️ Не удалось остановить поток: {e}")
-
-    print(f"👋 {assistant_name} завершает работу.")
-    sys.exit(0)

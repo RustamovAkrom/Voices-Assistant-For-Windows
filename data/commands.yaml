@@ -1,4 +1,5 @@
 skills:
+
   assistant_control:
     description: "Assistant Commands"
     commands:
@@ -10,7 +11,7 @@ skills:
           - "jarvis stop"
           - "shut down"
           - "terminate"
-        action: "assistant_control.shutdown_assistant"
+        action: assistant.shutdown.shutdown_assistant
         response: 
           ru: "Останавливает ассистента"
           en: "Stopping assistant"
@@ -26,15 +27,60 @@ skills:
           - "tilni o'zgartir"
           - "tilni almashtir"
           - "yangi til tanla"
-        action: assistant_control.change_language
+        action: assistant.language.change_language
         response:
           ru: "Язык обновлён."
           en: "Language changed."
           uz: "Til o‘zgartirildi."
   
-  system:
+  system_windows:
     description: "Системные команды"
     commands:
+    # === System Information ===
+      - patterns:
+          - "покажи информацию о системе"
+          - "информация о системе"
+          - "какая у меня система"
+          - "скажи характеристики компьютера"
+          - "характеристики пк"
+          - "system info"
+          - "show system info"
+          - "tell me system information"
+          - "what is my system"
+          - "show pc specs"
+          - "show computer info"
+          - "kompyuter haqida ma'lumot"
+          - "tizim haqida ma'lumot"
+          - "kompyuter ma'lumotlarini ko'rsat"
+          - "tizimni ko'rsat"
+        action: system_windows.info.get_system_info
+        response:
+          ru: "Собираю информацию о системе..."
+          en: "Gathering system information..."
+          uz: "Tizim ma'lumotlarini to'playapman..."
+
+      # === Battery Status ===
+      - patterns:
+          - "уровень заряда"
+          - "покажи заряд батареи"
+          - "заряд батареи"
+          - "сколько заряда"
+          - "батарея"
+          - "battery status"
+          - "check battery"
+          - "battery info"
+          - "what's my battery"
+          - "show battery level"
+          - "quvvat darajasi"
+          - "batareya holati"
+          - "batareya haqida ma'lumot"
+          - "batareya zaryadini ko'rsat"
+        action: system_windows.info.get_battery_status
+        response:
+          ru: "Проверяю состояние батареи..."
+          en: "Checking battery status..."
+          uz: "Batareya holatini tekshiryapman..."
+          
       # === Browser ===
       - patterns:
           - "открой браузер"
@@ -58,7 +104,7 @@ skills:
           - "xromni ishga tushur"
           - "internetni och"
           - "internetni yoq"
-        action: system.open_browser
+        action: system_windows.apps.open_browser
         response:
           ru: "Открываю браузер."
           en: "Opening browser."
@@ -82,13 +128,15 @@ skills:
           - "pc ni o'chir"
           - "kompyuterni to'xtat"
           - "kompyuterni o'chiraman"
-        action: system.shutdown
+        action: system_windows.power.shutdown
         response:
           ru: "Выключаю компьютер."
           en: "Shutting down."
           uz: "Kompyuterni o'chiraman."
 
       # === Search online ===
+  searchers:
+    commands:
       - patterns:
           - "найди в интернете"
           - "поиск в интернете"
@@ -113,15 +161,12 @@ skills:
           - "qidiruv"
           - "qidiruvni boshlang"
           - "internetda izlash"
-        action: search_web.search_internet
+        action: searchers.internet.search_internet
         response:
           ru: "Секунду, ищу информацию..."
           en: "One moment, searching online..."
           uz: "Bir daqiqa, internetdan izlayapman..."
-  
-  system_info:
-    description: "Навыки для получения системной информации: время и дата"
-    commands:
+
       - patterns:
           # ==== ВРЕМЯ ====
           - "сколько времени"
@@ -138,7 +183,7 @@ skills:
           - "soat nechchi"
           - "soat nechi"
           - "vaqt qancha"
-        action: time_info.get_time
+        action: system_windows.datetimes.get_time
         response:
           ru: "Секунду, проверяю время..."
           en: "Just a second, checking the time..."
@@ -157,7 +202,7 @@ skills:
           - "bugun sana nima"
           - "bugungi sana"
           - "sana bugun"
-        action: time_info.get_date
+        action: system_windows.datetimes.get_date
         response:
           ru: "Сейчас скажу дату."
           en: "Let me tell you the date."
@@ -223,7 +268,8 @@ skills:
           en: "One moment, checking weather..."
           uz: "Bir daqiqa, ob-havoni bilib kelyapman..."
 
-meta:
+# Programm itself commands
+meta: 
   reload_dataset:
     patterns:
       - "обнови команды"
@@ -272,6 +318,7 @@ meta:
       en: "Playing a quote from a movie."
       uz: "Film sitatasini ijro etaman."
 
+# Prepared answers to words
 smalltalk:
   description: "Простые разговорные ответы"
   commands:

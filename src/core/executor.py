@@ -1,5 +1,6 @@
-from src.skills.gemeni_skill import GeminiSkill
+from src.skills.AI.gemini_chat import GeminiSkill
 from .matcher import SmartMatcher
+
 
 class Executor:
     def __init__(self, dataset: dict, skill_manager, config: dict = None):

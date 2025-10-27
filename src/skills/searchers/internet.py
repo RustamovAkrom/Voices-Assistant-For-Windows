@@ -1,6 +1,7 @@
 import re
 import webbrowser
 
+
 def search_internet(*args, **kwargs):
     """
     Универсальная функция поиска в интернете.

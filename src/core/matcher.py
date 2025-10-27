@@ -12,7 +12,7 @@ class SmartMatcher:
     - smalltalk
     """
 
-    def __init__(self, dataset: dict, threshold: int = 60, debug: bool = False, config: dict = None):
+    def __init__(self, dataset: dict, threshold: int = 70, debug: bool = False, config: dict = None):
         self.dataset = dataset or {}
         self.threshold = threshold
         self.debug = debug
