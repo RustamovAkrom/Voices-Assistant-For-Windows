@@ -13,6 +13,7 @@ wake_words:
   ru: ["джарвис", "жарвис", "чарльз"]
   en: ["jarvis", "hey jarvis"]
   uz: ["jarvis", "jarvisjon"]
+matcher_threshold: 70
 
 # === Настройки ассистента ===
 assistant:

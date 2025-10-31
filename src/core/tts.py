@@ -1,7 +1,7 @@
 import requests
 import sounddevice as sd
 from pathlib import Path
-import logging
+from src.utils import logger
 
 # --- Опциональные импорты ---
 try:
@@ -28,7 +28,7 @@ class HybridTTS:
     """
 
     def __init__(self, config: dict = None):
-        self.logger = logging.getLogger("HybridTTS")
+        self.logger = logger
         self.config = config or {}
         self.voice_enabled = self.config.get("voice_enabled", True)
         self.default_lang = self.config.get("assistant", {}).get("default_language", "ru")

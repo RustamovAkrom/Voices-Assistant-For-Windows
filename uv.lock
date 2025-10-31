@@ -221,6 +221,7 @@ dependencies = [
     { name = "numpy" },
     { name = "omegaconf" },
     { name = "psutil" },
+    { name = "pvporcupine" },
     { name = "pyautogui" },
     { name = "pycaw" },
     { name = "pyttsx3" },
@@ -244,6 +245,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.3.4" },
     { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "psutil", specifier = ">=7.1.1" },
+    { name = "pvporcupine", specifier = ">=3.0.5" },
     { name = "pyautogui", specifier = ">=0.9.54" },
     { name = "pycaw", specifier = ">=20251023" },
     { name = "pyttsx3", specifier = ">=2.99" },
@@ -522,6 +524,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/90/2d/c933e7071ba60c7862813f2c7108ec4cf8304f1c79660efeefd0de982258/psutil-7.1.1-cp37-abi3-win32.whl", hash = "sha256:295c4025b5cd880f7445e4379e6826f7307e3d488947bf9834e865e7847dc5f7", size = 243772, upload-time = "2025-10-19T15:44:16.938Z" },
     { url = "https://files.pythonhosted.org/packages/be/f3/11fd213fff15427bc2853552138760c720fd65032d99edfb161910d04127/psutil-7.1.1-cp37-abi3-win_amd64.whl", hash = "sha256:9b4f17c5f65e44f69bd3a3406071a47b79df45cf2236d1f717970afcb526bcd3", size = 246936, upload-time = "2025-10-19T15:44:18.663Z" },
     { url = "https://files.pythonhosted.org/packages/0a/8d/8a9a45c8b655851f216c1d44f68e3533dc8d2c752ccd0f61f1aa73be4893/psutil-7.1.1-cp37-abi3-win_arm64.whl", hash = "sha256:5457cf741ca13da54624126cd5d333871b454ab133999a9a103fb097a7d7d21a", size = 243944, upload-time = "2025-10-19T15:44:20.666Z" },
+]
+
+[[package]]
+name = "pvporcupine"
+version = "3.0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/ac/14c64255c08db0b80315ccc940943fad5fea03f0006b09b45f0b83ced08d/pvporcupine-3.0.5.tar.gz", hash = "sha256:48f92ab10a904b811e69afb18175d2bd4857ccec8be094f42449961a80fa2af1", size = 2535302, upload-time = "2025-02-05T18:37:33.808Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c4/9e/4716d4737a4a6a3de306c97f3cd6040e66ef23ad8b6b8fca80190dbcc3ad/pvporcupine-3.0.5-py3-none-any.whl", hash = "sha256:b80b31a38b1a622e492e19683f60efdcddd1662204830fcad50df90f01723356", size = 2544202, upload-time = "2025-02-05T18:37:30.898Z" },
 ]
 
 [[package]]

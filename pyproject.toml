@@ -10,6 +10,7 @@ dependencies = [
     "numpy>=2.3.4",
     "omegaconf>=2.3.0",
     "psutil>=7.1.1",
+    "pvporcupine>=3.0.5",
     "pyautogui>=0.9.54",
     "pycaw>=20251023",
     "pyttsx3>=2.99",

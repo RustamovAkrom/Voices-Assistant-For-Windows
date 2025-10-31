@@ -14,7 +14,6 @@ import time
 import re
 import threading
 import queue
-import logging
 from typing import Optional
 
 from src.core.recognizer import Recognizer
@@ -22,16 +21,8 @@ from src.core.tts import HybridTTS
 from src.core.skill_manager import SkillManager
 from src.core.executor import Executor
 from src.core.config import get_settings
+from src.utils import logger
 
-# -----------------------
-# Logger
-# -----------------------
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s] [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
-logger = logging.getLogger("Jarvis")
 
 # -----------------------
 # Globals / Queues / Events

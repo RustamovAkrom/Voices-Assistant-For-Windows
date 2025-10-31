@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 import queue
 import requests
@@ -12,6 +11,7 @@ from tqdm import tqdm
 from vosk import Model, KaldiRecognizer, SetLogLevel
 import speech_recognition as sr
 from scipy.io.wavfile import write as wav_write
+from src.utils import logger
 
 
 class Recognizer:
@@ -23,6 +23,7 @@ class Recognizer:
     """
 
     def __init__(self, config):
+        self.logger = logger
         self.config = config
         self.default_lang = config.get("assistant", {}).get("default_language", "ru")
         self.language_map = {"ru": "ru-RU", "en": "en-US", "uz": "uz-UZ"}
@@ -48,8 +49,8 @@ class Recognizer:
         self.vosk_recognizers = self._load_vosk_recognizers()
 
         self.mode = "online" if self.online_available else "offline"
-        print(f"🌐 Режим: {self.mode.upper()}")
-        print(f"🗣️ Текущий язык: {self.default_lang.upper()}")
+        self.logger.info(f"🌐 Режим: {self.mode.upper()}")
+        self.logger.info(f"🗣️ Текущий язык: {self.default_lang.upper()}")
 
         # Очередь аудио и постоянный поток
         self.audio_queue = queue.Queue()
@@ -68,7 +69,7 @@ class Recognizer:
     def _ensure_vosk_models(self):
         for lang, path in self.vosk_models.items():
             if not path.exists() and self.online_available:
-                print(f"📦 Скачиваю модель для {lang.upper()}...")
+                self.logger.info(f"📦 Скачиваю модель для {lang.upper()}...")
                 self._download_model(self.vosk_urls[lang])
 
     def _download_model(self, url):
@@ -85,7 +86,7 @@ class Recognizer:
         with zipfile.ZipFile(tmp_file, "r") as zf:
             zf.extractall(self.models_dir)
         os.remove(tmp_file)
-        print("✅ Модель установлена!")
+        self.logger.info("✅ Модель установлена!")
 
     # === Загружаем модели Vosk ===
     def _load_vosk_recognizers(self):
@@ -100,10 +101,10 @@ class Recognizer:
     def _start_microphone_stream(self):
         def callback(indata, frames, time_, status):
             if status:
-                print(f"[AUDIO WARNING] {status}")
+                self.logger.info(f"[AUDIO WARNING] {status}")
             self.audio_queue.put(bytes(indata))
 
-        print("🎤 Микрофон активен (постоянный режим)")
+        self.logger.info("🎤 Микрофон активен (постоянный режим)")
         self.stream = sd.RawInputStream(
             samplerate=16000,
             blocksize=8000,
@@ -125,7 +126,7 @@ class Recognizer:
 
     # === Онлайн (Google) ===
     def _listen_online(self):
-        print("🎙️ (Online) Говорите...")
+        self.logger.info("🎙️ (Online) Говорите...")
 
         samplerate = 16000
         duration = 5
@@ -134,7 +135,7 @@ class Recognizer:
             with sd.InputStream(samplerate=samplerate, channels=1, dtype="int16") as stream:
                 audio_data = stream.read(int(samplerate * duration))[0]
         except Exception as e:
-            print(f"⚠️ Ошибка аудио-потока: {e}")
+            self.logger.warning(f"⚠️ Ошибка аудио-потока: {e}")
             return "", self.default_lang
 
         # Конвертация в wav и Google Speech
@@ -149,13 +150,13 @@ class Recognizer:
         lang_code = self.language_map.get(self.default_lang, "ru")
         try:
             text = r.recognize_google(audio, language=lang_code)
-            print(f"🧠 Распознано ({self.default_lang.upper()}): {text}")
+            self.logger.info(f"🧠 Распознано ({self.default_lang.upper()}): {text}")
             return text, self.default_lang
         except sr.UnknownValueError:
-            print("🤔 Не понял, повторите...")
+            self.logger.warning("🤔 Не понял, повторите...")
             return "", self.default_lang
         except sr.RequestError:
-            print("⚠️ Интернет пропал — офлайн режим.")
+            self.logger.warning("⚠️ Интернет пропал — офлайн режим.")
             self.mode = "offline"
             return self._listen_offline()
 
@@ -164,7 +165,7 @@ class Recognizer:
         lang = self.default_lang
         recognizer = self.vosk_recognizers.get(lang)
         if not recognizer:
-            print(f"⚠️ Нет модели для {lang.upper()}")
+            self.logger.warning(f"⚠️ Нет модели для {lang.upper()}")
             return "", lang
 
         while True:
@@ -173,7 +174,7 @@ class Recognizer:
                 result = json.loads(recognizer.Result())
                 text = result.get("text", "").strip()
                 if text:
-                    print(f"🗣️ {text}")
+                    self.logger.info(f"🗣️ {text}")
                     return text, lang
 
     # === Сбор данных ===
@@ -203,6 +204,6 @@ class Recognizer:
                 self.stream = None
             with self.audio_queue.mutex:
                 self.audio_queue.queue.clear()
-            print("🛑 Распознавание остановлено.")
+            self.logger.warning("🛑 Распознавание остановлено.")
         except Exception as e:
-            print(f"⚠️ Ошибка при остановке микрофона: {e}")
+            self.logger.warning(f"⚠️ Ошибка при остановке микрофона: {e}")
